@@ -1,0 +1,3593 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LCH Trucking PRO | 24/7 Road Service Commercial Tires</title>
+  <meta name="description" content="Servicio de llantas 24/7 para camiones comerciales en Richmond, VA. Pagos en línea, facturación automática y gestión completa." />
+
+  <!-- Fonts: Oswald for bold trucking headers, Inter for clean modern text -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
+  
+  <!-- Tailwind CSS & external libraries -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://js.stripe.com/v3/"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <style>
+    :root {
+      --gold: #f59e0b;
+      --gold-dark: #d97706;
+      --gold-light: #fef08a;
+      --dark-bg: #09090b;
+      --dark-card: #18181b;
+      --dark-hover: #27272a;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --text-muted: #a1a1aa;
+      --text-main: #f4f4f5;
+      --green: #10b981;
+      --red: #ef4444;
+      --blue: #3b82f6;
+      --purple: #8b5cf6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark-bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .font-oswald {
+      font-family: 'Oswald', sans-serif;
+    }
+
+    /* Custom Premium Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--dark-bg);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--gold-dark);
+    }
+
+    /* Glassmorphism & Premium Elements */
+    .glass-nav {
+      background: rgba(9, 9, 11, 0.85);
+      backdrop-filter: blur(16px) saturate(180%);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .glass-card {
+      background: var(--dark-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glass-card:hover {
+      border-color: rgba(245, 158, 11, 0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px -10px rgba(245, 158, 11, 0.15);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 26px;
+      font-weight: 700;
+      font-size: 13px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration: none;
+      border: 1px solid transparent;
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: #000;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
+    }
+    .btn-gold:hover {
+      background: var(--gold-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.45);
+    }
+
+    .btn-outline {
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(4px);
+    }
+    .btn-outline:hover {
+      background: var(--text-main);
+      color: #000;
+      border-color: var(--text-main);
+      transform: translateY(-2px);
+    }
+
+    .btn-green {
+      background: #22c55e;
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(34, 197, 94, 0.3);
+    }
+    .btn-green:hover {
+      background: #16a34a;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(34, 197, 94, 0.45);
+    }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--red);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+    .btn-danger:hover {
+      background: var(--red);
+      color: #fff;
+      border-color: var(--red);
+    }
+
+    .btn-sm {
+      padding: 8px 16px;
+      font-size: 12px;
+      border-radius: 6px;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid transparent;
+    }
+    .badge-gold {
+      background: rgba(245, 158, 11, 0.08);
+      color: var(--gold);
+      border-color: rgba(245, 158, 11, 0.2);
+    }
+    .badge-green {
+      background: rgba(16, 185, 129, 0.08);
+      color: var(--green);
+      border-color: rgba(16, 185, 129, 0.2);
+    }
+    .badge-red {
+      background: rgba(239, 68, 68, 0.08);
+      color: var(--red);
+      border-color: rgba(239, 68, 68, 0.2);
+    }
+    .badge-blue {
+      background: rgba(59, 130, 246, 0.08);
+      color: var(--blue);
+      border-color: rgba(59, 130, 246, 0.2);
+    }
+    .badge-purple {
+      background: rgba(139, 92, 246, 0.08);
+      color: var(--purple);
+      border-color: rgba(139, 92, 246, 0.2);
+    }
+    .badge-muted {
+      background: rgba(161, 161, 170, 0.08);
+      color: var(--text-muted);
+      border-color: rgba(161, 161, 170, 0.2);
+    }
+
+    /* Form Elements */
+    .form-input {
+      background: #09090b;
+      border: 1px solid var(--border-color);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 8px;
+      width: 100%;
+      font-size: 13.5px;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s ease;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.15);
+    }
+    .form-input::placeholder {
+      color: #52525b;
+    }
+    .form-label {
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.75px;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    select.form-input option {
+      background: #18181b;
+      color: #fff;
+    }
+
+    /* Modals with premium blur background */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(9, 9, 11, 0.75);
+      backdrop-filter: blur(12px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .modal-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+    .modal-box {
+      background: var(--dark-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      width: 100%;
+      padding: 30px;
+      max-height: 90vh;
+      overflow-y: auto;
+      max-width: 540px;
+      transform: scale(0.95);
+      transition: transform 0.3s ease;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+    .modal-overlay.active .modal-box {
+      transform: scale(1);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      z-index: 10000;
+      background: var(--dark-card);
+      border: 1px solid var(--border-color);
+      padding: 14px 20px;
+      border-radius: 10px;
+      max-width: 380px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+      font-size: 13.5px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: slideIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .toast-success {
+      border-left: 4px solid var(--green);
+    }
+    .toast-error {
+      border-left: 4px solid var(--red);
+    }
+    .toast-info {
+      border-left: 4px solid var(--gold);
+    }
+    @keyframes slideIn {
+      from {
+        transform: translateX(120%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    /* Interactive Elements */
+    .spinner {
+      border: 2.5px solid rgba(255,255,255,0.1);
+      border-top: 2.5px solid var(--gold);
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      animation: spin 0.6s linear infinite;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4);
+      }
+      50% {
+        box-shadow: 0 0 0 12px rgba(245, 158, 11, 0);
+      }
+    }
+    .pulse-glow-btn {
+      animation: pulse-glow 2s infinite;
+    }
+
+    /* Admin Styles */
+    .admin-sidebar {
+      background: #0f0f11;
+      border-right: 1px solid var(--border-color);
+      width: 240px;
+      flex-shrink: 0;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      border-radius: 8px;
+      color: var(--text-muted);
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .nav-item:hover, .nav-item.active {
+      background: rgba(245, 158, 11, 0.06);
+      color: var(--gold);
+    }
+    .nav-item svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .stat-card {
+      background: var(--dark-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+    .stat-card.gold::after { background: var(--gold); }
+    .stat-card.green::after { background: var(--green); }
+    .stat-card.blue::after { background: var(--blue); }
+    .stat-card.red::after { background: var(--red); }
+    .stat-card.purple::after { background: var(--purple); }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .data-table th {
+      text-align: left;
+      padding: 14px 16px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.75px;
+      color: var(--text-muted);
+      font-weight: 700;
+      border-bottom: 1px solid var(--border-color);
+      background: rgba(255, 255, 255, 0.01);
+    }
+    .data-table td {
+      padding: 16px;
+      font-size: 13.5px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    }
+    .data-table tr:hover td {
+      background: rgba(255, 255, 255, 0.01);
+    }
+
+    .chart-container {
+      position: relative;
+      height: 240px;
+      width: 100%;
+    }
+
+    /* Print Invoice Styling */
+    .invoice-doc {
+      background: #fff;
+      color: #1c1917;
+      border-radius: 8px;
+      padding: 30px;
+      font-size: 13px;
+    }
+    .invoice-doc * {
+      color: #1c1917 !important;
+    }
+    .invoice-doc .inv-header {
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+    }
+    .invoice-doc table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+    }
+    .invoice-doc th {
+      text-align: left;
+      font-size: 10px;
+      text-transform: uppercase;
+      padding: 8px 0;
+      border-bottom: 1px solid #e7e5e4;
+      color: #78716c !important;
+    }
+    .invoice-doc td {
+      padding: 8px 0;
+      border-bottom: 1px solid #f5f5f4;
+    }
+    .invoice-doc .inv-total {
+      text-align: right;
+      font-size: 20px;
+      font-weight: 800;
+      padding-top: 12px;
+      border-top: 2px solid var(--gold);
+      margin-top: 16px;
+    }
+
+    /* Responsive Grid */
+    @media (max-width: 768px) {
+      .admin-sidebar {
+        width: 60px;
+        padding: 8px 4px;
+      }
+      .nav-item span {
+        display: none;
+      }
+      .nav-item {
+        justify-content: center;
+        padding: 12px;
+      }
+      .modal-box {
+        padding: 20px;
+      }
+      .main-nav .nav-link {
+        font-size: 11.5px;
+        padding: 4px 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════
+       MODALES
+  ═══════════════════════════════════════════════════════ -->
+
+  <!-- MODAL PAGO STRIPE -->
+  <div id="modal-payment" class="modal-overlay">
+    <div class="modal-box">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="font-oswald text-2xl font-bold tracking-wider"><span style="color:var(--gold);">💳</span> <span data-i18n="pay.title">Pago Seguro</span></h2>
+        <button onclick="closeModal('modal-payment')" style="color:var(--text-muted);font-size:28px;background:none;border:none;cursor:pointer;line-height:1;">&times;</button>
+      </div>
+      
+      <div id="payment-details" class="p-4 mb-6 rounded-lg" style="background: #09090b; border: 1px solid var(--border-color);">
+        <p class="text-xs" style="color:var(--text-muted);"><span data-i18n="pay.product">Concepto:</span> <span id="pay-product-name" class="text-white font-semibold block mt-1 text-sm">-</span></p>
+        <p class="text-xs mt-3" style="color:var(--text-muted);"><span data-i18n="pay.total">Total a pagar:</span> <span class="block mt-1 text-2xl font-black text-amber-500">$<span id="pay-amount">0.00</span> USD</span></p>
+      </div>
+
+      <!-- Demo Badge when no Stripe key is configured -->
+      <div id="stripe-demo-badge" class="mb-4 p-3 rounded-md text-xs border border-amber-500/20 bg-amber-500/5 text-amber-400 hidden">
+        💡 <strong data-i18n="pay.demo.title">Modo de Pago Demo Activo</strong>: 
+        <span data-i18n="pay.demo.desc">No se ha ingresado una clave de Stripe real en Configuración. El pago se simulará con éxito inmediatamente.</span>
+      </div>
+
+      <form id="payment-form">
+        <div class="mb-4">
+          <label class="form-label" data-i18n="pay.card">Número de Tarjeta</label>
+          <div id="card-number-element" class="form-input" style="padding:12px;background:#09090b;"></div>
+        </div>
+        <div class="grid grid-cols-2 gap-4 mb-6">
+          <div>
+            <label class="form-label" data-i18n="pay.exp">Vencimiento</label>
+            <div id="card-expiry-element" class="form-input" style="padding:12px;background:#09090b;"></div>
+          </div>
+          <div>
+            <label class="form-label">CVC</label>
+            <div id="card-cvc-element" class="form-input" style="padding:12px;background:#09090b;"></div>
+          </div>
+        </div>
+        <div id="card-errors" class="text-red-500 text-xs mb-4 font-semibold"></div>
+        <button type="submit" id="pay-button" class="btn btn-gold w-full text-sm py-3.5 justify-center">
+          <span id="pay-btn-text" data-i18n="pay.btn">Pagar Ahora</span>
+          <span id="pay-btn-spinner" style="display:none;" class="spinner"></span>
+        </button>
+      </form>
+      <p class="text-[10px] text-center mt-4" style="color:var(--text-muted);" data-i18n="pay.secure">🔒 Pagos seguros cifrados con Stripe SSL. Tus datos están protegidos.</p>
+    </div>
+  </div>
+
+  <!-- MODAL PRODUCT DETAIL -->
+  <div id="modal-product" class="modal-overlay">
+    <div class="modal-box max-w-lg">
+      <div id="modal-product-content"></div>
+    </div>
+  </div>
+
+  <!-- MODAL INVOICE/CUSTOMER CREATOR -->
+  <div id="modal-invoice" class="modal-overlay">
+    <div class="modal-box max-w-xl">
+      <div id="modal-invoice-content"></div>
+    </div>
+  </div>
+
+  <!-- MODAL VER FACTURA -->
+  <div id="modal-view-invoice" class="modal-overlay">
+    <div class="modal-box max-w-xl">
+      <div class="flex justify-between items-center mb-5">
+        <h2 class="font-oswald text-xl font-bold tracking-wider"><span data-i18n="invoice.view.title">Detalle de Factura</span></h2>
+        <button onclick="closeModal('modal-view-invoice')" style="color:var(--text-muted);font-size:24px;background:none;border:none;cursor:pointer;">&times;</button>
+      </div>
+      <div id="invoice-print-area"></div>
+      <div class="grid grid-cols-3 gap-3 mt-6">
+        <button onclick="payInvoiceFromView()" class="btn btn-gold btn-sm justify-center" id="btn-pay-invoice">💳 <span data-i18n="invoice.pay">Pagar</span></button>
+        <button onclick="printInvoice()" class="btn btn-outline btn-sm justify-center">🖨️ <span data-i18n="invoice.print">Imprimir</span></button>
+        <button onclick="closeModal('modal-view-invoice')" class="btn btn-sm justify-center" style="background:var(--dark-hover); color:#fff;" data-i18n="btn.close">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL ADMIN LOGIN -->
+  <div id="modal-login" class="modal-overlay">
+    <div class="modal-box max-w-sm">
+      <div class="text-center mb-6">
+        <div class="font-oswald text-3xl font-bold tracking-widest text-amber-500">LCH TRUCKING</div>
+        <div class="text-xs mt-1" style="color:var(--text-muted);" data-i18n="login.subtitle">Panel de Control de Administración</div>
+      </div>
+      <div class="mb-5">
+        <label class="form-label" data-i18n="login.password">Contraseña de Acceso</label>
+        <input type="password" id="login-input" class="form-input py-2.5" placeholder="••••••••" />
+        <div id="login-error" class="text-red-500 text-xs mt-2 font-semibold hidden" data-i18n="login.error">Contraseña incorrecta</div>
+      </div>
+      <button onclick="doLogin()" class="btn btn-gold w-full justify-center py-3">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <span data-i18n="login.btn">Entrar al Panel</span>
+      </button>
+      <p class="text-[11px] text-center mt-4" style="color:var(--text-muted);" data-i18n="login.restricted">Acceso restringido únicamente a personal autorizado.</p>
+    </div>
+  </div>
+
+  <!-- MODAL CONFIGURAR SUPABASE -->
+  <div id="modal-supabase" class="modal-overlay">
+    <div class="modal-box max-w-md">
+      <h2 class="font-oswald text-xl font-bold tracking-wider mb-2"><span data-i18n="db.title">Conectar Base de Datos</span></h2>
+      <p class="text-xs mb-5" style="color:var(--text-muted);" data-i18n="db.desc">Conecta tu proyecto a una base de datos Supabase para guardar de forma persistente tus llantas, citas y facturas en la nube.</p>
+      <div class="mb-3">
+        <label class="form-label">Supabase Project URL</label>
+        <input type="text" id="sb-url-input" class="form-input" placeholder="https://xxxxxxxxxxxxxxxxxxxx.supabase.co" />
+      </div>
+      <div class="mb-6">
+        <label class="form-label">Supabase Anon Key</label>
+        <input type="text" id="sb-key-input" class="form-input" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." />
+      </div>
+      <!-- SQL Guide -->
+      <div class="mb-5 p-3 rounded-lg border border-amber-500/20 bg-amber-500/5">
+        <p class="text-xs font-bold text-amber-400 mb-2">📋 Paso 1: Ejecuta este SQL en Supabase → SQL Editor</p>
+        <textarea readonly id="sql-guide" style="background:#09090b;border:1px solid rgba(255,255,255,0.08);color:#71717a;padding:10px;border-radius:6px;width:100%;height:140px;font-family:monospace;font-size:9.5px;resize:none;line-height:1.5;">CREATE TABLE IF NOT EXISTS inventory (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  brand TEXT NOT NULL, size TEXT NOT NULL,
+  type TEXT DEFAULT 'Steer', price DECIMAL(10,2) NOT NULL,
+  stock INT DEFAULT 0, condition TEXT DEFAULT 'Nueva',
+  notes TEXT DEFAULT '', created_at TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE TABLE IF NOT EXISTS appointments (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name TEXT NOT NULL, phone TEXT, email TEXT, service TEXT,
+  date DATE, time TEXT, notes TEXT, status TEXT DEFAULT 'pendiente',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE TABLE IF NOT EXISTS invoices (
+  id TEXT PRIMARY KEY, customer TEXT NOT NULL, email TEXT,
+  phone TEXT, date DATE NOT NULL, items JSONB DEFAULT '[]',
+  total DECIMAL(10,2) DEFAULT 0, status TEXT DEFAULT 'pendiente',
+  notes TEXT DEFAULT '', created_at TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE TABLE IF NOT EXISTS customers (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name TEXT NOT NULL, phone TEXT, email TEXT,
+  type TEXT DEFAULT 'Particular', notes TEXT DEFAULT '',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE inventory ENABLE ROW LEVEL SECURITY;
+ALTER TABLE appointments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE invoices ENABLE ROW LEVEL SECURITY;
+ALTER TABLE customers ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "public_all" ON inventory FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "public_all" ON appointments FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "public_all" ON invoices FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "public_all" ON customers FOR ALL USING (true) WITH CHECK (true);</textarea>
+        <button onclick="document.getElementById('sql-guide').select();document.execCommand('copy');showToast('SQL copiado al portapapeles','success')" class="btn btn-sm w-full mt-2 justify-center" style="background:rgba(245,158,11,0.1);color:var(--gold);border:1px solid rgba(245,158,11,0.2);">📋 Copiar SQL</button>
+      </div>
+
+      <div class="flex gap-3">
+        <button onclick="saveSupabaseConfig()" class="btn btn-gold flex-1 justify-center" data-i18n="db.connect">Conectar</button>
+        <button onclick="closeModal('modal-supabase');useDemoMode()" class="btn btn-outline flex-1 justify-center" data-i18n="db.demo">Modo Demo (Local)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL CONFIGURAR EMAILJS -->
+  <div id="modal-email" class="modal-overlay">
+    <div class="modal-box max-w-md">
+      <h2 class="font-oswald text-xl font-bold tracking-wider mb-2"><span data-i18n="email.title">Configurar Email</span></h2>
+      <p class="text-xs mb-5" style="color:var(--text-muted);" data-i18n="email.desc">Conecta tu cuenta de EmailJS para enviar facturas y confirmaciones de citas a tus clientes de manera automatizada.</p>
+      <!-- Step indicators -->
+      <div class="flex gap-2 mb-5">
+        <span class="flex-1 text-center text-[10px] font-bold py-1.5 rounded-md bg-amber-500/10 text-amber-400 border border-amber-500/20">PASO 1: Service</span>
+        <span class="flex-1 text-center text-[10px] font-bold py-1.5 rounded-md bg-blue-500/10 text-blue-400 border border-blue-500/20">PASO 2: Templates</span>
+        <span class="flex-1 text-center text-[10px] font-bold py-1.5 rounded-md bg-purple-500/10 text-purple-400 border border-purple-500/20">PASO 3: Key</span>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label">Service ID <span class="text-amber-500">*</span></label>
+        <input type="text" id="email-service" class="form-input" placeholder="service_xxxxxxx"
+          value="${EMAIL_CONFIG.service_id || ''}" />
+        <p class="text-[10px] text-zinc-500 mt-1">En EmailJS → Email Services → tu servicio Gmail/Outlook</p>
+      </div>
+
+      <div class="p-4 rounded-lg border border-zinc-800 bg-zinc-900/50 mb-4">
+        <p class="text-xs font-bold text-zinc-300 mb-3">📋 Template IDs</p>
+
+        <div class="mb-3">
+          <label class="form-label">
+            Template para <span class="text-amber-500">Facturas</span>
+            <span class="ml-1 badge badge-gold text-[9px]">Order Confirmation</span>
+          </label>
+          <input type="text" id="email-template-invoice" class="form-input" placeholder="template_xxxxxxx"
+            value="${EMAIL_CONFIG.template_invoice || ''}" />
+          <p class="text-[10px] text-zinc-500 mt-1">Elige "Order Confirmation" en EmailJS → editarlo con tus variables</p>
+        </div>
+
+        <div>
+          <label class="form-label">
+            Template para <span class="text-blue-400">Citas</span>
+            <span class="ml-1 badge badge-blue text-[9px]">Contact Us</span>
+          </label>
+          <input type="text" id="email-template-appt" class="form-input" placeholder="template_xxxxxxx"
+            value="${EMAIL_CONFIG.template_appt || ''}" />
+          <p class="text-[10px] text-zinc-500 mt-1">Elige "Contact Us" en EmailJS → editarlo con tus variables</p>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label">Public Key <span class="text-amber-500">*</span></label>
+        <input type="text" id="email-key" class="form-input" placeholder="xxxxxxxxxxxxxxxxxxxx"
+          value="${EMAIL_CONFIG.public_key || ''}" />
+        <p class="text-[10px] text-zinc-500 mt-1">En EmailJS → Account → General → Public Key</p>
+      </div>
+
+      <!-- Variables reference -->
+      <div class="p-3 rounded-lg border border-zinc-800 bg-zinc-950 mb-4">
+        <p class="text-[10px] font-bold text-zinc-400 mb-2">Variables para tus templates de EmailJS:</p>
+        <div class="grid grid-cols-2 gap-1">
+          <div>
+            <p class="text-[9px] font-bold text-amber-400 mb-1">📄 Facturas:</p>
+            <p class="text-[9px] text-zinc-500 font-mono leading-relaxed">{{to_name}}<br>{{to_email}}<br>{{invoice_id}}<br>{{invoice_date}}<br>{{invoice_total}}<br>{{invoice_status}}<br>{{invoice_items}}<br>{{message}}</p>
+          </div>
+          <div>
+            <p class="text-[9px] font-bold text-blue-400 mb-1">📅 Citas:</p>
+            <p class="text-[9px] text-zinc-500 font-mono leading-relaxed">{{to_name}}<br>{{to_email}}<br>{{appointment_service}}<br>{{appointment_date}}<br>{{appointment_time}}<br>{{appointment_notes}}<br>{{appointment_phone}}<br>{{message}}</p>
+          </div>
+        </div>
+        <p class="text-[9px] text-zinc-600 mt-2">Comunes: {{company_name}} · {{company_phone}} · {{company_website}}</p>
+      </div>
+      <div class="mb-4 p-3 rounded-lg border border-zinc-800 bg-zinc-900/50 text-xs text-zinc-400">
+        <p class="font-semibold text-zinc-300 mb-1">📧 ¿Cómo obtener estas claves?</p>
+        <p>1. Ve a <strong class="text-white">emailjs.com</strong> y crea una cuenta gratis</p>
+        <p>2. En "Email Services" conecta Gmail u otro proveedor</p>
+        <p>3. Crea un template y copia el Template ID</p>
+        <p>4. En "Account" → "General" copia el Public Key</p>
+        <p class="mt-2 text-amber-400/80 font-medium">💡 Sin EmailJS, las citas y facturas se guardan igual — solo no se envían emails automáticos.</p>
+      </div>
+      <div class="flex gap-3">
+        <button onclick="saveEmailConfig()" class="btn btn-gold flex-1 justify-center" data-i18n="btn.save">Guardar</button>
+        <button onclick="closeModal('modal-email')" class="btn btn-outline flex-1 justify-center" data-i18n="btn.cancel">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       WHATSAPP FLOAT
+  ═══════════════════════════════════════════════════════ -->
+  <a id="wa-float" href="https://wa.me/18048210538?text=Necesito%20servicio%20de%20llantas%20comerciales." target="_blank" class="fixed bottom-6 right-6 z-50 bg-[#25d366] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-transform duration-200" style="box-shadow: 0 8px 24px rgba(37,211,102,0.45);">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+  </a>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       VISTA PRINCIPAL (CLIENTE)
+  ═══════════════════════════════════════════════════════ -->
+  <div id="main-storefront" style="display:none;">
+
+    <!-- Navigation Header -->
+    <nav class="main-nav glass-nav sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20">
+        <!-- Logo -->
+        <div class="flex items-center gap-3 cursor-pointer" onclick="navTo('home')">
+          <img src="logos/WhatsApp%20Image%202026-06-23%20at%208.34.35%20PM.jpeg" alt="LCH Logo" class="h-12 w-auto object-contain rounded-md border border-zinc-800/30 bg-zinc-900/40 p-1" onerror="this.style.display='none'">
+          <span class="font-oswald text-2xl font-bold tracking-wider text-white">LCH <span class="text-amber-500">TRUCKING</span></span>
+        </div>
+
+        <!-- Links (Desktop) -->
+        <div class="hidden md:flex items-center gap-2" id="main-nav-links">
+          <span class="nav-link nav-item-link px-4 py-2 text-sm font-semibold rounded-md cursor-pointer transition-colors duration-200" onclick="navTo('home')" data-i18n="nav.home">Inicio</span>
+          <span class="nav-link nav-item-link px-4 py-2 text-sm font-semibold rounded-md cursor-pointer transition-colors duration-200" onclick="navTo('services')" data-i18n="nav.services">Servicios</span>
+          <span class="nav-link nav-item-link px-4 py-2 text-sm font-semibold rounded-md cursor-pointer transition-colors duration-200" onclick="navTo('inventory')" data-i18n="nav.inventory">Llantas</span>
+          <span class="nav-link nav-item-link px-4 py-2 text-sm font-semibold rounded-md cursor-pointer transition-colors duration-200" onclick="navTo('appointments')" data-i18n="nav.appointments">Citas</span>
+          <span class="nav-link nav-item-link px-4 py-2 text-sm font-semibold rounded-md cursor-pointer transition-colors duration-200" onclick="navTo('contact')" data-i18n="nav.contact">Contacto</span>
+        </div>
+
+        <!-- Right Side Actions -->
+        <div class="flex items-center gap-3">
+          <button onclick="toggleLang()" class="px-3 py-1.5 rounded bg-zinc-900 border border-zinc-800 text-xs font-bold hover:border-amber-500/40 text-amber-500 transition-all" id="lang-toggle">🇺🇸 EN</button>
+          <button onclick="openAdmin()" class="btn btn-outline btn-sm px-4 py-2 text-xs flex items-center gap-1.5" style="border-color: rgba(245, 158, 11, 0.2); color: var(--gold); background: rgba(245, 158, 11, 0.04);">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Admin
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content Container -->
+    <div id="page-content" class="min-h-[80vh]"></div>
+
+    <!-- Footer -->
+    <footer class="border-t border-zinc-900 bg-zinc-950 py-10">
+      <div class="max-w-7xl mx-auto px-4 text-center">
+        <p class="text-sm" style="color:var(--text-muted);">© 2026 LCH Trucking Commercial Tires LLC. Richmond, VA. All rights reserved.</p>
+        <p class="text-xs mt-2" style="color:#52525b;">24/7 Heavy Road Service & Fleet Solutions.</p>
+      </div>
+    </footer>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       VISTA ADMINISTRACIÓN
+  ═══════════════════════════════════════════════════════ -->
+  <div id="main-admin" style="display:none; height:100vh; flex-direction:column;">
+    
+    <!-- Top Header -->
+    <header class="h-16 px-6 bg-zinc-950 border-b border-zinc-800 flex items-center justify-between flex-shrink-0">
+      <div class="flex items-center gap-3">
+        <img src="logos/WhatsApp%20Image%202026-06-23%20at%208.34.35%20PM.jpeg" alt="LCH Logo" class="h-9 w-auto object-contain rounded border border-zinc-800/30 bg-zinc-900/40 p-0.5" onerror="this.style.display='none'">
+        <span class="font-oswald text-lg font-bold tracking-widest text-white">LCH <span class="text-amber-500">ADMIN</span></span>
+        <span id="db-status-badge" class="badge badge-muted text-[10px]">Sin BD</span>
+      </div>
+      
+      <div class="flex items-center gap-2">
+        <button onclick="openModal('modal-supabase')" class="btn btn-outline btn-sm font-semibold" style="color:var(--blue); border-color: rgba(59, 130, 246, 0.2); background:rgba(59, 130, 246, 0.03);">🗄️ <span class="hidden sm:inline">BD</span></button>
+        <button onclick="openEmailModal()" class="btn btn-outline btn-sm font-semibold" style="color:var(--purple); border-color: rgba(139, 92, 246, 0.2); background:rgba(139, 92, 246, 0.03);">📧 <span class="hidden sm:inline">Email</span></button>
+        <button onclick="closeAdmin()" class="btn btn-outline btn-sm font-semibold">← <span class="hidden sm:inline" data-i18n="admin.store">Tienda</span></button>
+        <button onclick="doLogout()" class="btn btn-sm btn-danger font-semibold" data-i18n="admin.logout">Salir</button>
+      </div>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden">
+      
+      <!-- Sidebar Navigation -->
+      <aside class="admin-sidebar py-6 px-3 flex flex-col justify-between overflow-y-auto">
+        <nav class="flex flex-col gap-1.5" id="admin-nav">
+          <div class="nav-item active" onclick="adminTab('dashboard')" id="nav-dashboard">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            <span>Dashboard</span>
+          </div>
+          <div class="nav-item" onclick="adminTab('inventory')" id="nav-inventory">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            <span data-i18n="nav.inventory">Llantas</span>
+          </div>
+          <div class="nav-item" onclick="adminTab('add-product')" id="nav-add-product">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            <span data-i18n="admin.addTire">Agregar Llanta</span>
+          </div>
+          <div class="nav-item" onclick="adminTab('appointments')" id="nav-appointments">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span data-i18n="nav.appointments">Citas</span>
+          </div>
+          <div class="nav-item" onclick="adminTab('invoices')" id="nav-invoices">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <span data-i18n="admin.invoices">Facturas</span>
+          </div>
+          <div class="nav-item" onclick="adminTab('customers')" id="nav-customers">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span data-i18n="admin.customers">Clientes</span>
+          </div>
+          <div class="nav-item" onclick="adminTab('settings')" id="nav-settings">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span data-i18n="admin.config">Ajustes</span>
+          </div>
+        </nav>
+        <div class="text-[10px] pl-4" style="color:var(--text-muted);">LCH System v4.0 PRO</div>
+      </aside>
+
+      <!-- Admin Main Content Area -->
+      <main class="flex-1 overflow-y-auto p-6 bg-zinc-950" id="admin-content"></main>
+
+    </div>
+  </div>
+
+  <!-- Loading Full Screen Overlay -->
+  <div id="loading-screen" style="position:fixed; inset:0; background:var(--dark-bg); display:flex; align-items:center; justify-content:center; z-index:99999; flex-direction:column; gap:16px;">
+    <div class="font-oswald text-4xl font-bold tracking-widest text-amber-500">LCH TRUCKING</div>
+    <div class="spinner" style="width:36px; height:36px; border-width:3px;"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       JAVASCRIPT / SYSTEM LOGIC
+  ═══════════════════════════════════════════════════════ -->
+  <script>
+    // ═══════════════════════════════════════════
+    // SYSTEM CONFIGURATION & STRIPE BACKEND
+    // ═══════════════════════════════════════════
+    var ADMIN_PASS = 'lch2026';
+    var WHATSAPP = '18048210538';
+    
+    var COMPANY = {
+      name: 'LCH Trucking Commercial Tires LLC',
+      address: 'Richmond, Virginia 23230, USA',
+      phone: '(804) 821-0538',
+      phone2: '(804) 750-3408',
+      email: 'lchtrucking@gmail.com',
+      website: 'lchtrucking.com'
+    };
+
+    // Load configs from LocalStorage
+    var EMAIL_CONFIG = {
+      service_id:       localStorage.getItem('lch_email_service') || '',
+      template_invoice: localStorage.getItem('lch_email_template_invoice') || '',
+      template_appt:    localStorage.getItem('lch_email_template_appt') || '',
+      public_key:       localStorage.getItem('lch_email_key') || ''
+    };
+
+    var STRIPE_PUBLIC_KEY = localStorage.getItem('lch_stripe_key') || '';
+    var STRIPE_BACKEND_URL = localStorage.getItem('lch_stripe_backend') || ''; // e.g., https://your-domain.com/api/create-payment-intent
+
+    // ═══════════════════════════════════════════
+    // GLOBAL STATE MANAGEMENT
+    // ═══════════════════════════════════════════
+    var STATE = {
+      view: 'storefront',
+      page: 'home',
+      adminPage: 'dashboard',
+      isAdmin: false,
+      supabase: null,
+      sbUrl: localStorage.getItem('lch_sb_url') || '',
+      sbKey: localStorage.getItem('lch_sb_key') || '',
+      isDemoMode: true,
+      data: {
+        inventory: [],
+        appointments: [],
+        invoices: [],
+        customers: []
+      },
+      charts: {},
+      lang: 'es',
+      stripe: null,
+      currentInvoiceId: null,
+      currentPayment: null,
+      isProcessingPayment: false
+    };
+
+    // High Quality Demo Mock Data
+    var DEMO_DATA = {
+      inventory: [
+        { id: 't1', brand: 'Michelin', size: '295/75R22.5', type: 'Steer', price: 450, stock: 8, condition: 'Nueva', notes: 'Excelente rendimiento para autopista.' },
+        { id: 't2', brand: 'Goodyear', size: '11R22.5', type: 'Drive', price: 380, stock: 12, condition: 'Nueva', notes: 'Tracción reforzada para largas distancias.' },
+        { id: 't3', brand: 'Bridgestone', size: '255/70R22.5', type: 'Trailer', price: 320, stock: 2, condition: 'Nueva', notes: 'Mayor durabilidad para remolque.' },
+        { id: 't4', brand: 'Continental', size: '275/80R22.5', type: 'Steer', price: 490, stock: 5, condition: 'Nueva', notes: 'Ahorro de combustible garantizado.' },
+        { id: 't5', brand: 'BFGoodrich', size: '265/70R17', type: 'SUV/Truck', price: 175, stock: 10, condition: 'Nueva', notes: 'Todo terreno de alta calidad.' },
+        { id: 't6', brand: 'Roadmaster', size: '11R24.5', type: 'Drive', price: 290, stock: 4, condition: 'Usada', notes: 'Banda al 70% de vida útil.' }
+      ],
+      appointments: [
+        { id: 'a1', name: 'Carlos Rodríguez', phone: '(804) 555-1234', email: 'carlos@email.com', service: 'Cambio de llantas', date: '2026-06-28', time: '10:00', notes: 'Remolque con 8 llantas.', status: 'pendiente' },
+        { id: 'a2', name: 'Transportes JCR', phone: '(804) 750-9999', email: 'contacto@jcrtransports.com', service: 'Servicio en carretera', date: '2026-06-29', time: '14:30', notes: 'I-95 milla 78, llanta estallada.', status: 'confirmado' }
+      ],
+      invoices: [
+        { id: 'INV-001', customer: 'Carlos Rodríguez', phone: '(804) 555-1234', email: 'carlos@email.com', date: '2026-06-20', items: [{ name: 'Michelin 295/75R22.5 (Steer)', qty: 2, price: 450 }], total: 900, status: 'pagado', notes: 'Montaje incluido.' },
+        { id: 'INV-002', customer: 'Transportes JCR', phone: '(804) 750-9999', email: 'contacto@jcrtransports.com', date: '2026-06-22', items: [{ name: 'Goodyear 11R22.5 (Drive)', qty: 4, price: 380 }, { name: 'Servicio Móvil Urgente 24/7', qty: 1, price: 150 }], total: 1670, status: 'pendiente', notes: 'Servicio de asistencia en carretera en I-95.' }
+      ],
+      customers: [
+        { id: 'c1', name: 'Transportes JCR', phone: '(804) 750-9999', email: 'contacto@jcrtransports.com', type: 'Flota', notes: 'Flota comercial de 12 camiones.' },
+        { id: 'c2', name: 'Carlos Rodríguez', phone: '(804) 555-1234', email: 'carlos@email.com', type: 'Particular', notes: 'Cliente frecuente.' }
+      ]
+    };
+
+    // ═══════════════════════════════════════════
+    // BILINGUAL TRANSLATION DICTIONARY (ES/EN)
+    // ═══════════════════════════════════════════
+    var TRANSLATIONS = {
+      es: {
+        'nav.home': 'Inicio',
+        'nav.services': 'Servicios',
+        'nav.inventory': 'Llantas',
+        'nav.appointments': 'Citas',
+        'nav.contact': 'Contacto',
+        'btn.close': 'Cerrar',
+        'btn.cancel': 'Cancelar',
+        'btn.save': 'Guardar',
+
+        // Storefront Home
+        'hero.badge': '🚛 SERVICIO EN CARRETERA 24/7',
+        'hero.title1': 'Servicio Móvil de',
+        'hero.title2': 'Llantas Comerciales 24/7',
+        'hero.desc': 'Asistencia profesional rápida en carretera para flotas y transportistas. Llantas nuevas y usadas, baterías y rines donde estés y cuando lo necesites.',
+        'hero.coverage': ' Richmond, VA y alrededores (Radio de 40 mi)',
+        'hero.time': 'Respuesta rápida en 30-45 min',
+        'hero.btn.emergency': '📞 Llamada Urgente 24/7',
+        'hero.btn.services': 'Ver Servicios',
+        
+        'services.section.title': 'Servicios Especializados',
+        'services.section.sub': 'Asistencia profesional para camiones de servicio pesado y flotas comerciales.',
+        
+        'inventory.section.title': 'Llantas en Stock',
+        'inventory.section.sub': 'Equipa tu camión con las mejores marcas del mercado.',
+        'inventory.btn.viewall': 'Ver todo el Inventario →',
+
+        'emergency.box.title': '🚨 ¿ESTÁS VARADO EN LA CARRETERA?',
+        'emergency.box.desc': 'Llama inmediatamente a nuestras líneas de atención de emergencia. Despachamos una unidad equipada a tu ubicación en minutos.',
+        'emergency.box.btn1': 'Llamar al (804) 821-0538',
+        'emergency.box.btn2': 'Llamar al (804) 750-3408',
+
+        // Services page
+        'services.p.title': 'Nuestros <span class="text-amber-500">Servicios</span>',
+        'services.p.sub': 'Soluciones integrales de llantas y asistencia vial 24 horas al día, 7 días a la semana.',
+        'services.card1.title': 'Servicio de Carretera 24/7',
+        'services.card1.desc': 'Despacho inmediato a autopistas principales (I-95, I-64, I-295) y carreteras de Richmond. Montaje rápido con herramientas hidráulicas pesadas.',
+        'services.card2.title': 'Llantas Nuevas y Usadas',
+        'services.card2.desc': 'Contamos con stock de marcas líderes como Michelin, Goodyear, Bridgestone, Continental. Llantas de tracción (Drive), dirección (Steer) y remolque (Trailer).',
+        'services.card3.title': 'Baterías y Diagnóstico',
+        'services.card3.desc': 'Comprobación del alternador y sistema de arranque. Reemplazo e instalación express de baterías de servicio pesado para camiones comerciales.',
+        'services.card4.title': 'Rines y Montaje',
+        'services.card4.desc': 'Venta y montaje de rines de acero y aluminio en todas las medidas estándar de camión. Montaje y balanceo profesional de precisión.',
+
+        // Inventory page
+        'inv.p.title': 'Inventario de <span class="text-amber-500">Llantas</span>',
+        'inv.p.sub': 'Consulta disponibilidad y precios actualizados en tiempo real.',
+        'inv.filter.all': 'Todos los tipos',
+        'inv.stock.low': 'Últimas unidades',
+        'inv.stock.in': 'Disponible',
+        'inv.stock.out': 'Agotado',
+        'inv.btn.buy': '💳 Comprar',
+        'inv.btn.quote': '💬 Cotizar',
+        'inv.empty': 'No hay llantas disponibles en este momento.',
+
+        // Appointments page
+        'appt.p.title': 'Agendar <span class="text-amber-500">Servicio</span>',
+        'appt.p.sub': 'Programa una cita en nuestro taller o solicita servicio móvil para tu base. Confirmamos en menos de 30 minutos.',
+        'appt.form.name': 'Nombre Completo / Empresa *',
+        'appt.form.phone': 'Teléfono de Contacto *',
+        'appt.form.email': 'Correo Electrónico',
+        'appt.form.service': 'Servicio Necesario *',
+        'appt.form.service.opt1': 'Cambio de llantas en taller',
+        'appt.form.service.opt2': 'Servicio móvil / Asistencia en carretera',
+        'appt.form.service.opt3': 'Instalación de Batería',
+        'appt.form.service.opt4': 'Montaje de rines',
+        'appt.form.service.opt5': 'Diagnóstico general',
+        'appt.form.date': 'Fecha *',
+        'appt.form.time': 'Hora sugerida *',
+        'appt.form.notes': 'Detalles adicionales (Medidas de llantas, modelo del camión, ubicación...)',
+        'appt.form.btn': '📅 Confirmar Cita',
+        'appt.success.title': '¡Cita Registrada!',
+        'appt.success.desc': 'Tu cita ha sido guardada. Te contactaremos por teléfono de inmediato para confirmar el horario final.',
+        'appt.success.btn': 'Agendar otra cita',
+
+        // Contact page
+        'contact.p.title': 'Información de <span class="text-amber-500">Contacto</span>',
+        'contact.p.sub': 'Estamos disponibles 24/7 en carretera y en horario comercial en el taller.',
+        'contact.card.title': 'Línea Directa 24/7',
+        'contact.card.whatsapp': 'Chat por WhatsApp',
+        'contact.coverage.title': 'Área de Cobertura',
+        'contact.coverage.desc': 'Richmond, Chesterfield, Henrico, Petersburg, Hopewell y autopistas de Virginia.',
+        'contact.hours.title': 'Horario del Taller',
+        'contact.hours.road': 'Servicio en carretera: 24 Horas / 365 Días',
+        'contact.hours.shop': 'Lunes a Viernes: 8:00 AM - 6:00 PM',
+        'contact.hours.sat': 'Sábados: 8:00 AM - 4:00 PM',
+
+        // Modals
+        'pay.title': 'Pago Seguro con Tarjeta',
+        'pay.product': 'Concepto / Factura',
+        'pay.total': 'Total a Pagar',
+        'pay.card': 'Número de Tarjeta de Crédito/Débito',
+        'pay.exp': 'Fecha Exp.',
+        'pay.btn': 'Pagar Ahora',
+        'pay.secure': '🔒 Pagos seguros procesados a través de Stripe. No guardamos tus datos.',
+        'pay.demo.title': 'Modo de Pago Demo Activo',
+        'pay.demo.desc': 'No se ha configurado una clave Stripe real. El pago se simulará de forma exitosa.',
+        
+        'login.subtitle': 'Panel de Control de Administración',
+        'login.password': 'Contraseña de Acceso',
+        'login.error': 'Contraseña incorrecta',
+        'login.btn': 'Entrar al Panel',
+        'login.restricted': 'Acceso restringido únicamente a personal autorizado.',
+
+        'db.title': 'Conectar Base de Datos',
+        'db.desc': 'Conecta tu proyecto a una base de datos Supabase para guardar tus llantas, citas y facturas de forma permanente.',
+        'db.connect': 'Conectar',
+        'db.demo': 'Modo Demo (Local)',
+
+        'email.title': 'Configurar Email',
+        'email.desc': 'Conecta tu cuenta de EmailJS para enviar facturas y confirmaciones de citas de forma automatizada.',
+        
+        'invoice.view.title': 'Detalle de Factura',
+        'invoice.pay': 'Pagar ahora',
+        'invoice.print': 'PDF / Imprimir',
+
+        // Admin General
+        'admin.store': 'Ver Tienda',
+        'admin.logout': 'Cerrar Sesión',
+        'admin.addTire': 'Agregar Llanta',
+        'admin.invoices': 'Facturas',
+        'admin.customers': 'Clientes',
+        'admin.config': 'Configuración'
+      },
+      en: {
+        'nav.home': 'Home',
+        'nav.services': 'Services',
+        'nav.inventory': 'Tires',
+        'nav.appointments': 'Appointments',
+        'nav.contact': 'Contact',
+        'btn.close': 'Close',
+        'btn.cancel': 'Cancel',
+        'btn.save': 'Save',
+
+        // Storefront Home
+        'hero.badge': '🚛 24/7 ROAD SERVICE',
+        'hero.title1': 'Mobile Service for',
+        'hero.title2': 'Commercial Tires 24/7',
+        'hero.desc': 'Fast, professional roadside assistance for truck fleets and owner-operators. New and used tires, batteries, and wheels where you are and when you need it.',
+        'hero.coverage': ' Richmond, VA & surrounding areas (40 mi Radius)',
+        'hero.time': 'Rapid response in 30-45 minutes',
+        'hero.btn.emergency': '📞 24/7 Emergency Call',
+        'hero.btn.services': 'View Services',
+        
+        'services.section.title': 'Specialized Services',
+        'services.section.sub': 'Professional assistance for heavy-duty commercial trucks and fleets.',
+        
+        'inventory.section.title': 'Tires in Stock',
+        'inventory.section.sub': 'Equip your truck with the best brands in the market.',
+        'inventory.btn.viewall': 'View Full Inventory →',
+
+        'emergency.box.title': '🚨 STRANDED ON THE ROAD?',
+        'emergency.box.desc': 'Call our emergency response lines immediately. We dispatch a fully equipped service unit to your location in minutes.',
+        'emergency.box.btn1': 'Call (804) 821-0538',
+        'emergency.box.btn2': 'Call (804) 750-3408',
+
+        // Services page
+        'services.p.title': 'Our <span class="text-amber-500">Services</span>',
+        'services.p.sub': 'Comprehensive commercial tire and roadside solutions 24/7.',
+        'services.card1.title': '24/7 Roadside Assistance',
+        'services.card1.desc': 'Immediate dispatch to main highways (I-95, I-64, I-295) and Richmond highways. Fast mounting using heavy hydraulic tools.',
+        'services.card2.title': 'New and Used Tires',
+        'services.card2.desc': 'Full stock of leading brands: Michelin, Goodyear, Bridgestone, Continental. Steer, Drive, Trailer, and Light Truck tires available.',
+        'services.card3.title': 'Batteries and Diagnostics',
+        'services.card3.desc': 'Alternator and starting system check. Express replacement and installation of heavy-duty batteries for commercial trucks.',
+        'services.card4.title': 'Rims and Mounting',
+        'services.card4.desc': 'Sales and mounting of steel and aluminum rims in all standard commercial sizes. Precision professional mounting and balancing.',
+
+        // Inventory page
+        'inv.p.title': 'Tire <span class="text-amber-500">Inventory</span>',
+        'inv.p.sub': 'Check real-time tire availability and prices.',
+        'inv.filter.all': 'All Categories',
+        'inv.stock.low': 'Low Stock',
+        'inv.stock.in': 'In Stock',
+        'inv.stock.out': 'Out of Stock',
+        'inv.btn.buy': '💳 Buy Now',
+        'inv.btn.quote': '💬 Get Quote',
+        'inv.empty': 'No tires available in the inventory at this moment.',
+
+        // Appointments page
+        'appt.p.title': 'Schedule <span class="text-amber-500">Service</span>',
+        'appt.p.sub': 'Book an appointment at our shop or request mobile service at your depot. We confirm in less than 30 minutes.',
+        'appt.form.name': 'Full Name / Fleet Name *',
+        'appt.form.phone': 'Phone Number *',
+        'appt.form.email': 'Email Address',
+        'appt.form.service': 'Requested Service *',
+        'appt.form.service.opt1': 'Tire mounting at shop',
+        'appt.form.service.opt2': 'Mobile service / Roadside assistance',
+        'appt.form.service.opt3': 'Battery replacement',
+        'appt.form.service.opt4': 'Wheel mounting',
+        'appt.form.service.opt5': 'General diagnostics',
+        'appt.form.date': 'Date *',
+        'appt.form.time': 'Suggested Time *',
+        'appt.form.notes': 'Additional details (Tire sizes, truck model, highway mile marker/location...)',
+        'appt.form.btn': '📅 Book Appointment',
+        'appt.success.title': 'Appointment Registered!',
+        'appt.success.desc': 'Your appointment has been saved. We will contact you by phone shortly to confirm the final booking details.',
+        'appt.success.btn': 'Book another service',
+
+        // Contact page
+        'contact.p.title': 'Contact <span class="text-amber-500">Information</span>',
+        'contact.p.sub': 'We are available 24/7 on the highway and during shop business hours.',
+        'contact.card.title': '24/7 Emergency Line',
+        'contact.card.whatsapp': 'Chat on WhatsApp',
+        'contact.coverage.title': 'Coverage Area',
+        'contact.coverage.desc': 'Richmond, Chesterfield, Henrico, Petersburg, Hopewell, and surrounding VA highways.',
+        'contact.hours.title': 'Business Hours',
+        'contact.hours.road': 'Roadside Service: 24 Hours / 365 Days',
+        'contact.hours.shop': 'Monday to Friday: 8:00 AM - 6:00 PM',
+        'contact.hours.sat': 'Saturday: 8:00 AM - 4:00 PM',
+
+        // Modals
+        'pay.title': 'Secure Card Payment',
+        'pay.product': 'Concept / Invoice ID',
+        'pay.total': 'Amount to Pay',
+        'pay.card': 'Credit / Debit Card Number',
+        'pay.exp': 'Exp Date',
+        'pay.btn': 'Pay Now',
+        'pay.secure': '🔒 Secure payments processed via Stripe. We do not store your credentials.',
+        'pay.demo.title': 'Demo Mode Active',
+        'pay.demo.desc': 'No real Stripe key has been set. The payment will be simulated successfully.',
+        
+        'login.subtitle': 'Admin Control Panel',
+        'login.password': 'Access Password',
+        'login.error': 'Invalid Password',
+        'login.btn': 'Log In',
+        'login.restricted': 'Access restricted to authorized personnel only.',
+
+        'db.title': 'Connect Database',
+        'db.desc': 'Connect your project to a Supabase database to save your tires, appointments, and invoices permanently.',
+        'db.connect': 'Connect',
+        'db.demo': 'Demo Mode (Local)',
+
+        'email.title': 'Configure Email',
+        'email.desc': 'Connect your EmailJS account to send automated invoices and appointment confirmations.',
+        
+        'invoice.view.title': 'Invoice Details',
+        'invoice.pay': 'Pay Invoice',
+        'invoice.print': 'PDF / Print',
+
+        // Admin General
+        'admin.store': 'Go to Store',
+        'admin.logout': 'Log Out',
+        'admin.addTire': 'Add Tire',
+        'admin.invoices': 'Invoices',
+        'admin.customers': 'Customers',
+        'admin.config': 'Settings'
+      }
+    };
+
+    function t(key) {
+      return TRANSLATIONS[STATE.lang]?.[key] || key;
+    }
+
+    function toggleLang() {
+      STATE.lang = STATE.lang === 'es' ? 'en' : 'es';
+      document.getElementById('lang-toggle').textContent = STATE.lang === 'es' ? '🇺🇸 EN' : '🇪🇸 ES';
+      renderPage();
+      
+      // Translate all static elements that have [data-i18n] attributes
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        el.innerHTML = t(el.dataset.i18n);
+      });
+      // Translate input placeholders that have [data-i18n-placeholder]
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        el.placeholder = t(el.dataset.i18nPlaceholder);
+      });
+    }
+
+    // ═══════════════════════════════════════════
+    // DATABASE / SUPABASE CLIENT LAYER
+    // ═══════════════════════════════════════════
+    function loadSupabaseScript(cb) {
+      if (window.supabase) { cb(); return; }
+      var s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js';
+      s.onload = cb;
+      document.head.appendChild(s);
+    }
+
+    function initSupabase(url, key, cb) {
+      loadSupabaseScript(function() {
+        try {
+          STATE.supabase = window.supabase.createClient(url, key);
+          STATE.sbUrl = url;
+          STATE.sbKey = key;
+          localStorage.setItem('lch_sb_url', url);
+          localStorage.setItem('lch_sb_key', key);
+          cb(null);
+        } catch (e) {
+          cb(e);
+        }
+      });
+    }
+
+    async function dbSelect(table) {
+      if (!STATE.supabase) return STATE.data[table] || [];
+      var res = await STATE.supabase.from(table).select('*').order('created_at', { ascending: false });
+      if (res.error) {
+        console.error('Supabase Select Error:', res.error);
+        return STATE.data[table] || [];
+      }
+      var rows = res.data || [];
+      // Parse JSONB items field if returned as string
+      if (table === 'invoices') {
+        rows = rows.map(function(row) {
+          if (row.items && typeof row.items === 'string') {
+            try { row.items = JSON.parse(row.items); } catch(e) { row.items = []; }
+          }
+          if (!Array.isArray(row.items)) row.items = [];
+          return row;
+        });
+      }
+      return rows;
+    }
+
+    async function dbInsert(table, row) {
+      if (!STATE.supabase) {
+        row.id = row.id || ('local_' + Date.now());
+        row.created_at = new Date().toISOString();
+        // Deep copy to avoid reference issues
+        var rowCopy = JSON.parse(JSON.stringify(row));
+        STATE.data[table].unshift(rowCopy);
+        saveLocalDemoData();
+        return { data: rowCopy, error: null };
+      }
+      var res = await STATE.supabase.from(table).insert(row).select().single();
+      if (!res.error && res.data) {
+        // Supabase returns JSONB items as objects - ensure proper type
+        if (res.data.items && typeof res.data.items === 'string') {
+          try { res.data.items = JSON.parse(res.data.items); } catch(e) {}
+        }
+        var idx = STATE.data[table].findIndex(r => r.id === row.id);
+        if (idx >= 0) STATE.data[table][idx] = res.data;
+        else STATE.data[table].unshift(res.data);
+      }
+      return res;
+    }
+
+    async function dbUpdate(table, id, updates) {
+      if (!STATE.supabase) {
+        var idx = STATE.data[table].findIndex(function(r) { return r.id === id; });
+        if (idx >= 0) Object.assign(STATE.data[table][idx], updates);
+        saveLocalDemoData();
+        return { error: null };
+      }
+      var res = await STATE.supabase.from(table).update(updates).eq('id', id);
+      if (!res.error) {
+        var idx = STATE.data[table].findIndex(function(r) { return r.id === id; });
+        if (idx >= 0) Object.assign(STATE.data[table][idx], updates);
+      }
+      return res;
+    }
+
+    async function dbDelete(table, id) {
+      if (!STATE.supabase) {
+        STATE.data[table] = STATE.data[table].filter(function(r) { return r.id !== id; });
+        saveLocalDemoData();
+        return { error: null };
+      }
+      var res = await STATE.supabase.from(table).delete().eq('id', id);
+      if (!res.error) {
+        STATE.data[table] = STATE.data[table].filter(function(r) { return r.id !== id; });
+      }
+      return res;
+    }
+
+    async function loadAllData() {
+      STATE.data.inventory = await dbSelect('inventory');
+      STATE.data.appointments = await dbSelect('appointments');
+      STATE.data.invoices = await dbSelect('invoices');
+      STATE.data.customers = await dbSelect('customers');
+    }
+
+    function saveSupabaseConfig() {
+      var url = document.getElementById('sb-url-input').value.trim();
+      var key = document.getElementById('sb-key-input').value.trim();
+      if (!url || !key) {
+        showToast(STATE.lang === 'es' ? 'Ingresa la URL y clave del proyecto' : 'Please fill in Project URL and key', 'error');
+        return;
+      }
+      showToast(STATE.lang === 'es' ? 'Conectando a base de datos...' : 'Connecting to database...', 'info');
+      initSupabase(url, key, async function(err) {
+        if (err) {
+          showToast(STATE.lang === 'es' ? 'Error de conexión. Verifica los datos.' : 'Connection error. Check credentials.', 'error');
+          return;
+        }
+        await loadAllData();
+        closeModal('modal-supabase');
+        updateDbStatus(true);
+        STATE.isDemoMode = false;
+        showToast(STATE.lang === 'es' ? '✅ Supabase conectado con éxito' : '✅ Connected to Supabase', 'success');
+        if (STATE.isAdmin) renderAdmin();
+      });
+    }
+
+    function updateDbStatus(connected) {
+      var el = document.getElementById('db-status-badge');
+      if (!el) return;
+      if (connected) {
+        el.className = 'badge badge-green';
+        el.textContent = '● Supabase Cloud';
+      } else if (STATE.isDemoMode) {
+        el.className = 'badge badge-gold';
+        el.textContent = '● Local Demo Mode';
+      } else {
+        el.className = 'badge badge-muted';
+        el.textContent = 'Disconnected';
+      }
+    }
+
+    function useDemoMode() {
+      STATE.isDemoMode = true;
+      
+      // Try to load from LocalStorage first, if empty, load defaults
+      var localData = localStorage.getItem('lch_demo_data');
+      if (localData) {
+        try {
+          STATE.data = JSON.parse(localData);
+        } catch(e) {
+          STATE.data = JSON.parse(JSON.stringify(DEMO_DATA));
+        }
+      } else {
+        STATE.data = JSON.parse(JSON.stringify(DEMO_DATA));
+        saveLocalDemoData();
+      }
+      
+      updateDbStatus(false);
+      showToast(STATE.lang === 'es' ? 'Modo Demo Activo (Datos guardados localmente)' : 'Demo Mode Active (Data saved locally)', 'info');
+      if (STATE.isAdmin) renderAdmin();
+    }
+
+    function saveLocalDemoData() {
+      if (STATE.isDemoMode) {
+        localStorage.setItem('lch_demo_data', JSON.stringify(STATE.data));
+      }
+    }
+
+    // ═══════════════════════════════════════════
+    // EMAILJS INTEGRATION
+    // ═══════════════════════════════════════════
+    function openEmailModal() {
+      // Pre-fill current values before opening
+      openModal('modal-email');
+      setTimeout(function() {
+        var s  = document.getElementById('email-service');
+        var ti = document.getElementById('email-template-invoice');
+        var ta = document.getElementById('email-template-appt');
+        var k  = document.getElementById('email-key');
+        if (s)  s.value  = EMAIL_CONFIG.service_id       || '';
+        if (ti) ti.value = EMAIL_CONFIG.template_invoice  || '';
+        if (ta) ta.value = EMAIL_CONFIG.template_appt     || '';
+        if (k)  k.value  = EMAIL_CONFIG.public_key        || '';
+      }, 50);
+    }
+
+    function saveEmailConfig() {
+      var service  = document.getElementById('email-service').value.trim();
+      var tmplInv  = document.getElementById('email-template-invoice').value.trim();
+      var tmplAppt = document.getElementById('email-template-appt').value.trim();
+      var key      = document.getElementById('email-key').value.trim();
+      
+      if (!service || !key) {
+        showToast(STATE.lang === 'es' ? 'Service ID y Public Key son obligatorios' : 'Service ID and Public Key are required', 'error');
+        return;
+      }
+      if (!tmplInv && !tmplAppt) {
+        showToast(STATE.lang === 'es' ? 'Agrega al menos un Template ID' : 'Add at least one Template ID', 'error');
+        return;
+      }
+      
+      EMAIL_CONFIG.service_id       = service;
+      EMAIL_CONFIG.template_invoice = tmplInv;
+      EMAIL_CONFIG.template_appt    = tmplAppt;
+      EMAIL_CONFIG.public_key       = key;
+      
+      localStorage.setItem('lch_email_service', service);
+      localStorage.setItem('lch_email_template_invoice', tmplInv);
+      localStorage.setItem('lch_email_template_appt', tmplAppt);
+      localStorage.setItem('lch_email_key', key);
+      
+      try { emailjs.init(key); } catch(e) { console.warn("EmailJS init failed:", e); }
+      closeModal('modal-email');
+      
+      var saved = [];
+      if (tmplInv)  saved.push('facturas');
+      if (tmplAppt) saved.push('citas');
+      showToast('✅ EmailJS configurado para: ' + saved.join(' y '), 'success');
+    }
+
+    function sendEmail(templateParams, templateId) {
+      if (!EMAIL_CONFIG.service_id || !templateId || !EMAIL_CONFIG.public_key) {
+        console.warn('EmailJS not fully configured. Skipping email. Service:', EMAIL_CONFIG.service_id, 'Template:', templateId);
+        return Promise.resolve();
+      }
+      try {
+        if (typeof emailjs !== 'undefined') {
+          emailjs.init(EMAIL_CONFIG.public_key);
+          return emailjs.send(EMAIL_CONFIG.service_id, templateId, templateParams);
+        }
+        return Promise.resolve();
+      } catch(e) {
+        console.warn('EmailJS send failed:', e);
+        return Promise.resolve();
+      }
+    }
+
+    function sendInvoiceEmail(invoice) {
+      var itemsText = (invoice.items || []).map(function(i) {
+        return i.name + ' (x' + i.qty + ') = $' + (i.price * i.qty).toFixed(2);
+      }).join('\n');
+
+      var params = {
+        to_email: invoice.email || COMPANY.email,
+        to_name: invoice.customer || 'Cliente LCH',
+        reply_to: COMPANY.email,
+        invoice_id: invoice.id,
+        invoice_date: invoice.date,
+        invoice_total: '$' + (invoice.total || 0).toFixed(2) + ' USD',
+        invoice_status: invoice.status === 'pagado' ? 'PAGADO ✅' : 'PENDIENTE',
+        invoice_items: itemsText,
+        company_name: COMPANY.name,
+        company_phone: COMPANY.phone,
+        company_website: COMPANY.website,
+        message: 'Gracias por su preferencia. Adjuntamos su factura digital. Para consultas llame al ' + COMPANY.phone + '.'
+      };
+      return sendEmail(params, EMAIL_CONFIG.template_invoice).then(function() {
+        showToast(STATE.lang === 'es' ? '📧 Factura enviada al correo' : '📧 Invoice email sent', 'success');
+      }).catch(function(err) {
+        console.error('Invoice email failed:', err);
+        showToast('⚠️ No se pudo enviar el email de factura', 'error');
+      });
+    }
+
+    function sendAppointmentEmail(appointment) {
+      var params = {
+        to_email: appointment.email || COMPANY.email,
+        to_name: appointment.name || 'Cliente LCH',
+        reply_to: COMPANY.email,
+        appointment_service: appointment.service,
+        appointment_date: appointment.date,
+        appointment_time: appointment.time,
+        appointment_notes: appointment.notes || 'Sin notas adicionales.',
+        appointment_phone: appointment.phone || '-',
+        company_name: COMPANY.name,
+        company_phone: COMPANY.phone,
+        company_website: COMPANY.website,
+        message: 'Tu solicitud de cita ha sido recibida. Nos comunicaremos al ' + (appointment.phone || 'teléfono registrado') + ' para confirmar el horario.'
+      };
+      return sendEmail(params, EMAIL_CONFIG.template_appt).then(function() {
+        console.log('Appointment email sent.');
+        showToast(STATE.lang === 'es' ? '📧 Confirmación enviada al cliente' : '📧 Appointment confirmation sent', 'success');
+      }).catch(function(err) {
+        console.error('Appointment email failed:', err);
+      });
+    }
+
+    // ═══════════════════════════════════════════
+    // STRIPE PAYMENTS INTEGRATION
+    // ═══════════════════════════════════════════
+    function initStripe() {
+      if (!STRIPE_PUBLIC_KEY) {
+        STATE.stripe = null;
+        return;
+      }
+      try {
+        STATE.stripe = Stripe(STRIPE_PUBLIC_KEY);
+      } catch (e) {
+        console.warn('Failed to initialize Stripe client:', e);
+        STATE.stripe = null;
+      }
+    }
+
+    function openPaymentModal(productName, amount, invoiceId) {
+      STATE.currentInvoiceId = invoiceId || null;
+      document.getElementById('pay-product-name').textContent = productName;
+      document.getElementById('pay-amount').textContent = amount.toFixed(2);
+      
+      var demoBadge = document.getElementById('stripe-demo-badge');
+      
+      // If Stripe is not initialized, run in elegant demo mode
+      if (!STRIPE_PUBLIC_KEY || !STATE.stripe) {
+        demoBadge.classList.remove('hidden');
+      } else {
+        demoBadge.classList.add('hidden');
+        
+        // Destroy previous Stripe elements if they exist
+        if (window._stripeElements) {
+          try {
+            window._stripeElements.cardNumber.destroy();
+            window._stripeElements.cardExpiry.destroy();
+            window._stripeElements.cardCvc.destroy();
+          } catch(e) {}
+          window._stripeElements = null;
+        }
+
+        // Load Stripe Elements UI securely
+        var elements = STATE.stripe.elements({
+          appearance: {
+            theme: 'night',
+            variables: { 
+              colorPrimary: '#f59e0b', 
+              colorBackground: '#09090b', 
+              colorText: '#ffffff',
+              borderRadius: '8px' 
+            }
+          }
+        });
+
+        var style = { base: { fontSize: '15px', fontFamily: 'Inter, sans-serif' } };
+        var cardNumber = elements.create('cardNumber', { style: style });
+        var cardExpiry = elements.create('cardExpiry', { style: style });
+        var cardCvc = elements.create('cardCvc', { style: style });
+
+        cardNumber.mount('#card-number-element');
+        cardExpiry.mount('#card-expiry-element');
+        cardCvc.mount('#card-cvc-element');
+
+        window._stripeElements = { cardNumber, cardExpiry, cardCvc, elements };
+      }
+
+      document.getElementById('card-errors').textContent = '';
+      openModal('modal-payment');
+    }
+
+    async function processPayment(e) {
+      e.preventDefault();
+      if (STATE.isProcessingPayment) return;
+      STATE.isProcessingPayment = true;
+
+      var btn = document.getElementById('pay-button');
+      var btnText = document.getElementById('pay-btn-text');
+      var btnSpinner = document.getElementById('pay-btn-spinner');
+      
+      btn.disabled = true;
+      btnText.textContent = STATE.lang === 'es' ? 'Procesando pago...' : 'Processing payment...';
+      btnSpinner.style.display = 'inline-block';
+
+      var amount = parseFloat(document.getElementById('pay-amount').textContent) || 0;
+      var concept = document.getElementById('pay-product-name').textContent;
+
+      // DEMO FLOW: No Stripe key configured -> Simulates success instantly
+      if (!STATE.stripe) {
+        setTimeout(async function() {
+          if (STATE.currentInvoiceId) {
+            await dbUpdate('invoices', STATE.currentInvoiceId, { status: 'pagado' });
+            var inv = STATE.data.invoices.find(i => i.id === STATE.currentInvoiceId);
+            if (inv) sendInvoiceEmail(inv);
+          }
+          
+          btn.disabled = false;
+          btnText.textContent = t('pay.btn');
+          btnSpinner.style.display = 'none';
+          STATE.isProcessingPayment = false;
+          
+          closeModal('modal-payment');
+          showToast(STATE.lang === 'es' ? '✅ Pago Simulado con Éxito (Demo)' : '✅ Simulated Payment Success', 'success');
+          if (STATE.isAdmin) renderAdmin();
+          else if (STATE.page === 'inventory') navTo('inventory');
+        }, 1500);
+        return;
+      }
+
+      // REAL FLOW: Using Stripe API & backend
+      try {
+        var clientSecret = '';
+        
+        // If a backend URL is set, request a real PaymentIntent
+        if (STRIPE_BACKEND_URL) {
+          var response = await fetch(STRIPE_BACKEND_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ amount: Math.round(amount * 100), currency: 'usd', description: concept })
+          });
+          var data = await response.json();
+          clientSecret = data.clientSecret;
+        } else {
+          // If no backend is set, we inform that payment cannot be completed securely in production
+          document.getElementById('card-errors').innerHTML = STATE.lang === 'es' ? 
+            '⚠️ Se requiere una URL de backend en Ajustes para generar pagos reales seguros.' : 
+            '⚠️ A backend API URL is required in Settings to securely process real card payments.';
+          
+          btn.disabled = false;
+          btnText.textContent = t('pay.btn');
+          btnSpinner.style.display = 'none';
+          STATE.isProcessingPayment = false;
+          return;
+        }
+
+        // Confirm Card Payment
+        var result = await STATE.stripe.confirmCardPayment(clientSecret, {
+          payment_method: {
+            card: window._stripeElements.cardNumber,
+            billing_details: { name: 'Cliente LCH Trucking' }
+          }
+        });
+
+        if (result.error) {
+          document.getElementById('card-errors').textContent = result.error.message;
+        } else if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
+          if (STATE.currentInvoiceId) {
+            await dbUpdate('invoices', STATE.currentInvoiceId, { status: 'pagado' });
+            var invoice = STATE.data.invoices.find(i => i.id === STATE.currentInvoiceId);
+            if (invoice) sendInvoiceEmail(invoice);
+          }
+          
+          closeModal('modal-payment');
+          showToast(STATE.lang === 'es' ? '✅ ¡Pago procesado con éxito!' : '✅ Payment processed successfully!', 'success');
+          if (STATE.isAdmin) renderAdmin();
+        }
+      } catch (err) {
+        document.getElementById('card-errors').textContent = STATE.lang === 'es' ? 'Error al contactar la pasarela.' : 'Error contacting payment gateway.';
+        console.error(err);
+      }
+
+      btn.disabled = false;
+      btnText.textContent = t('pay.btn');
+      btnSpinner.style.display = 'none';
+      STATE.isProcessingPayment = false;
+
+      // Destroy stripe elements UI
+      if (window._stripeElements) {
+        window._stripeElements.cardNumber.destroy();
+        window._stripeElements.cardExpiry.destroy();
+        window._stripeElements.cardCvc.destroy();
+        window._stripeElements = null;
+      }
+    }
+
+    // ═══════════════════════════════════════════
+    // AUTHENTICATION LAYER
+    // ═══════════════════════════════════════════
+    function doLogin() {
+      var val = document.getElementById('login-input').value;
+      if (val === ADMIN_PASS) {
+        STATE.isAdmin = true;
+        closeModal('modal-login');
+        document.getElementById('login-error').classList.add('hidden');
+        document.getElementById('login-input').value = '';
+        showView('admin');
+        adminTab('dashboard');
+        showToast(STATE.lang === 'es' ? 'Bienvenido al Panel LCH' : 'Welcome to LCH Control Panel', 'success');
+      } else {
+        document.getElementById('login-error').classList.remove('hidden');
+        document.getElementById('login-input').value = '';
+      }
+    }
+
+    function doLogout() {
+      STATE.isAdmin = false;
+      showView('storefront');
+      showToast(STATE.lang === 'es' ? 'Sesión de administrador cerrada' : 'Administrator logged out', 'info');
+    }
+
+    function openAdmin() {
+      if (!STATE.isAdmin) {
+        openModal('modal-login');
+        // Add Enter key listener for ease of use
+        setTimeout(() => {
+          document.getElementById('login-input').focus();
+          document.getElementById('login-input').onkeydown = function(e) {
+            if (e.key === 'Enter') doLogin();
+          };
+        }, 100);
+        return;
+      }
+      showView('admin');
+      adminTab('dashboard');
+    }
+
+    function closeAdmin() {
+      showView('storefront');
+    }
+
+    // ═══════════════════════════════════════════
+    // CORE VIEW / NAV ROUTING
+    // ═══════════════════════════════════════════
+    function showView(v) {
+      STATE.view = v;
+      document.getElementById('main-storefront').style.display = v === 'storefront' ? 'block' : 'none';
+      document.getElementById('main-admin').style.display = v === 'admin' ? 'flex' : 'none';
+    }
+
+    function openModal(id) {
+      var m = document.getElementById(id);
+      m.style.display = 'flex';
+      // Force reflow for transitions
+      m.offsetHeight;
+      m.classList.add('active');
+    }
+
+    function closeModal(id) {
+      var m = document.getElementById(id);
+      m.classList.remove('active');
+      setTimeout(() => {
+        m.style.display = 'none';
+      }, 300);
+    }
+
+    // Close modal on click background (except login modal)
+    document.querySelectorAll('.modal-overlay').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        if (e.target === el && el.id !== 'modal-login') closeModal(el.id);
+      });
+    });
+
+    function showToast(msg, type) {
+      type = type || 'info';
+      var old = document.querySelector('.toast');
+      if (old) old.remove();
+      
+      var icons = { success: '✅', error: '❌', info: 'ℹ️' };
+      var t = document.createElement('div');
+      t.className = 'toast toast-' + type;
+      t.innerHTML = '<span>' + (icons[type] || 'ℹ️') + '</span><span class="font-medium">' + msg + '</span>';
+      document.body.appendChild(t);
+      
+      setTimeout(function() {
+        t.style.opacity = '0';
+        t.style.transform = 'translateX(100%)';
+        t.style.transition = 'all 0.35s ease';
+        setTimeout(function() { t.remove(); }, 350);
+      }, 4000);
+    }
+
+    function navTo(page) {
+      STATE.page = page;
+      
+      // Update header active styling
+      document.querySelectorAll('#main-nav-links .nav-link').forEach(function(el) {
+        var onclickAttr = el.getAttribute('onclick') || '';
+        el.classList.toggle('text-amber-500', onclickAttr.includes("'" + page + "'"));
+        el.classList.toggle('bg-zinc-900/50', onclickAttr.includes("'" + page + "'"));
+        el.classList.toggle('text-zinc-400', !onclickAttr.includes("'" + page + "'"));
+      });
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      renderPage();
+    }
+
+    function renderPage() {
+      var c = document.getElementById('page-content');
+      if (!c) return;
+      
+      switch (STATE.page) {
+        case 'home': c.innerHTML = pageHome(); break;
+        case 'services': c.innerHTML = pageServices(); break;
+        case 'inventory': c.innerHTML = pageInventory(); break;
+        case 'appointments': c.innerHTML = pageAppointments(); break;
+        case 'contact': c.innerHTML = pageContact(); break;
+        default: c.innerHTML = pageHome();
+      }
+      
+      // Re-translate dynamic content
+      document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        el.innerHTML = t(el.dataset.i18n);
+      });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        el.placeholder = t(el.dataset.i18nPlaceholder);
+      });
+    }
+
+    // ═══════════════════════════════════════════
+    // STOREFRONT PAGES RENDERERS
+    // ═══════════════════════════════════════════
+    
+    function pageHome() {
+      // Get first 3 tires in stock for home featured cards
+      var featured = STATE.data.inventory.filter(t => t.stock > 0).slice(0, 3);
+      var tiresHTML = '';
+      
+      if (featured.length > 0) {
+        tiresHTML = featured.map(function(t) {
+          return `
+            <div class="glass-card p-6 flex flex-col justify-between cursor-pointer" onclick="openProductModal('${t.id}')">
+              <div>
+                <div class="flex justify-between items-center mb-4">
+                  <span class="badge badge-gold">${t.type}</span>
+                  ${t.stock <= 3 ? `<span class="badge badge-red font-bold">${t.stock} left</span>` : `<span class="badge badge-green font-bold">In stock</span>`}
+                </div>
+                <h3 class="font-oswald text-xl font-bold uppercase tracking-wide text-white">${t.brand}</h3>
+                <p class="text-amber-500 font-bold text-sm mt-1">${t.size}</p>
+                <p class="text-xs mt-3 text-zinc-500 line-clamp-2">${t.notes || '-'}</p>
+              </div>
+              <div class="flex justify-between items-center mt-6 pt-4 border-t border-zinc-900">
+                <span class="text-2xl font-black text-white">$${t.price}</span>
+                <button onclick="event.stopPropagation();openProductModal('${t.id}')" class="btn btn-gold btn-sm font-bold">View Details</button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      return `
+        <!-- HERO SECTION -->
+        <section class="relative min-h-[90vh] flex items-center justify-center py-20 px-6 overflow-hidden bg-cover bg-center" style="background-image: linear-gradient(to bottom, rgba(9,9,11,0.92) 20%, rgba(9,9,11,0.7) 60%, rgba(9,9,11,0.98) 100%), url('https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&q=80&w=1600');">
+          <!-- Animated Background Grid -->
+          <div class="absolute inset-0 opacity-10 pointer-events-none bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:30px_30px]"></div>
+
+          <div class="max-w-7xl mx-auto w-full relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <!-- Hero Left -->
+            <div class="lg:col-span-8">
+              <span class="badge badge-gold mb-6 px-4 py-1.5 text-xs font-bold uppercase tracking-widest pulse-glow-btn" data-i18n="hero.badge">🚛 SERVICIO EN CARRETERA 24/7</span>
+              <h1 class="font-oswald text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] tracking-tight">
+                <span data-i18n="hero.title1">Servicio Móvil de</span> <br>
+                <span class="text-amber-500" data-i18n="hero.title2">Llantas Comerciales 24/7</span>
+              </h1>
+              <p class="mt-6 text-lg sm:text-xl text-zinc-400 max-w-2xl font-medium" data-i18n="hero.desc">
+                Asistencia profesional rápida en carretera para flotas y transportistas. Llantas nuevas y usadas, baterías y rines donde estés y cuando lo necesites.
+              </p>
+              
+              <!-- Core Badges -->
+              <div class="flex flex-wrap gap-4 mt-8 text-xs font-semibold text-zinc-300">
+                <span class="flex items-center gap-2 bg-zinc-950/60 backdrop-blur border border-zinc-800/40 px-3.5 py-2 rounded-full">📍<span data-i18n="hero.coverage">Richmond, VA (Radio 40mi)</span></span>
+                <span class="flex items-center gap-2 bg-zinc-950/60 backdrop-blur border border-zinc-800/40 px-3.5 py-2 rounded-full">⚡<span data-i18n="hero.time">Respuesta rápida 30-45min</span></span>
+              </div>
+
+              <!-- Actions -->
+              <div class="mt-10 flex flex-wrap gap-4">
+                <a href="tel:8048210538" class="btn btn-gold px-8 py-4 text-base tracking-wider font-extrabold uppercase pulse-glow-btn" data-i18n="hero.btn.emergency">📞 Llamada Urgente 24/7</a>
+                <button onclick="navTo('services')" class="btn btn-outline px-8 py-4 text-base tracking-wider font-bold uppercase" data-i18n="hero.btn.services">Ver Servicios</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SERVICES SUMMARY SECTION -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-zinc-900">
+          <div class="text-center max-w-3xl mx-auto mb-16">
+            <h2 class="font-oswald text-4xl font-extrabold text-white tracking-wide uppercase" data-i18n="services.section.title">Servicios Especializados</h2>
+            <div class="h-1 w-20 bg-amber-500 mx-auto mt-4 rounded-full"></div>
+            <p class="mt-4 text-zinc-400 font-medium" data-i18n="services.section.sub">Asistencia profesional para camiones de servicio pesado y flotas comerciales.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="glass-card p-8 text-center flex flex-col justify-between">
+              <div>
+                <div class="w-14 h-14 bg-amber-500/10 text-amber-500 border border-amber-500/20 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6">🚛</div>
+                <h3 class="font-oswald text-xl font-bold uppercase tracking-wider text-white" data-i18n="services.card1.title">Carretera 24/7</h3>
+                <p class="mt-3 text-sm text-zinc-400" data-i18n="services.card1.desc">Despacho inmediato a autopistas principales de Richmond.</p>
+              </div>
+              <button onclick="navTo('services')" class="mt-6 text-xs font-bold text-amber-500 hover:underline">Info →</button>
+            </div>
+            <div class="glass-card p-8 text-center flex flex-col justify-between">
+              <div>
+                <div class="w-14 h-14 bg-amber-500/10 text-amber-500 border border-amber-500/20 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6">🛞</div>
+                <h3 class="font-oswald text-xl font-bold uppercase tracking-wider text-white" data-i18n="services.card2.title">Llantas Comerciales</h3>
+                <p class="mt-3 text-sm text-zinc-400" data-i18n="services.card2.desc">Stock de marcas líderes. Llantas Drive, Steer, Trailer.</p>
+              </div>
+              <button onclick="navTo('services')" class="mt-6 text-xs font-bold text-amber-500 hover:underline">Info →</button>
+            </div>
+            <div class="glass-card p-8 text-center flex flex-col justify-between">
+              <div>
+                <div class="w-14 h-14 bg-amber-500/10 text-amber-500 border border-amber-500/20 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6">🔋</div>
+                <h3 class="font-oswald text-xl font-bold uppercase tracking-wider text-white" data-i18n="services.card3.title">Baterías</h3>
+                <p class="mt-3 text-sm text-zinc-400" data-i18n="services.card3.desc">Instalación express de baterías reforzadas para camiones.</p>
+              </div>
+              <button onclick="navTo('services')" class="mt-6 text-xs font-bold text-amber-500 hover:underline">Info →</button>
+            </div>
+            <div class="glass-card p-8 text-center flex flex-col justify-between">
+              <div>
+                <div class="w-14 h-14 bg-amber-500/10 text-amber-500 border border-amber-500/20 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6">🔧</div>
+                <h3 class="font-oswald text-xl font-bold uppercase tracking-wider text-white" data-i18n="services.card4.title">Rines</h3>
+                <p class="mt-3 text-sm text-zinc-400" data-i18n="services.card4.desc">Venta y montaje de rines comerciales de acero y aluminio.</p>
+              </div>
+              <button onclick="navTo('services')" class="mt-6 text-xs font-bold text-amber-500 hover:underline">Info →</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- FEATURED INVENTORY -->
+        ${tiresHTML ? `
+        <section class="bg-zinc-950/40 border-y border-zinc-900 py-24">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-between items-end mb-16 gap-6">
+              <div>
+                <h2 class="font-oswald text-4xl font-extrabold text-white tracking-wide uppercase" data-i18n="inventory.section.title">Llantas en Stock</h2>
+                <div class="h-1 w-16 bg-amber-500 mt-3 rounded-full"></div>
+                <p class="mt-4 text-zinc-400 font-medium" data-i18n="inventory.section.sub">Equipa tu camión con las mejores marcas del mercado.</p>
+              </div>
+              <button onclick="navTo('inventory')" class="btn btn-outline btn-sm" data-i18n="inventory.btn.viewall">Ver todo el Inventario →</button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              ${tiresHTML}
+            </div>
+          </div>
+        </section>
+        ` : ''}
+
+        <!-- HEAVY EMERGENCY BANNER -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
+          <div class="glass-card p-10 max-w-4xl mx-auto relative overflow-hidden" style="background: linear-gradient(135deg, rgba(24,24,27,0.8) 0%, rgba(9,9,11,0.9) 100%);">
+            <div class="absolute -right-12 -top-12 w-48 h-48 bg-amber-500/5 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="relative z-10">
+              <span class="badge badge-red mb-6 px-4 py-1.5 font-extrabold text-xs tracking-widest uppercase">⚠️ EMERGENCY MOBILE TRUCK SERVICE</span>
+              <h2 class="font-oswald text-4xl sm:text-5xl font-black text-amber-500 uppercase tracking-wide leading-tight mb-4" data-i18n="emergency.box.title">🚨 ¿ESTÁS VARADO EN LA CARRETERA?</h2>
+              <p class="text-zinc-400 max-w-2xl mx-auto text-base font-medium mb-8" data-i18n="emergency.box.desc">Llama inmediatamente a nuestras líneas de atención de emergencia. Despachamos una unidad equipada a tu ubicación en minutos.</p>
+              
+              <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="tel:8048210538" class="btn btn-gold px-8 py-4 font-black tracking-wide text-base w-full sm:w-auto pulse-glow-btn" data-i18n="emergency.box.btn1">Llamar al (804) 821-0538</a>
+                <a href="tel:8047503408" class="btn btn-outline px-8 py-4 font-bold text-base w-full sm:w-auto" data-i18n="emergency.box.btn2">Llamar al (804) 750-3408</a>
+              </div>
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    function pageServices() {
+      return `
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div class="text-center max-w-3xl mx-auto mb-16">
+            <h1 class="font-oswald text-5xl font-extrabold tracking-wide uppercase text-white" data-i18n="services.p.title">Nuestros <span class="text-amber-500">Servicios</span></h1>
+            <div class="h-1 w-20 bg-amber-500 mx-auto mt-4 rounded-full"></div>
+            <p class="mt-4 text-zinc-400 text-base font-medium" data-i18n="services.p.sub">Soluciones integrales de llantas y asistencia vial 24 horas al día, 7 días a la semana.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="glass-card p-8 flex gap-6 items-start">
+              <div class="w-16 h-16 bg-amber-500/10 text-amber-500 border border-amber-500/20 rounded-2xl flex items-center justify-center text-4xl flex-shrink-0">🚛</div>
+              <div>
+                <h3 class="font-oswald text-2xl font-bold uppercase tracking-wider text-white" data-i18n="services.card1.title">Servicio de Carretera 24/7</h3>
+                <p class="mt-3 text-zinc-400 text-sm leading-relaxed" data-i18n="services.card1.desc">Despacho inmediato a autopistas principales (I-95, I-64, I-295) y carreteras de Richmond. Montaje rápido con herramientas hidráulicas pesadas.</p>
+                <ul class="mt-4 space-y-2 text-xs font-semibold text-zinc-500">
+                  <li>✅ Coverage Radius: 40 Miles</li>
+                  <li>✅ 30-45 Mins Average Response Time</li>
+                  <li>✅ Hydraulics & Air Systems Equipped</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="glass-card p-8 flex gap-6 items-start">
+              <div class="w-16 h-16 bg-amber-500/10 text-amber-500 border border-amber-500/20 rounded-2xl flex items-center justify-center text-4xl flex-shrink-0">🛞</div>
+              <div>
+                <h3 class="font-oswald text-2xl font-bold uppercase tracking-wider text-white" data-i18n="services.card2.title">Llantas Nuevas y Usadas</h3>
+                <p class="mt-3 text-zinc-400 text-sm leading-relaxed" data-i18n="services.card2.desc">Contamos con stock de marcas líderes como Michelin, Goodyear, Bridgestone, Continental. Llantas de tracción (Drive), dirección (Steer) y remolque (Trailer).</p>
+                <ul class="mt-4 space-y-2 text-xs font-semibold text-zinc-500">
+                  <li>✅ Steer, Drive, Trailer Positions</li>
+                  <li>✅ New Premium Brands & Re-threads</li>
+                  <li>✅ Quality Inspected Used Tires</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="glass-card p-8 flex gap-6 items-start">
+              <div class="w-16 h-16 bg-amber-500/10 text-amber-500 border border-amber-500/20 rounded-2xl flex items-center justify-center text-4xl flex-shrink-0">🔋</div>
+              <div>
+                <h3 class="font-oswald text-2xl font-bold uppercase tracking-wider text-white" data-i18n="services.card3.title">Baterías y Diagnóstico</h3>
+                <p class="mt-3 text-zinc-400 text-sm leading-relaxed" data-i18n="services.card3.desc">Comprobación del alternador y sistema de arranque. Reemplazo e instalación express de baterías de servicio pesado para camiones comerciales.</p>
+                <ul class="mt-4 space-y-2 text-xs font-semibold text-zinc-500">
+                  <li>✅ Diagnostic Charging Checks</li>
+                  <li>✅ Heavy-duty Battery Brands</li>
+                  <li>✅ Installation Included in Dispatch</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="glass-card p-8 flex gap-6 items-start">
+              <div class="w-16 h-16 bg-amber-500/10 text-amber-500 border border-amber-500/20 rounded-2xl flex items-center justify-center text-4xl flex-shrink-0">🔧</div>
+              <div>
+                <h3 class="font-oswald text-2xl font-bold uppercase tracking-wider text-white" data-i18n="services.card4.title">Rines y Montaje</h3>
+                <p class="mt-3 text-zinc-400 text-sm leading-relaxed" data-i18n="services.card4.desc">Venta y montaje de rines de acero y aluminio en todas las medidas estándar de camión. Montaje y balanceo profesional de precisión.</p>
+                <ul class="mt-4 space-y-2 text-xs font-semibold text-zinc-500">
+                  <li>✅ Steel & Polished Alloys</li>
+                  <li>✅ Fast Torque Installation</li>
+                  <li>✅ Precision Safety Balancing</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-16 bg-zinc-950 border border-zinc-900 p-8 sm:p-12 rounded-2xl text-center max-w-4xl mx-auto">
+            <h3 class="font-oswald text-3xl font-bold text-white mb-2">¿Necesitas asistencia inmediata?</h3>
+            <p class="text-zinc-400 mb-8 max-w-xl mx-auto">Nuestro taller móvil está listo. Llama o escribe por WhatsApp para un despacho instantáneo.</p>
+            <div class="flex flex-wrap gap-4 justify-center">
+              <a href="tel:8048210538" class="btn btn-gold px-6 py-3 font-extrabold pulse-glow-btn">📞 LLAMAR AL DESPACHADOR</a>
+              <a href="https://wa.me/18048210538?text=Necesito%20asistencia" target="_blank" class="btn btn-green px-6 py-3 font-bold">💬 CHAT WHATSAPP</a>
+              <button onclick="navTo('appointments')" class="btn btn-outline px-6 py-3 font-bold">📅 AGENDAR EN TALLER</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function pageInventory() {
+      var inv = STATE.data.inventory;
+      
+      var options = ['Steer', 'Drive', 'Trailer', 'Light Truck', 'SUV/Truck']
+        .map(t => `<option value="${t}">${t}</option>`).join('');
+
+      var grid = '';
+      if (!inv.length) {
+        grid = `
+          <div class="col-span-full text-center py-16 text-zinc-500">
+            <div class="text-5xl mb-4">🛞</div>
+            <p data-i18n="inv.empty">No hay llantas disponibles en este momento.</p>
+            <a href="tel:8048210538" class="text-amber-500 font-bold hover:underline mt-2 block">Llámanos para consultar stock manual</a>
+          </div>
+        `;
+      } else {
+        grid = inv.map(function(t) {
+          var detailsMsg = `Hola, me interesa la llanta ${t.brand} ${t.size} (${t.type}) a $${t.price}. ¿Tienen disponibilidad?`;
+          
+          return `
+            <div class="glass-card p-5 flex flex-col justify-between tire-card" data-tire-type="${t.type}">
+              <div>
+                <div class="flex justify-between items-start mb-3">
+                  <span class="badge badge-gold">${t.type}</span>
+                  ${t.stock === 0 ? `<span class="badge badge-red font-bold" data-i18n="inv.stock.out">Agotado</span>` : 
+                    t.stock <= 3 ? `<span class="badge badge-red font-bold"><span data-i18n="inv.stock.low">Bajo Stock</span>: ${t.stock}</span>` : 
+                    `<span class="badge badge-green font-bold"><span data-i18n="inv.stock.in">Stock</span>: ${t.stock}</span>`}
+                </div>
+                <h3 class="font-oswald text-xl font-bold uppercase tracking-wide text-white">${t.brand}</h3>
+                <p class="text-amber-500 font-bold text-sm mt-1">${t.size}</p>
+                <div class="mt-2 flex gap-2">
+                  <span class="badge badge-muted text-[10px]">${t.condition || 'Nueva'}</span>
+                </div>
+                <p class="text-xs mt-3 text-zinc-500 leading-relaxed">${t.notes || '-'}</p>
+              </div>
+              
+              <div class="flex flex-col gap-3 mt-6 pt-4 border-t border-zinc-900">
+                <div class="flex justify-between items-center">
+                  <span class="text-2xl font-black text-white">$${t.price}</span>
+                  <span class="text-[11px] text-zinc-600 font-medium">USD + taxes</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 mt-1">
+                  <button onclick="openProductModal('${t.id}')" class="btn btn-gold btn-sm font-bold py-2.5 justify-center" ${t.stock === 0 ? 'disabled' : ''} data-i18n="inv.btn.buy">💳 Comprar</button>
+                  <a href="https://wa.me/${WHATSAPP}?text=${encodeURIComponent(detailsMsg)}" target="_blank" class="btn btn-green btn-sm font-bold py-2.5 justify-center" data-i18n="inv.btn.quote">💬 Cotizar</a>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      return `
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-12">
+            <div>
+              <h1 class="font-oswald text-5xl font-extrabold tracking-wide uppercase text-white" data-i18n="inv.p.title">Inventario de <span class="text-amber-500">Llantas</span></h1>
+              <div class="h-1 w-20 bg-amber-500 mt-4 rounded-full"></div>
+              <p class="mt-3 text-zinc-400 text-sm font-medium" data-i18n="inv.p.sub">Consulta disponibilidad y precios actualizados en tiempo real.</p>
+            </div>
+            
+            <!-- Filters -->
+            <div class="w-full md:w-auto flex items-center gap-3">
+              <label class="form-label mb-0 hidden sm:inline" style="flex-shrink:0;">Filtrar:</label>
+              <select id="filter-type" onchange="filterInventory()" class="form-input py-2.5 pr-8 bg-zinc-900 border-zinc-800 text-sm font-semibold" style="width: auto;">
+                <option value="" data-i18n="inv.filter.all">Todos los tipos</option>
+                ${options}
+              </select>
+            </div>
+          </div>
+
+          <div id="inventory-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            ${grid}
+          </div>
+        </div>
+      `;
+    }
+
+    function filterInventory() {
+      var selected = document.getElementById('filter-type').value;
+      document.querySelectorAll('#inventory-grid .tire-card').forEach(function(el) {
+        var tType = el.getAttribute('data-tire-type') || '';
+        if (!selected || tType === selected) {
+          el.style.display = 'flex';
+        } else {
+          el.style.display = 'none';
+        }
+      });
+    }
+
+    function pageAppointments() {
+      var options = ['Cambio de llantas en taller', 'Servicio móvil / Asistencia en carretera', 'Instalación de Batería', 'Montaje de rines', 'Diagnóstico general']
+        .map((opt, i) => `<option value="${opt}" data-i18n="appt.form.service.opt${i+1}">${opt}</option>`).join('');
+
+      return `
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 py-20">
+          <div class="text-center mb-12">
+            <h1 class="font-oswald text-5xl font-extrabold tracking-wide uppercase text-white" data-i18n="appt.p.title">Agendar <span class="text-amber-500">Servicio</span></h1>
+            <div class="h-1 w-20 bg-amber-500 mx-auto mt-4 rounded-full"></div>
+            <p class="mt-4 text-zinc-400 text-sm font-medium" data-i18n="appt.p.sub">Programa una cita en nuestro taller o solicita servicio móvil para tu base. Confirmamos en menos de 30 minutos.</p>
+          </div>
+
+          <div class="glass-card p-8 sm:p-10" id="appt-wrapper">
+            <div id="appt-form">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-4">
+                <div>
+                  <label class="form-label" data-i18n="appt.form.name">Nombre Completo / Empresa *</label>
+                  <input id="a-name" type="text" class="form-input" placeholder="Juan Pérez / JCR Transport" required />
+                </div>
+                <div>
+                  <label class="form-label" data-i18n="appt.form.phone">Teléfono de Contacto *</label>
+                  <input id="a-phone" type="tel" class="form-input" placeholder="(804) 555-0000" required />
+                </div>
+              </div>
+              <div class="mb-4">
+                <label class="form-label" data-i18n="appt.form.email">Correo Electrónico</label>
+                <input id="a-email" type="email" class="form-input" placeholder="ejemplo@correo.com" />
+              </div>
+              <div class="mb-4">
+                <label class="form-label" data-i18n="appt.form.service">Servicio Requerido *</label>
+                <select id="a-service" class="form-input">
+                  ${options}
+                  <option value="Otro">Otro / Custom</option>
+                </select>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+                <div>
+                  <label class="form-label" data-i18n="appt.form.date">Fecha *</label>
+                  <input id="a-date" type="date" class="form-input" />
+                </div>
+                <div>
+                  <label class="form-label" data-i18n="appt.form.time">Hora sugerida *</label>
+                  <input id="a-time" type="time" class="form-input" />
+                </div>
+              </div>
+              <div class="mb-6">
+                <label class="form-label" data-i18n="appt.form.notes">Detalles Adicionales</label>
+                <textarea id="a-notes" class="form-input" rows="4" placeholder="Especifica medidas de llantas, modelo de camión, etc..."></textarea>
+              </div>
+              
+              <button onclick="submitAppointment()" class="btn btn-gold w-full py-4 text-base font-bold justify-center pulse-glow-btn" data-i18n="appt.form.btn">📅 Confirmar Cita</button>
+            </div>
+
+            <!-- SUCCESS MESSAGE (Hidden) -->
+            <div id="appt-success" class="hidden text-center py-10">
+              <div class="w-20 h-20 bg-green-500/10 border border-green-500/20 text-green-500 rounded-full flex items-center justify-center text-4xl mx-auto mb-6">✓</div>
+              <h3 class="font-oswald text-3xl font-bold text-white mb-3" data-i18n="appt.success.title">¡Cita Registrada!</h3>
+              <p class="text-zinc-400 text-sm max-w-md mx-auto mb-8" data-i18n="appt.success.desc">Tu cita ha sido guardada. Te contactaremos por teléfono de inmediato para confirmar el horario final.</p>
+              <button onclick="resetAppt()" class="btn btn-outline btn-sm font-bold" data-i18n="appt.success.btn">Agendar otra cita</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    async function submitAppointment() {
+      var name = document.getElementById('a-name').value.trim();
+      var phone = document.getElementById('a-phone').value.trim();
+      var email = document.getElementById('a-email').value.trim();
+      var service = document.getElementById('a-service').value;
+      var date = document.getElementById('a-date').value;
+      var time = document.getElementById('a-time').value;
+      var notes = document.getElementById('a-notes').value.trim();
+
+      if (!name || !phone || !date || !time) {
+        showToast(STATE.lang === 'es' ? 'Completa todos los campos obligatorios (*)' : 'Please fill in all required fields (*)', 'error');
+        return;
+      }
+
+      var row = { 
+        name: name, 
+        phone: phone, 
+        email: email, 
+        service: service, 
+        date: date, 
+        time: time, 
+        notes: notes,
+        status: 'pendiente' 
+      };
+
+      var res = await dbInsert('appointments', row);
+      if (res.error) {
+        showToast(STATE.lang === 'es' ? 'Error de servidor. Intenta de nuevo.' : 'Server error. Please try again.', 'error');
+        return;
+      }
+
+      document.getElementById('appt-form').classList.add('hidden');
+      document.getElementById('appt-success').classList.remove('hidden');
+
+      // Persist in demo mode
+      saveLocalDemoData();
+
+      // Send automated EmailJS confirmation (only if configured)
+      if (EMAIL_CONFIG.service_id) sendAppointmentEmail(row);
+
+      // WhatsApp notification opened in new tab (optional, can be disabled)
+      /*
+      var msg = `🗓️ Nueva Cita LCH Trucking:\nCliente: ${name}\nTel: ${phone}\nServicio: ${service}\nFecha: ${date} a las ${time}`;
+      window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
+      */
+
+      showToast(STATE.lang === 'es' ? '✅ Cita agendada correctamente' : '✅ Appointment booked successfully', 'success');
+    }
+
+    function resetAppt() {
+      document.getElementById('appt-form').classList.remove('hidden');
+      document.getElementById('appt-success').classList.add('hidden');
+      
+      // Reset inputs
+      document.getElementById('a-name').value = '';
+      document.getElementById('a-phone').value = '';
+      document.getElementById('a-email').value = '';
+      document.getElementById('a-notes').value = '';
+    }
+
+    function pageContact() {
+      return `
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div class="text-center max-w-3xl mx-auto mb-16">
+            <h1 class="font-oswald text-5xl font-extrabold tracking-wide uppercase text-white" data-i18n="contact.p.title">Información de <span class="text-amber-500">Contacto</span></h1>
+            <div class="h-1 w-20 bg-amber-500 mx-auto mt-4 rounded-full"></div>
+            <p class="mt-4 text-zinc-400 text-sm font-medium" data-i18n="contact.p.sub">Estamos disponibles 24/7 en carretera y en horario comercial en el taller.</p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-stretch">
+            
+            <!-- Contact Info Card -->
+            <div class="glass-card p-8 sm:p-10 flex flex-col justify-between bg-zinc-950/40">
+              <div>
+                <h3 class="font-oswald text-2xl font-bold uppercase tracking-wider text-amber-500 mb-6" data-i18n="contact.card.title">📞 Línea Directa 24/7</h3>
+                
+                <div class="space-y-4">
+                  <a href="tel:8048210538" class="btn btn-gold w-full text-base py-4 font-black justify-center pulse-glow-btn">(804) 821-0538</a>
+                  <a href="tel:8047503408" class="btn btn-outline w-full text-base py-4 font-bold justify-center">(804) 750-3408</a>
+                  <a href="https://wa.me/${WHATSAPP} target="_blank" class="btn btn-green w-full text-base py-4 font-bold justify-center">💬 <span data-i18n="contact.card.whatsapp">Chat por WhatsApp</span></a>
+                </div>
+              </div>
+
+              <div class="mt-10 pt-8 border-t border-zinc-900 space-y-3 text-sm text-zinc-400">
+                <p class="flex items-center gap-3">📧 <span class="font-semibold text-white">${COMPANY.email}</span></p>
+                <p class="flex items-center gap-3">📍 <span class="font-semibold text-white">${COMPANY.address}</span></p>
+                <p class="flex items-center gap-3">🌐 <span class="font-semibold text-white">${COMPANY.website}</span></p>
+              </div>
+            </div>
+
+            <!-- Coverage & Hours -->
+            <div class="glass-card p-8 sm:p-10 flex flex-col justify-between">
+              <div>
+                <h3 class="font-oswald text-2xl font-bold uppercase tracking-wider text-amber-500 mb-4" data-i18n="contact.coverage.title">🗺️ Área de Cobertura</h3>
+                <p class="text-sm text-zinc-400 mb-6 font-medium" data-i18n="contact.coverage.desc">Richmond, Chesterfield, Henrico, Petersburg, Hopewell y autopistas de Virginia.</p>
+                
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  ${['Richmond', 'Chesterfield', 'Henrico', 'Petersburg', 'I-95', 'I-64', 'I-295', 'Hopewell']
+                    .map(z => `<div class="bg-zinc-900 border border-zinc-800 rounded-lg p-3 text-center font-bold text-xs text-white">${z}</div>`).join('')}
+                </div>
+              </div>
+
+              <div class="mt-10 pt-8 border-t border-zinc-900">
+                <h4 class="font-oswald text-xl font-bold uppercase tracking-wider text-amber-500 mb-4" data-i18n="contact.hours.title">Horario del Taller</h4>
+                <div class="space-y-2 text-sm text-zinc-400 font-medium">
+                  <p class="flex justify-between border-b border-zinc-900 pb-2">
+                    <span data-i18n="contact.hours.road">Servicio en carretera:</span> 
+                    <span class="text-amber-500 font-bold">24 Hrs / 365 Days</span>
+                  </p>
+                  <p class="flex justify-between border-b border-zinc-900 pb-2">
+                    <span data-i18n="contact.hours.shop">Lunes a Viernes:</span> 
+                    <span class="text-white font-semibold">8:00 AM - 6:00 PM</span>
+                  </p>
+                  <p class="flex justify-between">
+                    <span data-i18n="contact.hours.sat">Sábados:</span> 
+                    <span class="text-white font-semibold">8:00 AM - 4:00 PM</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      `;
+    }
+
+    // ═══════════════════════════════════════════
+    // DYNAMIC DETAILED PRODUCT MODAL
+    // ═══════════════════════════════════════════
+    function openProductModal(id) {
+      var t = STATE.data.inventory.find(function(i) { return i.id == id; });
+      if (!t) {
+        showToast('Producto no encontrado', 'error');
+        return;
+      }
+      
+      var c = document.getElementById('modal-product-content');
+      
+      c.innerHTML = `
+        <div class="flex justify-between items-start mb-5">
+          <div>
+            <span class="badge badge-gold mb-2">${t.type}</span>
+            <h2 class="font-oswald text-3xl font-bold tracking-wide uppercase text-white">${t.brand} <span class="text-amber-500">${t.size}</span></h2>
+          </div>
+          <button onclick="closeModal('modal-product')" style="color:var(--text-muted);font-size:28px;background:none;border:none;cursor:pointer;line-height:1;">&times;</button>
+        </div>
+
+        <!-- Tire placeholder visual -->
+        <div class="h-40 w-full bg-zinc-900/60 border border-zinc-800 rounded-xl flex items-center justify-center mb-6">
+          <div class="text-center">
+            <span class="text-6xl block">🛞</span>
+            <span class="text-[10px] tracking-widest text-zinc-500 font-bold uppercase mt-2 block">${t.brand} ${t.size}</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mb-6">
+          <div class="bg-zinc-900 border border-zinc-800 p-4 rounded-lg">
+            <span class="form-label text-[10px] text-zinc-500 mb-1">Precio Unitario</span>
+            <span class="text-3xl font-black text-amber-500">$${t.price} <span class="text-xs text-zinc-400 font-normal">USD</span></span>
+          </div>
+          <div class="bg-zinc-900 border border-zinc-800 p-4 rounded-lg">
+            <span class="form-label text-[10px] text-zinc-500 mb-1">Estado de Stock</span>
+            <span class="text-xl font-bold block mt-1 ${t.stock > 0 ? 'text-green-500' : 'text-red-500'}">
+              ${t.stock > 0 ? `${t.stock} Unidades` : 'Agotada'}
+            </span>
+          </div>
+        </div>
+
+        <div class="space-y-3 mb-6 text-sm text-zinc-400">
+          <p><span class="font-bold text-white">Condición:</span> <span class="badge badge-muted text-xs">${t.condition || 'Nueva'}</span></p>
+          ${t.notes ? `<div class="bg-zinc-900/40 border border-zinc-800/40 p-4 rounded-lg text-xs leading-relaxed mt-2">${t.notes}</div>` : ''}
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mt-6">
+          <button onclick="closeModal('modal-product'); openPaymentModal('${t.brand} ${t.size}', ${t.price})" class="btn btn-gold py-3.5 font-bold justify-center" ${t.stock === 0 ? 'disabled' : ''}>💳 COMPRAR AHORA</button>
+          <a href="https://wa.me/${WHATSAPP}?text=${encodeURIComponent('Hola, me interesa la llanta ' + t.brand + ' ' + t.size + ' ($' + t.price + '). ¿Está disponible?')}" target="_blank" class="btn btn-green py-3.5 font-bold justify-center">💬 CONTACTAR ASESOR</a>
+        </div>
+      `;
+      
+      openModal('modal-product');
+    }
+
+    // ═══════════════════════════════════════════
+    // ADMINISTRATIVE BACKEND / DASHBOARD VIEW
+    // ═══════════════════════════════════════════
+    
+    function adminTab(tab) {
+      STATE.adminPage = tab;
+      
+      document.querySelectorAll('#admin-nav .nav-item').forEach(function(el) {
+        el.classList.remove('active');
+      });
+      
+      var navEl = document.getElementById('nav-' + tab);
+      if (navEl) navEl.classList.add('active');
+      
+      renderAdmin();
+    }
+
+    function renderAdmin() {
+      var c = document.getElementById('admin-content');
+      if (!c) return;
+      
+      switch (STATE.adminPage) {
+        case 'dashboard':
+          c.innerHTML = adminDashboard();
+          initCharts();
+          break;
+        case 'inventory':
+          c.innerHTML = adminInventory();
+          break;
+        case 'add-product':
+          c.innerHTML = adminAddProduct();
+          break;
+        case 'appointments':
+          c.innerHTML = adminAppointments();
+          break;
+        case 'invoices':
+          c.innerHTML = adminInvoices();
+          break;
+        case 'customers':
+          c.innerHTML = adminCustomers();
+          break;
+        case 'settings':
+          c.innerHTML = adminSettings();
+          break;
+        default:
+          c.innerHTML = adminDashboard();
+          initCharts();
+      }
+    }
+
+    function adminDashboard() {
+      var inv = STATE.data.inventory;
+      var appts = STATE.data.appointments;
+      var invs = STATE.data.invoices;
+      var custs = STATE.data.customers;
+
+      var totalStock = inv.reduce(function(s, t) { return s + (t.stock || 0); }, 0);
+      var pendingAppts = appts.filter(function(a) { return a.status === 'pendiente'; }).length;
+      
+      var paidRevenue = invs.filter(function(i) { return i.status === 'pagado'; })
+        .reduce(function(s, i) { return s + (i.total || 0); }, 0);
+        
+      var pendingRevenue = invs.filter(function(i) { return i.status === 'pendiente'; })
+        .reduce(function(s, i) { return s + (i.total || 0); }, 0);
+        
+      var lowStock = inv.filter(function(t) { return (t.stock || 0) < 3; }).length;
+
+      var apptRows = appts.slice(0, 4).map(function(a) {
+        var colors = { pendiente: 'text-amber-500', confirmado: 'text-blue-500', completado: 'text-green-500', cancelado: 'text-red-500' };
+        return `
+          <div class="flex justify-between items-center p-3.5 rounded-lg border border-zinc-800/40 bg-zinc-900/30">
+            <div>
+              <div class="text-sm font-bold text-white">${a.name}</div>
+              <div class="text-xs text-zinc-500 mt-0.5">${a.service} · ${a.date}</div>
+            </div>
+            <span class="text-xs font-bold uppercase tracking-wider ${colors[a.status] || 'text-zinc-500'}">${a.status}</span>
+          </div>
+        `;
+      }).join('');
+
+      return `
+        <div class="space-y-6">
+          <div class="flex justify-between items-center flex-wrap gap-4">
+            <h1 class="font-oswald text-3xl font-bold tracking-wide uppercase text-white">Dashboard</h1>
+            <div class="text-xs text-zinc-500 font-semibold bg-zinc-900/80 border border-zinc-800 px-4 py-2 rounded-lg">
+              📅 ${new Date().toLocaleDateString(STATE.lang === 'es' ? 'es-US' : 'en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+            </div>
+          </div>
+
+          <!-- Stats Grid -->
+          <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
+            ${statCard('Ingresos Cobrados', '$' + paidRevenue.toLocaleString(), 'green', '💰')}
+            ${statCard('Por Cobrar', '$' + pendingRevenue.toLocaleString(), 'gold', '⏳')}
+            ${statCard('Citas Pendientes', pendingAppts, 'blue', '📅')}
+            ${statCard('Stock Total', totalStock + ' uds', 'green', '📦')}
+            ${statCard('Clientes Registrados', custs.length, 'blue', '👥')}
+            ${statCard('Stock Crítico', lowStock, lowStock > 0 ? 'red' : 'green', '⚠️')}
+          </div>
+
+          <!-- Charts -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="glass-card p-6">
+              <h3 class="text-sm font-bold text-zinc-400 mb-6 uppercase tracking-wider">Ingresos por Mes</h3>
+              <div class="chart-container">
+                <canvas id="chart-revenue"></canvas>
+              </div>
+            </div>
+            <div class="glass-card p-6">
+              <h3 class="text-sm font-bold text-zinc-400 mb-6 uppercase tracking-wider">Estado de Facturas</h3>
+              <div class="chart-container">
+                <canvas id="chart-invoices"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="glass-card p-6">
+              <h3 class="text-sm font-bold text-zinc-400 mb-6 uppercase tracking-wider">Inventario por Categoría</h3>
+              <div class="chart-container">
+                <canvas id="chart-inventory"></canvas>
+              </div>
+            </div>
+            <div class="glass-card p-6 flex flex-col justify-between">
+              <div>
+                <h3 class="text-sm font-bold text-zinc-400 mb-6 uppercase tracking-wider">Actividad de Citas Reciente</h3>
+                <div class="space-y-3">
+                  ${apptRows || `<div class="text-center py-10 text-zinc-500 text-sm">Sin citas registradas en el sistema.</div>`}
+                </div>
+              </div>
+              <button onclick="adminTab('appointments')" class="btn btn-outline btn-sm w-full justify-center mt-6">Gestionar todas las citas →</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function statCard(label, val, color, icon) {
+      var borderColors = { green: 'text-green-500', gold: 'text-amber-500', blue: 'text-blue-500', red: 'text-red-500', purple: 'text-purple-500' };
+      return `
+        <div class="stat-card ${color}">
+          <div class="text-xl mb-2">${icon}</div>
+          <div class="text-xl font-black ${borderColors[color] || 'text-white'}">${val}</div>
+          <div class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mt-1.5 leading-tight">${label}</div>
+        </div>
+      `;
+    }
+
+    function initCharts() {
+      setTimeout(function() {
+        var invs = STATE.data.invoices;
+        var inv = STATE.data.inventory;
+
+        // Custom theme options
+        var textStyle = { color: '#a1a1aa', font: { family: 'Inter', size: 10 } };
+        var gridStyle = { color: 'rgba(255, 255, 255, 0.04)' };
+
+        // Chart 1: Revenue by month
+        var months = [];
+        var revenues = [];
+        var now = new Date();
+        for (var i = 5; i >= 0; i--) {
+          var d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+          months.push(d.toLocaleDateString(STATE.lang === 'es' ? 'es-US' : 'en-US', { month: 'short' }));
+          var monthRevenue = invs.filter(function(inv) {
+            if (!inv.date || inv.status !== 'pagado') return false;
+            var invDate = new Date(inv.date);
+            return invDate.getFullYear() === d.getFullYear() && invDate.getMonth() === d.getMonth();
+          }).reduce(function(s, inv) { return s + (inv.total || 0); }, 0);
+          revenues.push(monthRevenue);
+        }
+        
+        var ctx1 = document.getElementById('chart-revenue');
+        if (ctx1) {
+          if (STATE.charts.revenue) STATE.charts.revenue.destroy();
+          STATE.charts.revenue = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+              labels: months,
+              datasets: [{
+                data: revenues,
+                backgroundColor: 'rgba(245, 158, 11, 0.85)',
+                hoverBackgroundColor: 'rgba(245, 158, 11, 1)',
+                borderRadius: 6
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { legend: { display: false } },
+              scales: {
+                x: { ticks: textStyle, grid: { display: false } },
+                y: { ticks: { color: '#a1a1aa', font: { family: 'Inter', size: 10 }, callback: v => '$' + v }, grid: gridStyle, beginAtZero: true }
+              }
+            }
+          });
+        }
+
+        // Chart 2: Invoice status doughnut
+        var paid = invs.filter(i => i.status === 'pagado').length;
+        var pending = invs.filter(i => i.status === 'pendiente').length;
+        var ctx2 = document.getElementById('chart-invoices');
+        if (ctx2) {
+          if (STATE.charts.invoices) STATE.charts.invoices.destroy();
+          STATE.charts.invoices = new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+              labels: ['Pagadas', 'Pendientes'],
+              datasets: [{
+                data: [paid, pending],
+                backgroundColor: ['#10b981', '#f59e0b'],
+                borderWidth: 0
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { 
+                legend: { 
+                  position: 'bottom',
+                  labels: { color: '#a1a1aa', font: { family: 'Inter', size: 11 }, boxWidth: 12, padding: 15 } 
+                } 
+              },
+              cutout: '70%'
+            }
+          });
+        }
+
+        // Chart 3: Inventory categories
+        var typeCount = {};
+        inv.forEach(function(t) { typeCount[t.type] = (typeCount[t.type] || 0) + t.stock; });
+        var ctx3 = document.getElementById('chart-inventory');
+        if (ctx3) {
+          if (STATE.charts.inventory) STATE.charts.inventory.destroy();
+          STATE.charts.inventory = new Chart(ctx3, {
+            type: 'bar',
+            data: {
+              labels: Object.keys(typeCount),
+              datasets: [{
+                data: Object.values(typeCount),
+                backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                hoverBackgroundColor: 'rgba(59, 130, 246, 1)',
+                borderRadius: 5
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              indexAxis: 'y',
+              plugins: { legend: { display: false } },
+              scales: {
+                x: { ticks: textStyle, grid: gridStyle, beginAtZero: true },
+                y: { ticks: textStyle, grid: { display: false } }
+              }
+            }
+          });
+        }
+      }, 150);
+    }
+
+    // ─────────────────────────
+    // ADMIN: INVENTORY LIST
+    // ─────────────────────────
+    function adminInventory() {
+      var inv = STATE.data.inventory;
+      var rows = inv.map(function(t) {
+        return `
+          <tr class="hover:bg-zinc-900/30">
+            <td class="font-semibold text-white">${t.brand}</td>
+            <td class="text-amber-500 font-bold">${t.size}</td>
+            <td><span class="badge badge-blue">${t.type}</span></td>
+            <td class="font-bold text-white">$${t.price}</td>
+            <td class="font-black ${t.stock < 3 ? 'text-red-500' : 'text-green-500'}">${t.stock}</td>
+            <td><span class="badge badge-muted">${t.condition || 'Nueva'}</span></td>
+            <td class="flex gap-2">
+              <button onclick="editTireInline('${t.id}')" class="btn btn-outline btn-sm font-bold text-blue-500" style="border-color: rgba(59, 130, 246, 0.2); background: rgba(59, 130, 246, 0.02);">✏️</button>
+              <button onclick="confirmDelete('inventory','${t.id}','${t.brand} ${t.size}')" class="btn btn-danger btn-sm font-bold">🗑️</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      return `
+        <div class="space-y-6">
+          <div class="flex justify-between items-center flex-wrap gap-4">
+            <h1 class="font-oswald text-3xl font-bold tracking-wide uppercase text-white">📦 Inventario de Llantas</h1>
+            <button onclick="adminTab('add-product')" class="btn btn-gold btn-sm font-bold">+ Agregar Llanta</button>
+          </div>
+          
+          <div class="glass-card overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Marca</th>
+                    <th>Medida</th>
+                    <th>Tipo</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Condición</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${rows || `<tr><td colspan="7" class="text-center py-12 text-zinc-500">Sin llantas registradas. <button onclick="adminTab('add-product')" class="text-amber-500 underline font-bold">Agregar primera llanta</button></td></tr>`}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function adminAddProduct(editData) {
+      var ed = editData || {};
+      var isEdit = !!ed.id;
+      
+      var categories = ['Steer', 'Drive', 'Trailer', 'Light Truck', 'SUV/Truck']
+        .map(t => `<option ${ed.type === t ? 'selected' : ''}>${t}</option>`).join('');
+
+      var conditions = ['Nueva', 'Usada', 'Recauchada']
+        .map(c => `<option ${ed.condition === c ? 'selected' : ''}>${c}</option>`).join('');
+
+      return `
+        <div class="max-w-2xl">
+          <h1 class="font-oswald text-3xl font-bold tracking-wide uppercase text-white mb-6">${isEdit ? '✏️ Editar Llanta' : '➕ Agregar Llanta'}</h1>
+          
+          <div class="glass-card p-8">
+            ${isEdit ? `<input type="hidden" id="edit-id" value="${ed.id}" />` : ''}
+            
+            <div class="grid grid-cols-2 gap-5 mb-4">
+              <div>
+                <label class="form-label">Marca *</label>
+                <input id="p-brand" type="text" class="form-input" placeholder="Michelin" value="${ed.brand || ''}" />
+              </div>
+              <div>
+                <label class="form-label">Medida *</label>
+                <input id="p-size" type="text" class="form-input" placeholder="295/75R22.5" value="${ed.size || ''}" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-5 mb-4">
+              <div>
+                <label class="form-label">Tipo de Llanta</label>
+                <select id="p-type" class="form-input">
+                  ${categories}
+                </select>
+              </div>
+              <div>
+                <label class="form-label">Condición</label>
+                <select id="p-condition" class="form-input">
+                  ${conditions}
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-5 mb-5">
+              <div>
+                <label class="form-label">Precio de Venta (USD) *</label>
+                <input id="p-price" type="number" class="form-input" placeholder="450" min="0" value="${ed.price || ''}" />
+              </div>
+              <div>
+                <label class="form-label">Stock en Taller *</label>
+                <input id="p-stock" type="number" class="form-input" placeholder="10" min="0" value="${ed.stock || ''}" />
+              </div>
+            </div>
+
+            <div class="mb-6">
+              <label class="form-label">Notas Adicionales (Opcional)</label>
+              <textarea id="p-notes" class="form-input" rows="3" placeholder="Detalles o especificaciones de la banda de rodadura...">${ed.notes || ''}</textarea>
+            </div>
+
+            <div class="flex gap-4">
+              <button onclick="${isEdit ? 'saveEditProduct()' : 'saveNewProduct()'}" class="btn btn-gold flex-1 py-3.5 font-extrabold justify-center">${isEdit ? 'GUARDAR CAMBIOS' : 'CREAR PRODUCTO'}</button>
+              ${isEdit ? `<button onclick="adminTab('inventory')" class="btn btn-outline flex-1 py-3.5 font-bold justify-center">CANCELAR</button>` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    async function saveNewProduct() {
+      var brand = document.getElementById('p-brand').value.trim();
+      var size = document.getElementById('p-size').value.trim();
+      var type = document.getElementById('p-type').value;
+      var condition = document.getElementById('p-condition').value;
+      var price = parseFloat(document.getElementById('p-price').value);
+      var stock = parseInt(document.getElementById('p-stock').value);
+      var notes = document.getElementById('p-notes').value.trim();
+
+      if (!brand || !size || isNaN(price) || isNaN(stock)) {
+        showToast(STATE.lang === 'es' ? 'Completa todos los campos obligatorios' : 'Please fill in all required fields', 'error');
+        return;
+      }
+
+      var res = await dbInsert('inventory', { brand, size, type, condition, price, stock, notes });
+      if (res.error) {
+        showToast('Error al guardar en Supabase', 'error');
+        return;
+      }
+
+      showToast('✅ Producto creado con éxito', 'success');
+      adminTab('inventory');
+    }
+
+    function editTireInline(id) {
+      var t = STATE.data.inventory.find(i => i.id == id);
+      if (!t) return;
+      STATE.adminPage = 'add-product';
+      document.getElementById('admin-content').innerHTML = adminAddProduct(t);
+    }
+
+    async function saveEditProduct() {
+      var id = document.getElementById('edit-id').value;
+      var updates = {
+        brand: document.getElementById('p-brand').value.trim(),
+        size: document.getElementById('p-size').value.trim(),
+        type: document.getElementById('p-type').value,
+        condition: document.getElementById('p-condition').value,
+        price: parseFloat(document.getElementById('p-price').value),
+        stock: parseInt(document.getElementById('p-stock').value),
+        notes: document.getElementById('p-notes').value.trim()
+      };
+
+      if (!updates.brand || !updates.size || isNaN(updates.price) || isNaN(updates.stock)) {
+        showToast('Completa todos los campos obligatorios', 'error');
+        return;
+      }
+
+      var res = await dbUpdate('inventory', id, updates);
+      if (res.error) {
+        showToast('Error al actualizar en Supabase', 'error');
+        return;
+      }
+
+      showToast('✅ Cambios guardados correctamente', 'success');
+      adminTab('inventory');
+    }
+
+    // ─────────────────────────
+    // ADMIN: APPOINTMENTS LIST
+    // ─────────────────────────
+    function adminAppointments() {
+      var appts = STATE.data.appointments;
+      var statusColors = { pendiente: 'badge-gold', confirmado: 'badge-blue', completado: 'badge-green', cancelado: 'badge-red' };
+
+      var rows = appts.map(function(a) {
+        return `
+          <tr class="hover:bg-zinc-900/30">
+            <td class="font-semibold text-white">${a.name}<div class="text-[11px] text-zinc-500 mt-0.5">📞 ${a.phone} · ✉️ ${a.email || '-'}</div></td>
+            <td><span class="font-medium text-zinc-300">${a.service}</span></td>
+            <td><span class="font-bold text-white">${a.date}</span><div class="text-[11px] text-zinc-500 mt-0.5">🕒 ${a.time}</div></td>
+            <td><span class="badge ${statusColors[a.status] || 'badge-muted'} uppercase font-bold">${a.status}</span></td>
+            <td>
+              <select onchange="updateApptStatus('${a.id}', this.value)" class="form-input py-1.5 px-3 bg-zinc-900 border-zinc-800 text-xs font-bold" style="width: auto;">
+                ${['pendiente', 'confirmado', 'completado', 'cancelado'].map(s => `<option ${a.status === s ? 'selected' : ''}>${s}</option>`).join('')}
+              </select>
+            </td>
+            <td>
+              <button onclick="confirmDelete('appointments','${a.id}','${a.name}')" class="btn btn-danger btn-sm">🗑️</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      return `
+        <div class="space-y-6">
+          <h1 class="font-oswald text-3xl font-bold tracking-wide uppercase text-white">📅 Citas de Clientes</h1>
+          
+          <div class="glass-card overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Cliente</th>
+                    <th>Servicio</th>
+                    <th>Fecha / Hora</th>
+                    <th>Estado</th>
+                    <th>Cambiar Estado</th>
+                    <th>Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${rows || `<tr><td colspan="6" class="text-center py-12 text-zinc-500">Sin citas guardadas en el sistema.</td></tr>`}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    async function updateApptStatus(id, newStatus) {
+      var res = await dbUpdate('appointments', id, { status: newStatus });
+      if (res.error) {
+        showToast('Error al actualizar estado', 'error');
+        return;
+      }
+      saveLocalDemoData();
+      showToast('✅ Estado de cita actualizado', 'success');
+      
+      // If confirmed, send automated email (only if configured)
+      if (newStatus === 'confirmado' && EMAIL_CONFIG.service_id) {
+        var appt = STATE.data.appointments.find(a => a.id === id);
+        if (appt) sendAppointmentEmail(appt);
+      }
+      renderAdmin();
+    }
+
+    // ─────────────────────────
+    // ADMIN: INVOICES LIST & MAKER
+    // ─────────────────────────
+    function adminInvoices() {
+      var invoices = STATE.data.invoices;
+      var statusColors = { pendiente: 'badge-gold', pagado: 'badge-green', cancelado: 'badge-red' };
+
+      var rows = invoices.map(function(i) {
+        return `
+          <tr class="hover:bg-zinc-900/30">
+            <td class="font-bold text-white">${i.id}</td>
+            <td class="font-semibold text-zinc-300">${i.customer}<div class="text-[11px] text-zinc-500 mt-0.5">📞 ${i.phone || '-'}</div></td>
+            <td><span class="font-bold text-white">${i.date}</span></td>
+            <td class="font-black text-amber-500">$${i.total.toFixed(2)}</td>
+            <td><span class="badge ${statusColors[i.status] || 'badge-muted'} uppercase font-bold">${i.status}</span></td>
+            <td class="flex gap-2">
+              <button onclick="viewInvoiceDetails('${i.id}')" class="btn btn-outline btn-sm font-bold text-amber-500" style="border-color: rgba(245, 158, 11, 0.2); background: rgba(245, 158, 11, 0.02);">👁️ Ver</button>
+              ${i.status === 'pendiente' ? `
+                <button onclick="markInvoicePaid('${i.id}')" class="btn btn-outline btn-sm font-bold text-green-500" style="border-color: rgba(16, 185, 129, 0.2); background: rgba(16, 185, 129, 0.02);">✓ Cobrar</button>
+              ` : ''}
+              <button onclick="confirmDelete('invoices','${i.id}','${i.id}')" class="btn btn-danger btn-sm">🗑️</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      return `
+        <div class="space-y-6">
+          <div class="flex justify-between items-center flex-wrap gap-4">
+            <h1 class="font-oswald text-3xl font-bold tracking-wide uppercase text-white">🧾 Historial de Facturas</h1>
+            <button onclick="openNewInvoiceModal()" class="btn btn-gold btn-sm font-bold">+ Nueva Factura</button>
+          </div>
+          
+          <div class="glass-card overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Factura ID</th>
+                    <th>Cliente</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${rows || `<tr><td colspan="6" class="text-center py-12 text-zinc-500">No hay facturas registradas. <button onclick="openNewInvoiceModal()" class="text-amber-500 underline font-bold">Generar primera factura</button></td></tr>`}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    async function markInvoicePaid(id) {
+      var res = await dbUpdate('invoices', id, { status: 'pagado' });
+      if (res.error) {
+        showToast('Error al procesar cobro', 'error');
+        return;
+      }
+      showToast('✅ Factura pagada', 'success');
+      
+      saveLocalDemoData();
+      var invoice = STATE.data.invoices.find(i => i.id === id);
+      if (invoice && EMAIL_CONFIG.service_id) sendInvoiceEmail(invoice);
+      renderAdmin();
+    }
+
+    // Dynamic Invoice Creator Modal
+    var invoiceItemCount = 1;
+
+    function openNewInvoiceModal() {
+      invoiceItemCount = 1;
+      var c = document.getElementById('modal-invoice-content');
+      
+      c.innerHTML = `
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="font-oswald text-2xl font-bold uppercase tracking-wider"><span class="text-amber-500">Nueva</span> Factura</h2>
+          <button onclick="closeModal('modal-invoice')" style="color:var(--text-muted);font-size:24px;background:none;border:none;cursor:pointer;">&times;</button>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="form-label">Cliente / Razón Social *</label>
+            <input id="inv-customer" type="text" class="form-input" placeholder="Nombre" />
+          </div>
+          <div>
+            <label class="form-label">Fecha de Emisión *</label>
+            <input id="inv-date" type="date" class="form-input" />
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4 mb-5">
+          <div>
+            <label class="form-label">Teléfono</label>
+            <input id="inv-phone" type="text" class="form-input" placeholder="(804) 555-0000" />
+          </div>
+          <div>
+            <label class="form-label">Correo Electrónico (Para envío)</label>
+            <input id="inv-email" type="email" class="form-input" placeholder="cliente@correo.com" />
+          </div>
+        </div>
+        
+        <div class="mb-5">
+          <div class="flex justify-between items-center mb-3">
+            <label class="form-label mb-0">Conceptos / Items Facturados</label>
+            <button onclick="addInvoiceItemRow()" class="btn btn-outline btn-sm font-bold text-amber-500" style="border-color:rgba(245,158,11,0.2); background:rgba(245,158,11,0.03);">+ Agregar Línea</button>
+          </div>
+          <div id="invoice-items" class="space-y-3 max-h-48 overflow-y-auto pr-1">
+            ${invoiceItemRow(0)}
+          </div>
+        </div>
+
+        <div class="mb-5">
+          <label class="form-label">Notas o Términos (Opcional)</label>
+          <textarea id="inv-notes" class="form-input" rows="2" placeholder="Ej: Pago a recibir en 7 días..."></textarea>
+        </div>
+
+        <div class="flex justify-between items-center mb-6 p-4 bg-zinc-900 border border-zinc-800 rounded-lg">
+          <span class="text-xs font-bold text-zinc-400 uppercase">Monto Total a Cobrar:</span>
+          <span id="inv-total-display" class="text-3xl font-black text-amber-500">$0.00 <span class="text-sm font-normal text-zinc-400">USD</span></span>
+        </div>
+
+        <button onclick="saveInvoice()" class="btn btn-gold w-full py-4 text-base font-bold justify-center">💾 GUARDAR Y EMITIR FACTURA</button>
+      `;
+
+      // Set today's date
+      setTimeout(() => {
+        var dateEl = document.getElementById('inv-date');
+        if (dateEl) dateEl.value = new Date().toISOString().split('T')[0];
+      }, 50);
+
+      openModal('modal-invoice');
+    }
+
+    function invoiceItemRow(idx) {
+      return `
+        <div id="item-row-${idx}" class="grid grid-cols-12 gap-3 items-center">
+          <div class="col-span-6">
+            <input oninput="calcTotal()" type="text" class="form-input py-2" placeholder="Descripción" id="item-name-${idx}" />
+          </div>
+          <div class="col-span-2">
+            <input oninput="calcTotal()" type="number" class="form-input py-2 text-center" placeholder="Cant" id="item-qty-${idx}" value="1" min="1" />
+          </div>
+          <div class="col-span-3">
+            <input oninput="calcTotal()" type="number" class="form-input py-2 text-right" placeholder="Precio ($)" id="item-price-${idx}" min="0" />
+          </div>
+          <div class="col-span-1 text-center">
+            ${idx > 0 ? `<button onclick="removeItemRow(${idx})" class="text-red-500 font-bold hover:text-red-700 text-lg">×</button>` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    function addInvoiceItemRow() {
+      var container = document.getElementById('invoice-items');
+      var div = document.createElement('div');
+      div.innerHTML = invoiceItemRow(invoiceItemCount);
+      container.appendChild(div.firstElementChild);
+      invoiceItemCount++;
+    }
+
+    function removeItemRow(idx) {
+      var el = document.getElementById('item-row-' + idx);
+      if (el) el.remove();
+      calcTotal();
+    }
+
+    function calcTotal() {
+      var total = 0;
+      for (var i = 0; i < invoiceItemCount; i++) {
+        var nameEl = document.getElementById('item-name-' + i);
+        if (!nameEl) continue;
+        
+        var qty = parseFloat(document.getElementById('item-qty-' + i).value) || 0;
+        var price = parseFloat(document.getElementById('item-price-' + i).value) || 0;
+        total += qty * price;
+      }
+      document.getElementById('inv-total-display').innerHTML = '$' + total.toFixed(2) + ' <span class="text-sm font-normal text-zinc-400">USD</span>';
+    }
+
+    async function saveInvoice() {
+      var customer = document.getElementById('inv-customer').value.trim();
+      var date = document.getElementById('inv-date').value;
+      var phone = document.getElementById('inv-phone').value.trim();
+      var email = document.getElementById('inv-email').value.trim();
+      var notes = document.getElementById('inv-notes').value.trim();
+
+      if (!customer || !date) {
+        showToast('El cliente y la fecha son obligatorios', 'error');
+        return;
+      }
+
+      var items = [];
+      var total = 0;
+      for (var i = 0; i < invoiceItemCount; i++) {
+        var nameEl = document.getElementById('item-name-' + i);
+        if (!nameEl) continue;
+        
+        var name = nameEl.value.trim();
+        var qty = parseFloat(document.getElementById('item-qty-' + i).value) || 1;
+        var price = parseFloat(document.getElementById('item-price-' + i).value) || 0;
+        
+        if (name) {
+          items.push({ name: name, qty: qty, price: price });
+          total += qty * price;
+        }
+      }
+
+      if (!items.length) {
+        showToast('Agrega al menos un concepto válido a la factura', 'error');
+        return;
+      }
+
+      var invId = 'INV-' + String(Date.now()).slice(-6);
+      var row = { 
+        id: invId, 
+        customer: customer, 
+        date: date, 
+        phone: phone, 
+        email: email, 
+        items: items, 
+        total: total, 
+        notes: notes, 
+        status: 'pendiente' 
+      };
+
+      var res = await dbInsert('invoices', row);
+      if (res.error) {
+        showToast('Error al guardar en Supabase', 'error');
+        return;
+      }
+
+      closeModal('modal-invoice');
+      saveLocalDemoData();
+      showToast('✅ Factura ' + invId + ' creada con éxito', 'success');
+      
+      // Auto-open print/view after creation
+      viewInvoiceDetails(invId);
+    }
+
+    // Detail modal display
+    function viewInvoiceDetails(id) {
+      var inv = STATE.data.invoices.find(i => i.id === id);
+      if (!inv) return;
+      
+      STATE.currentInvoiceId = id;
+
+      var itemsRowsHTML = (inv.items || []).map(function(i) {
+        return `
+          <tr>
+            <td class="py-2 font-medium text-zinc-800">${i.name}</td>
+            <td class="py-2 text-center text-zinc-600">${i.qty}</td>
+            <td class="py-2 text-right text-zinc-600">$${i.price.toFixed(2)}</td>
+            <td class="py-2 text-right font-bold text-zinc-950">$${(i.price * i.qty).toFixed(2)}</td>
+          </tr>
+        `;
+      }).join('');
+
+      var p = document.getElementById('invoice-print-area');
+      p.innerHTML = `
+        <div class="invoice-doc">
+          <div class="inv-header">
+            <div>
+              <img src="logos/WhatsApp%20Image%202026-06-23%20at%208.34.35%20PM.jpeg" alt="LCH Logo" style="height: 55px; width: auto; object-fit: contain; margin-bottom: 8px; display: block;" onerror="this.style.display='none'">
+              <div class="inv-company font-oswald text-2xl font-black uppercase tracking-wider text-zinc-950">LCH TRUCKING</div>
+              <div class="text-xs font-bold text-zinc-500 uppercase tracking-widest mt-0.5">Commercial Tires LLC</div>
+              <div class="text-[10px] text-zinc-500 mt-2">${COMPANY.address}</div>
+              <div class="text-[10px] text-zinc-500">Tel: ${COMPANY.phone}</div>
+            </div>
+            <div class="text-right">
+              <div class="text-lg font-black text-zinc-950">${inv.id}</div>
+              <div class="text-xs text-zinc-500 mt-1">Fecha: ${inv.date}</div>
+              <div class="text-xs font-bold mt-2 uppercase tracking-wider ${inv.status === 'pagado' ? 'text-green-600' : 'text-amber-600'}">
+                ESTADO: ${inv.status}
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <div class="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1">Facturado a:</div>
+            <div class="text-sm font-bold text-zinc-950">${inv.customer}</div>
+            ${inv.phone ? `<div class="text-xs text-zinc-600 mt-0.5">Tel: ${inv.phone}</div>` : ''}
+            ${inv.email ? `<div class="text-xs text-zinc-600">Email: ${inv.email}</div>` : ''}
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Detalle</th>
+                <th class="text-center">Cant.</th>
+                <th class="text-right">Precio Unit.</th>
+                <th class="text-right">Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${itemsRowsHTML}
+            </tbody>
+          </table>
+
+          ${inv.notes ? `
+            <div class="mt-4 p-3 bg-zinc-50 border border-zinc-100 rounded text-xs text-zinc-600">
+              <strong class="text-zinc-700 block mb-1">Términos / Notas:</strong>
+              ${inv.notes}
+            </div>
+          ` : ''}
+
+          <div class="inv-total text-zinc-950">
+            TOTAL FACTURA: $${inv.total.toFixed(2)} USD
+          </div>
+        </div>
+      `;
+
+      // Hide or show checkout button based on state
+      var payBtn = document.getElementById('btn-pay-invoice');
+      if (payBtn) {
+        payBtn.style.display = inv.status === 'pagado' ? 'none' : 'inline-flex';
+      }
+
+      openModal('modal-view-invoice');
+    }
+
+    function payInvoiceFromView() {
+      var inv = STATE.data.invoices.find(i => i.id === STATE.currentInvoiceId);
+      if (!inv) return;
+      closeModal('modal-view-invoice');
+      // Timeout for smooth modal transition
+      setTimeout(() => {
+        openPaymentModal(inv.id + ' - ' + inv.customer, inv.total, inv.id);
+      }, 350);
+    }
+
+    function printInvoice() {
+      var content = document.getElementById('invoice-print-area').innerHTML;
+      var w = window.open('', '_blank');
+      
+      w.document.write(`
+        <html>
+          <head>
+            <base href="${window.location.href}">
+            <title>Factura LCH</title>
+            <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+            <style>
+              body { font-family: 'Inter', sans-serif; padding: 40px; color: #1c1917; }
+              .inv-company { font-family: 'Oswald', sans-serif; font-size: 24px; font-weight: 900; }
+              .inv-header { display: flex; justify-content: space-between; border-bottom: 2px solid #f59e0b; padding-bottom: 16px; margin-bottom: 20px; }
+              table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+              th { text-align: left; font-size: 10px; text-transform: uppercase; padding: 8px 0; border-bottom: 1px solid #e7e5e4; color: #78716c; }
+              td { padding: 8px 0; border-bottom: 1px solid #f5f5f4; font-size: 13px; }
+              .inv-total { text-align: right; font-size: 20px; font-weight: 800; padding-top: 12px; border-top: 2px solid #f59e0b; margin-top: 20px; }
+            </style>
+          </head>
+          <body>${content}</body>
+        </html>
+      `);
+      w.document.close();
+      w.print();
+    }
+
+    // ─────────────────────────
+    // ADMIN: CUSTOMERS LIST
+    // ─────────────────────────
+    function adminCustomers() {
+      var custs = STATE.data.customers;
+      var rows = custs.map(function(c) {
+        return `
+          <tr class="hover:bg-zinc-900/30">
+            <td class="font-bold text-white">${c.name}</td>
+            <td><span class="font-semibold text-zinc-300">${c.phone || '-'}</span></td>
+            <td class="text-zinc-500">${c.email || '-'}</td>
+            <td><span class="badge ${c.type === 'Flota' ? 'badge-blue' : 'badge-green'} font-bold">${c.type}</span></td>
+            <td class="text-xs text-zinc-500 max-w-xs truncate">${c.notes || '-'}</td>
+            <td>
+              <button onclick="confirmDelete('customers','${c.id}','${c.name}')" class="btn btn-danger btn-sm">🗑️</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      return `
+        <div class="space-y-6">
+          <div class="flex justify-between items-center flex-wrap gap-4">
+            <h1 class="font-oswald text-3xl font-bold tracking-wide uppercase text-white">👥 Base de Clientes</h1>
+            <button onclick="openAddCustomerModal()" class="btn btn-gold btn-sm font-bold">+ Agregar Cliente</button>
+          </div>
+          
+          <div class="glass-card overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Nombre / Flota</th>
+                    <th>Teléfono</th>
+                    <th>Email</th>
+                    <th>Tipo</th>
+                    <th>Notas</th>
+                    <th>Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${rows || `<tr><td colspan="6" class="text-center py-12 text-zinc-500">No hay clientes guardados en el sistema.</td></tr>`}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function openAddCustomerModal() {
+      var c = document.getElementById('modal-invoice-content');
+      
+      c.innerHTML = `
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="font-oswald text-2xl font-bold uppercase tracking-wider"><span class="text-amber-500">Nuevo</span> Cliente</h2>
+          <button onclick="closeModal('modal-invoice')" style="color:var(--text-muted);font-size:24px;background:none;border:none;cursor:pointer;">&times;</button>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="form-label">Nombre del Cliente *</label>
+            <input id="c-name" type="text" class="form-input" placeholder="Ej: John Doe" />
+          </div>
+          <div>
+            <label class="form-label">Teléfono</label>
+            <input id="c-phone" type="text" class="form-input" placeholder="(804) 555-0000" />
+          </div>
+        </div>
+        
+        <div class="mb-4">
+          <label class="form-label">Correo Electrónico</label>
+          <input id="c-email" type="email" class="form-input" placeholder="cliente@correo.com" />
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4 mb-6">
+          <div>
+            <label class="form-label">Tipo de Cuenta</label>
+            <select id="c-type" class="form-input">
+              <option>Particular</option>
+              <option>Flota</option>
+              <option>Empresa</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Notas Adicionales</label>
+            <input id="c-notes" type="text" class="form-input" placeholder="Ej: Flota de 5 vans" />
+          </div>
+        </div>
+
+        <button onclick="saveCustomer()" class="btn btn-gold w-full py-4 text-base font-bold justify-center">💾 GUARDAR CLIENTE</button>
+      `;
+      
+      openModal('modal-invoice');
+    }
+
+    async function saveCustomer() {
+      var name = document.getElementById('c-name').value.trim();
+      if (!name) {
+        showToast('El nombre es un campo obligatorio', 'error');
+        return;
+      }
+      
+      var row = { 
+        name: name, 
+        phone: document.getElementById('c-phone').value.trim(), 
+        email: document.getElementById('c-email').value.trim(), 
+        type: document.getElementById('c-type').value, 
+        notes: document.getElementById('c-notes').value.trim() 
+      };
+      
+      var res = await dbInsert('customers', row);
+      if (res.error) {
+        showToast('Error al guardar cliente', 'error');
+        return;
+      }
+      
+      saveLocalDemoData();
+      closeModal('modal-invoice');
+      showToast('✅ Cliente guardado correctamente', 'success');
+      adminTab('customers');
+    }
+
+    // ─────────────────────────
+    // ADMIN: SYSTEM SETTINGS
+    // ─────────────────────────
+    function adminSettings() {
+      return `
+        <div class="max-w-2xl space-y-6">
+          <h1 class="font-oswald text-3xl font-bold tracking-wide uppercase text-white">⚙️ Configuración del Sistema</h1>
+          
+          <!-- Empresa Info -->
+          <div class="glass-card p-6">
+            <h3 class="text-sm font-bold text-amber-500 mb-5 uppercase tracking-wider">🏢 Perfil de Empresa</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label class="form-label">Nombre Comercial</label>
+                <input id="cfg-name" type="text" class="form-input" value="${COMPANY.name}" />
+              </div>
+              <div>
+                <label class="form-label">Teléfono Principal</label>
+                <input id="cfg-phone" type="text" class="form-input" value="${COMPANY.phone}" />
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="form-label">Email Corporativo</label>
+                <input id="cfg-email" type="email" class="form-input" value="${COMPANY.email}" />
+              </div>
+              <div>
+                <label class="form-label">Dirección / Taller</label>
+                <input id="cfg-address" type="text" class="form-input" value="${COMPANY.address}" />
+              </div>
+            </div>
+            <button onclick="saveSettings()" class="btn btn-gold w-full mt-6 justify-center">Guardar Datos de Empresa</button>
+          </div>
+
+          <!-- EmailJS Status -->
+          <div class="glass-card p-6">
+            <h3 class="text-sm font-bold text-amber-500 mb-4 uppercase tracking-wider">📧 Emails Automáticos (EmailJS)</h3>
+            <div class="p-3 rounded-lg border border-zinc-800 bg-zinc-900/50 flex justify-between items-center mb-4">
+              <span class="text-xs text-zinc-400">Estado actual:</span>
+              <span class="text-xs font-bold ${EMAIL_CONFIG.service_id ? 'text-green-500' : 'text-amber-500'}">
+                ${EMAIL_CONFIG.service_id ? '✅ Configurado (' + EMAIL_CONFIG.service_id + ')' : '⚠️ No configurado — emails desactivados'}
+              </span>
+            </div>
+            <div class="space-y-2 mb-4 text-xs">
+              <div class="flex justify-between items-center p-2 rounded bg-zinc-900 border border-zinc-800">
+                <span class="text-zinc-400">📄 Template Facturas:</span>
+                <span class="font-mono font-bold ${EMAIL_CONFIG.template_invoice ? 'text-green-400' : 'text-zinc-600'}">
+                  ${EMAIL_CONFIG.template_invoice || 'No configurado'}
+                </span>
+              </div>
+              <div class="flex justify-between items-center p-2 rounded bg-zinc-900 border border-zinc-800">
+                <span class="text-zinc-400">📅 Template Citas:</span>
+                <span class="font-mono font-bold ${EMAIL_CONFIG.template_appt ? 'text-green-400' : 'text-zinc-600'}">
+                  ${EMAIL_CONFIG.template_appt || 'No configurado'}
+                </span>
+              </div>
+            </div>
+            <button onclick="openEmailModal()" class="btn btn-outline w-full justify-center" style="color:var(--purple); border-color: rgba(139, 92, 246, 0.3);">
+              ${(EMAIL_CONFIG.template_invoice || EMAIL_CONFIG.template_appt) ? '⚙️ Reconfigurar EmailJS' : '📧 Configurar Emails Automáticos'}
+            </button>
+          </div>
+
+          <!-- Stripe Gateways -->
+          <div class="glass-card p-6">
+            <h3 class="text-sm font-bold text-amber-500 mb-4 uppercase tracking-wider">💳 Pasarela de Pagos Stripe</h3>
+            <div class="mb-4">
+              <label class="form-label">Stripe Public Key (Para el formulario frontal)</label>
+              <input id="cfg-stripe" type="text" class="form-input" value="${STRIPE_PUBLIC_KEY}" placeholder="pk_test_..." />
+            </div>
+            <div class="mb-5">
+              <label class="form-label">Stripe Backend API Endpoint (Para generar el PaymentIntent)</label>
+              <input id="cfg-stripe-backend" type="text" class="form-input" value="${STRIPE_BACKEND_URL}" placeholder="https://mi-servidor.com/api/create-payment-intent" />
+              <span class="text-[10px] text-zinc-500 block mt-1.5 leading-relaxed">Si dejas en blanco, el sistema operará en **Modo de Pago de Prueba/Demo**, simulando cobros con éxito automáticamente.</span>
+            </div>
+            <button onclick="saveStripeKey()" class="btn btn-outline w-full justify-center" style="border-color: rgba(245,158,11,0.3); color: var(--gold);">Guardar Configuración de Stripe</button>
+          </div>
+
+          <!-- Password Security -->
+          <div class="glass-card p-6">
+            <h3 class="text-sm font-bold text-amber-500 mb-5 uppercase tracking-wider">🔒 Seguridad del Panel</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+              <div>
+                <label class="form-label">Nueva Contraseña</label>
+                <input id="cfg-pass" type="password" class="form-input" placeholder="Dejar vacío para no cambiar" />
+              </div>
+              <div>
+                <label class="form-label">Confirmar Contraseña</label>
+                <input id="cfg-pass2" type="password" class="form-input" placeholder="Dejar vacío" />
+              </div>
+            </div>
+            <button onclick="changePassword()" class="btn btn-outline w-full justify-center">Cambiar Contraseña de Acceso</button>
+          </div>
+
+          <!-- Supabase Connection State -->
+          <div class="glass-card p-6">
+            <h3 class="text-sm font-bold text-amber-500 mb-4 uppercase tracking-wider">🗄️ Conexión de Base de Datos</h3>
+            <div class="p-4 rounded-lg bg-zinc-900 border border-zinc-800 flex justify-between items-center mb-5">
+              <div>
+                <span class="text-xs font-semibold text-zinc-400 uppercase block">Estado Actual:</span>
+                <span class="text-sm font-bold block mt-0.5 ${STATE.supabase ? 'text-green-500' : 'text-amber-500'}">
+                  ${STATE.supabase ? 'Conectado Cloud ✅' : 'Modo Demo (Local storage)'}
+                </span>
+              </div>
+              ${STATE.sbUrl ? `<span class="text-[11px] text-zinc-600">${STATE.sbUrl.substring(0, 30)}...</span>` : ''}
+            </div>
+            <button onclick="openModal('modal-supabase')" class="btn btn-outline w-full justify-center">${STATE.supabase ? 'Reconfigurar Supabase' : 'Conectar Supabase Cloud'}</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function saveSettings() {
+      COMPANY.name = document.getElementById('cfg-name').value.trim();
+      COMPANY.phone = document.getElementById('cfg-phone').value.trim();
+      COMPANY.email = document.getElementById('cfg-email').value.trim();
+      COMPANY.address = document.getElementById('cfg-address').value.trim();
+      showToast('✅ Configuración de empresa guardada', 'success');
+    }
+
+    function saveStripeKey() {
+      var key = document.getElementById('cfg-stripe').value.trim();
+      var backend = document.getElementById('cfg-stripe-backend').value.trim();
+      
+      STRIPE_PUBLIC_KEY = key;
+      STRIPE_BACKEND_URL = backend;
+      
+      localStorage.setItem('lch_stripe_key', key);
+      localStorage.setItem('lch_stripe_backend', backend);
+      
+      initStripe();
+      showToast('✅ Configuración de Stripe guardada', 'success');
+      renderAdmin();
+    }
+
+    function changePassword() {
+      var p1 = document.getElementById('cfg-pass').value;
+      var p2 = document.getElementById('cfg-pass2').value;
+      
+      if (!p1) {
+        showToast('Ingresa una contraseña válida', 'error');
+        return;
+      }
+      if (p1 !== p2) {
+        showToast('Las contraseñas no coinciden', 'error');
+        return;
+      }
+      if (p1.length < 4) {
+        showToast('La contraseña debe tener al menos 4 caracteres', 'error');
+        return;
+      }
+      
+      ADMIN_PASS = p1;
+      document.getElementById('cfg-pass').value = '';
+      document.getElementById('cfg-pass2').value = '';
+      showToast('✅ Contraseña cambiada correctamente', 'success');
+    }
+
+    // ─────────────────────────
+    // GENERAL DELETE HANDLER
+    // ─────────────────────────
+    function confirmDelete(table, id, label) {
+      var confirmMsg = STATE.lang === 'es' ? 
+        `¿Eliminar "${label}"? Esta acción borrará el registro de forma permanente.` : 
+        `Delete "${label}"? This action is permanent.`;
+        
+      if (!confirm(confirmMsg)) return;
+      
+      dbDelete(table, id).then(function(res) {
+        if (res.error) {
+          showToast('Error al eliminar', 'error');
+          return;
+        }
+        showToast('Registro eliminado con éxito', 'info');
+        renderAdmin();
+      });
+    }
+
+    // ═══════════════════════════════════════════
+    // SYSTEM INITIALIZATION ENTRY POINT
+    // ═══════════════════════════════════════════
+    window.addEventListener('DOMContentLoaded', function() {
+      
+      // Initialize Stripe if keys exist in LocalStorage
+      if (localStorage.getItem('lch_stripe_key')) {
+        STRIPE_PUBLIC_KEY = localStorage.getItem('lch_stripe_key');
+        initStripe();
+      }
+
+      // Initialize EmailJS if keys exist in LocalStorage
+      if (EMAIL_CONFIG.public_key) {
+        try { emailjs.init(EMAIL_CONFIG.public_key); } catch(e) { console.warn('EmailJS init failed:', e); }
+      }
+
+      // Try to connect to Supabase database if credentials exist
+      var savedUrl = localStorage.getItem('lch_sb_url');
+      var savedKey = localStorage.getItem('lch_sb_key');
+
+      if (savedUrl && savedKey) {
+        initSupabase(savedUrl, savedKey, async function(err) {
+          if (!err) {
+            await loadAllData();
+            updateDbStatus(true);
+            STATE.isDemoMode = false;
+          } else {
+            console.warn('Failed to connect to saved Supabase. Falling back to Demo.');
+            useDemoMode();
+          }
+          finishInit();
+        });
+      } else {
+        useDemoMode();
+        finishInit();
+      }
+
+      // Add Stripe Submit payment handler
+      document.getElementById('payment-form').addEventListener('submit', processPayment);
+    });
+
+    function finishInit() {
+      // Hide loading screen, render storefront home in Spanish by default
+      document.getElementById('loading-screen').style.display = 'none';
+      showView('storefront');
+      navTo('home');
+      
+      // Trigger i18n text injection
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        el.innerHTML = t(el.dataset.i18n);
+      });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        el.placeholder = t(el.dataset.i18nPlaceholder);
+      });
+
+      // Show welcome toast to help the user connect their database
+      if (!STATE.supabase) {
+        setTimeout(function() {
+          showToast(STATE.lang === 'es' ? 
+            '💡 Conecta Supabase en el panel Ajustes para guardar tus datos permanentemente.' : 
+            '💡 Connect Supabase in Settings panel to save your data permanently.', 'info');
+        }, 3000);
+      }
+    }
+  </script>
+</body>
+</html>
