@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth overflow-x-hidden">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  
+  <!-- SEO LOCAL Y META TAGS -->
+  <title>LCH TRUCKING - 24/7 Commercial Tire & Roadside Assistance Richmond VA</title>
+  <meta name="description" content="24/7 Emergency commercial tire service & roadside assistance in Richmond VA, Henrico, Chester & surrounding areas. Heavy trucks, semi-trucks, vans, cars, and RVs." />
+  <meta name="keywords" content="roadside assistance, commercial tire service, 24/7 truck repair, heavy truck tires, Richmond VA roadside, mobile tire service RVA" />
+  <meta name="robots" content="index, follow" />
+  
+  <!-- SEO Local Geolocation -->
+  <meta name="geo.region" content="US-VA" />
+  <meta name="geo.placename" content="Richmond" />
+  <meta name="geo.position" content="37.540725;-77.436048" />
+  <meta name="ICBM" content="37.540725, -77.436048" />
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:title" content="LCH TRUCKING | 24/7 Roadside & Commercial Tires" />
+  <meta property="og:description" content="Fast 24/7 emergency roadside service and mobile tire replacement in Richmond, VA." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://i.ibb.co/wFdrrYjQ/banner.jpg" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts & AOS Animations -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  
+  <!-- SCHEMA.ORG -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AutomotiveBusiness",
+    "name": "LCH Trucking Commercial Tires LLC",
+    "image": "https://i.ibb.co/wFdrrYjQ/banner.jpg",
+    "telephone": "(804) 821-0538",
+    "priceRange": "$$",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Richmond",
+      "addressRegion": "VA",
+      "addressCountry": "US"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 37.540725,
+      "longitude": -77.436048
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+      ],
+      "opens": "00:00",
+      "closes": "23:59"
+    },
+    "areaServed": ["Richmond", "Henrico", "Chesterfield", "Glen Allen", "Chester"]
+  }
+  </script>
+  
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #080808;
+      color: #ffffff;
+    }
+    .font-oswald {
+      font-family: 'Oswald', sans-serif;
+    }
+    
+    #particles-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    .glow-yellow {
+      box-shadow: 0 0 25px -5px rgba(234, 179, 8, 0.3);
+    }
+    .card-dark {
+      background: rgba(23, 23, 23, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .card-dark:hover {
+      border-color: #eab308;
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px -10px rgba(234, 179, 8, 0.25);
+    }
+    .input-dark {
+      background-color: rgba(13, 13, 13, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+    }
+    .input-dark:focus {
+      outline: none;
+      border-color: #eab308;
+      box-shadow: 0 0 10px rgba(234, 179, 8, 0.2);
+    }
+  </style>
+</head>
+<body class="antialiased text-gray-200 relative overflow-x-hidden pb-20 sm:pb-0">
+
+  <!-- FONDO DE PARTICULAS -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- BARRA FIJA DE LLAMADA RÁPIDA MÓVIL (Z-INDEX Y TOUCH FIXED) -->
+  <div class="fixed bottom-0 left-0 right-0 z-50 bg-neutral-900/95 backdrop-blur-lg border-t border-neutral-800 p-2 sm:hidden flex gap-2">
+    <a href="tel:+18048210538" target="_top" class="flex-1 bg-[#eab308] text-black font-extrabold text-xs py-3 rounded-lg flex items-center justify-center gap-1.5 shadow-lg active:scale-95 transition-transform">
+      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+      LLAMAR AHORA
+    </a>
+    <a href="https://wa.me/+18048210538?text=Hello%2C%20I%20need%20roadside%20assistance." target="_blank" class="flex-1 bg-emerald-600 text-white font-extrabold text-xs py-3 rounded-lg flex items-center justify-center gap-1.5 shadow-lg active:scale-95 transition-transform">
+      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99 0-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+      WHATSAPP
+    </a>
+  </div>
+
+  <!-- TOP NAV BAR -->
+  <header class="sticky top-0 z-40 bg-[#080808]/90 backdrop-blur-md border-b border-neutral-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <a href="#hero" class="flex items-center gap-3 text-decoration-none z-10">
+        <img src="https://i.ibb.co/MxVtznz9/logo.png" alt="LCH Trucking Logo" class="h-12 w-auto object-contain">
+        <span class="font-oswald text-2xl font-bold tracking-wide text-white uppercase hidden sm:inline">LCH TRUCKING</span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-neutral-300">
+        <a href="#services" class="hover:text-[#eab308] transition-colors">Services</a>
+        <a href="#brands" class="hover:text-[#eab308] transition-colors">Brands</a>
+        <a href="#gallery" class="hover:text-[#eab308] transition-colors">Gallery</a>
+        <a href="#appointments" class="hover:text-[#eab308] transition-colors">Appointments</a>
+      </nav>
+
+      <div class="flex items-center gap-3 z-10">
+        <a href="tel:+18048210538" target="_top" class="hidden sm:flex items-center gap-2 text-xs font-bold text-neutral-300 bg-neutral-900 border border-neutral-800 hover:border-neutral-700 px-3.5 py-2 rounded-md transition-all">
+          <svg class="w-4 h-4 text-[#eab308]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          (804) 821-0538
+        </a>
+        
+        <button id="lang-btn" onclick="toggleLanguage()" class="flex items-center gap-1.5 bg-neutral-900 border border-neutral-800 text-xs font-semibold px-3 py-2 rounded-md text-neutral-300 hover:text-white transition-all">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+          <span id="lang-text">ES</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section id="hero" class="relative z-10 py-24 sm:py-36 px-4 sm:px-6 text-center max-w-full mx-auto flex flex-col items-center justify-center min-h-[85vh] bg-cover bg-center bg-no-repeat" style="background-image: url('https://i.ibb.co/wFdrrYjQ/banner.jpg');">
+    <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-[#080808] z-0"></div>
+
+    <div class="relative z-10 max-w-5xl mx-auto flex flex-col items-center">
+      <div data-aos="fade-down" class="inline-flex items-center gap-2 bg-[#eab308]/10 border border-[#eab308]/30 text-[#eab308] text-xs font-semibold px-4 py-2 rounded-full mb-8 uppercase tracking-wider glow-yellow backdrop-blur-md">
+        <span class="w-2 h-2 rounded-full bg-[#eab308] animate-ping"></span>
+        <span data-i18n="badge">24/7 Emergency Road Service • Richmond, VA</span>
+      </div>
+
+      <h1 data-aos="zoom-in" data-aos-delay="100" class="font-oswald text-4xl sm:text-7xl lg:text-8xl font-extrabold uppercase tracking-tight text-white leading-none mb-6">
+        <span data-i18n="heroTitle1">YOUR PARTNER ON THE ROAD.</span> <span class="text-[#eab308]" data-i18n="heroTitle2">24/7.</span>
+      </h1>
+
+      <p data-aos="fade-up" data-aos-delay="200" class="text-neutral-300 text-base sm:text-lg max-w-2xl mx-auto mb-10 leading-relaxed font-medium" data-i18n="heroSub">
+        Commercial tire service and roadside assistance. Serving Richmond VA and surrounding areas for heavy trucks, pick-ups, vans, RVs, and buses.
+      </p>
+
+      <div data-aos="fade-up" data-aos-delay="300" class="flex flex-col sm:flex-row gap-4 w-full justify-center max-w-md">
+        <a href="tel:+18048210538" target="_top" class="bg-[#eab308] hover:bg-yellow-400 text-black font-extrabold py-4 px-6 rounded-xl text-sm flex items-center justify-center gap-2 transition-all shadow-lg active:scale-95">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+          <span data-i18n="btnCall">Call Now: (804) 821-0538</span>
+        </a>
+        
+        <a href="https://wa.me/+18048210538?text=Hello%2C%20I%20need%20roadside%20assistance." target="_blank" class="bg-neutral-900/90 border border-neutral-700 hover:border-emerald-500 text-white font-bold py-4 px-6 rounded-xl text-sm flex items-center justify-center gap-2 transition-all active:scale-95 backdrop-blur-md">
+          <svg class="w-5 h-5 text-emerald-500" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99 0-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+          <span>WhatsApp Message</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES SECTION -->
+  <section id="services" class="relative z-10 py-20 px-4 sm:px-6 max-w-7xl mx-auto border-t border-neutral-900">
+    <div class="text-center mb-16" data-aos="fade-up">
+      <h2 class="font-oswald text-4xl sm:text-5xl font-bold uppercase tracking-tight text-white mb-3" data-i18n="secServicesTitle">OUR SERVICES</h2>
+      <p class="text-neutral-400 text-sm sm:text-base max-w-xl mx-auto" data-i18n="secServicesSub">Expert assistance for all vehicle types in Richmond, VA, whenever you need it.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="card-dark p-8 rounded-2xl" data-aos="fade-up" data-aos-delay="100">
+        <div class="w-12 h-12 rounded-xl bg-yellow-500/10 flex items-center justify-center text-[#eab308] mb-6">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <h3 class="font-oswald text-xl font-bold uppercase mb-2">24/7 Road Service</h3>
+        <p class="text-neutral-400 text-sm leading-relaxed" data-i18n="srv1">Fast response for highway and local emergencies.</p>
+      </div>
+
+      <div class="card-dark p-8 rounded-2xl" data-aos="fade-up" data-aos-delay="150">
+        <div class="w-12 h-12 rounded-xl bg-yellow-500/10 flex items-center justify-center text-[#eab308] mb-6">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <h3 class="font-oswald text-xl font-bold uppercase mb-2">New & Used Tires</h3>
+        <p class="text-neutral-400 text-sm leading-relaxed" data-i18n="srv2">All sizes for trucks, commercial fleets, cars, and RVs.</p>
+      </div>
+
+      <div class="card-dark p-8 rounded-2xl" data-aos="fade-up" data-aos-delay="200">
+        <div class="w-12 h-12 rounded-xl bg-yellow-500/10 flex items-center justify-center text-[#eab308] mb-6">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/></svg>
+        </div>
+        <h3 class="font-oswald text-xl font-bold uppercase mb-2">New & Used Rims</h3>
+        <p class="text-neutral-400 text-sm leading-relaxed" data-i18n="srv3">Aluminum and steel for any heavy-duty or commercial vehicle.</p>
+      </div>
+
+      <div class="card-dark p-8 rounded-2xl" data-aos="fade-up" data-aos-delay="250">
+        <div class="w-12 h-12 rounded-xl bg-yellow-500/10 flex items-center justify-center text-[#eab308] mb-6">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+        </div>
+        <h3 class="font-oswald text-xl font-bold uppercase mb-2">Batteries & Testing</h3>
+        <p class="text-neutral-400 text-sm leading-relaxed" data-i18n="srv4">On-site diagnosis, jump-starts, and replacements.</p>
+      </div>
+
+      <div class="card-dark p-8 rounded-2xl" data-aos="fade-up" data-aos-delay="300">
+        <div class="w-12 h-12 rounded-xl bg-yellow-500/10 flex items-center justify-center text-[#eab308] mb-6">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+        </div>
+        <h3 class="font-oswald text-xl font-bold uppercase mb-2">AntiFreeze & Fluids</h3>
+        <p class="text-neutral-400 text-sm leading-relaxed" data-i18n="srv5">Coolant fluids and road maintenance.</p>
+      </div>
+
+      <div class="card-dark p-8 rounded-2xl" data-aos="fade-up" data-aos-delay="350">
+        <div class="w-12 h-12 rounded-xl bg-yellow-500/10 flex items-center justify-center text-[#eab308] mb-6">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+        </div>
+        <h3 class="font-oswald text-xl font-bold uppercase mb-2">Mobile Service Truck</h3>
+        <p class="text-neutral-400 text-sm leading-relaxed" data-i18n="srv6">We bring the full tire shop to your location.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRANDS SECTION -->
+  <section id="brands" class="relative z-10 py-20 px-4 sm:px-6 max-w-7xl mx-auto border-t border-neutral-900">
+    <div class="text-center mb-16" data-aos="fade-up">
+      <h2 class="font-oswald text-4xl sm:text-5xl font-bold uppercase tracking-tight text-white mb-3" data-i18n="secBrandsTitle">TIRE BRANDS</h2>
+      <p class="text-neutral-400 text-sm sm:text-base max-w-xl mx-auto" data-i18n="secBrandsSub">We stock and service top commercial brands.</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="brands-grid"></div>
+  </section>
+
+  <!-- GALLERY SECTION -->
+  <section id="gallery" class="relative z-10 py-20 px-4 sm:px-6 max-w-7xl mx-auto border-t border-neutral-900">
+    <div class="text-center mb-16" data-aos="fade-up">
+      <h2 class="font-oswald text-4xl sm:text-5xl font-bold uppercase tracking-tight text-white mb-3" data-i18n="secGalleryTitle">OUR WORK</h2>
+      <p class="text-neutral-400 text-sm sm:text-base max-w-xl mx-auto" data-i18n="secGallerySub">On-site assistance and roadside rescues in action.</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="gallery-grid"></div>
+
+    <div class="text-center mt-12" id="gallery-btn-container">
+      <button onclick="loadMoreGallery()" id="btn-load-more" class="inline-flex items-center gap-2 bg-neutral-900 border border-neutral-800 hover:border-[#eab308] text-white font-bold text-xs uppercase px-8 py-4 rounded-xl transition-all shadow-lg active:scale-95 group">
+        <span id="load-more-text" data-i18n="secGalleryBtn">LOAD MORE PHOTOS</span>
+        <svg class="w-4 h-4 text-[#eab308] group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- LIGHTBOX MODAL -->
+  <div id="image-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4" onclick="closeModal()">
+    <div class="relative max-w-4xl w-full max-h-[90vh] flex flex-col items-center justify-center" onclick="event.stopPropagation()">
+      <button onclick="closeModal()" class="absolute -top-12 right-0 text-neutral-400 hover:text-white text-3xl font-bold focus:outline-none transition-colors">
+        &times;
+      </button>
+      <img id="modal-img" src="" alt="Ampliada" class="max-h-[75vh] w-auto max-w-full rounded-2xl border border-neutral-800 shadow-2xl object-contain mb-4">
+      <div class="text-center">
+        <span id="modal-tag" class="text-xs font-bold text-[#eab308] uppercase tracking-wider block"></span>
+        <h4 id="modal-title" class="text-base font-semibold text-white"></h4>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPOINTMENT & CONTACT SECTION -->
+  <section id="appointments" class="relative z-10 py-20 px-4 sm:px-6 max-w-7xl mx-auto border-t border-neutral-900 mb-12 sm:mb-0">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+      
+      <!-- LEFT COLUMN -->
+      <div class="lg:col-span-5 bg-neutral-900/80 border border-neutral-800 rounded-2xl p-8 backdrop-blur-md" data-aos="fade-right">
+        <div class="flex items-center gap-3 text-red-500 font-bold text-sm uppercase tracking-wider mb-4">
+          <span class="relative flex h-3 w-3">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+          </span>
+          <span data-i18n="emergTitle">24/7 Emergency Road Service</span>
+        </div>
+
+        <p class="text-neutral-300 text-sm mb-8 leading-relaxed" data-i18n="emergSub">
+          Stuck on the road in Richmond or surrounding areas? Call us immediately.
+        </p>
+
+        <div class="space-y-4 mb-8">
+          <a href="tel:+18048210538" target="_top" class="w-full card-dark py-4 px-6 rounded-xl flex items-center justify-center gap-3 text-white font-bold text-base hover:border-[#eab308] transition-all active:scale-95">
+            <svg class="w-5 h-5 text-[#eab308]" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+            (804) 821-0538
+          </a>
+
+          <a href="tel:18047503408" target="_top" class="w-full card-dark py-4 px-6 rounded-xl flex items-center justify-center gap-3 text-white font-bold text-base hover:border-[#eab308] transition-all active:scale-95">
+            <svg class="w-5 h-5 text-[#eab308]" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+            (804) 750-3408
+          </a>
+        </div>
+
+        <a href="https://wa.me/+18048210538?text=EMERGENCY%20ROADSIDE%20ASSISTANCE%20-%20LOCATION" target="_blank" class="flex items-center justify-center gap-2 text-xs font-semibold text-neutral-400 hover:text-emerald-400 transition-colors">
+          <svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          <span data-i18n="locWhatsapp">Send Location via WhatsApp</span>
+        </a>
+      </div>
+
+      <!-- RIGHT COLUMN: APPOINTMENT FORM -->
+      <div class="lg:col-span-7 card-dark p-8 rounded-2xl" data-aos="fade-left">
+        <h2 class="font-oswald text-3xl font-bold uppercase tracking-tight text-white mb-6" data-i18n="formTitle">BOOK APPOINTMENT</h2>
+        
+        <form onsubmit="handleFormSubmit(event)" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-neutral-400 uppercase mb-2" data-i18n="lblFullname">Full Name</label>
+              <input type="text" id="form-name" required class="w-full input-dark rounded-xl p-3.5 text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-neutral-400 uppercase mb-2" data-i18n="lblPhone">Phone Number</label>
+              <input type="tel" id="form-phone" required class="w-full input-dark rounded-xl p-3.5 text-sm">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-neutral-400 uppercase mb-2" data-i18n="lblVehicle">Vehicle Type</label>
+              <select id="form-vehicle" class="w-full input-dark rounded-xl p-3.5 text-sm">
+                <option value="Heavy Truck / Semi">Heavy Truck / Semi</option>
+                <option value="Pick-up / SUV / Van">Pick-up / SUV / Van</option>
+                <option value="Car / Sedan">Car / Sedan</option>
+                <option value="RV / Motorhome">RV / Motorhome</option>
+                <option value="Bus / Shuttle">Bus / Shuttle</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-neutral-400 uppercase mb-2" data-i18n="lblService">Requested Service</label>
+              <select id="form-service" class="w-full input-dark rounded-xl p-3.5 text-sm">
+                <option value="Tire Service">Tire Service</option>
+                <option value="Battery Testing / Replace">Battery Testing / Replace</option>
+                <option value="Rim Installation">Rim Installation</option>
+                <option value="Roadside Emergency">Roadside Emergency</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-neutral-400 uppercase mb-2" data-i18n="lblDate">Date</label>
+              <input type="date" id="form-date" required class="w-full input-dark rounded-xl p-3.5 text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-neutral-400 uppercase mb-2" data-i18n="lblTime">Time</label>
+              <input type="time" id="form-time" required class="w-full input-dark rounded-xl p-3.5 text-sm">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-neutral-400 uppercase mb-2" data-i18n="lblNotes">Additional Notes</label>
+            <textarea id="form-notes" rows="3" class="w-full input-dark rounded-xl p-3.5 text-sm" placeholder="Tire size, exact location in Richmond VA, etc."></textarea>
+          </div>
+
+          <button type="submit" class="w-full bg-[#eab308] hover:bg-yellow-400 text-black font-extrabold uppercase py-4 rounded-xl text-sm tracking-wider transition-all shadow-lg active:scale-95 cursor-pointer">
+            <span data-i18n="btnConfirm">CONFIRM APPOINTMENT</span>
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="relative z-10 border-t border-neutral-900 bg-[#050505] py-12 px-4 sm:px-6">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <img src="https://i.ibb.co/MxVtznz9/logo.png" alt="LCH Logo" class="h-10 w-auto object-contain">
+        <div>
+          <span class="font-oswald text-lg font-bold text-white uppercase block">LCH TRUCKING</span>
+          <p class="text-xs text-neutral-500" data-i18n="footerTag">Open 24/7 • Richmond, Virginia & Surrounding Areas</p>
+        </div>
+      </div>
+
+      <div class="text-center md:text-right text-xs text-neutral-400 space-y-1">
+        <p><strong>(804) 821-0538</strong> | <strong>(804) 750-3408</strong></p>
+        <p class="text-emerald-500">24/7 Mobile Service Active</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- AOS ANIMATIONS & PARTICLES SCRIPT -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 800, once: true });
+
+    // BACKGROUND PARTICLES ENGINE
+    const canvas = document.getElementById('particles-canvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const particles = Array.from({ length: 35 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      radius: Math.random() * 1.5 + 0.5,
+      vy: Math.random() * 0.8 + 0.2,
+      opacity: Math.random() * 0.5 + 0.2
+    }));
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.y -= p.vy;
+        if (p.y < 0) {
+          p.y = canvas.height;
+          p.x = Math.random() * canvas.width;
+        }
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(234, 179, 8, ${p.opacity})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    // RENDER BRANDS
+    const brands = [
+      "MICHELIN", "GOODYEAR", "BRIDGESTONE", "CONTINENTAL",
+      "BFGOODRICH", "FIRESTONE", "GENERAL TIRE", "COOPER",
+      "HANKOOK", "YOKOHAMA", "TOYO", "IMPORTED / OTRAS MARCAS"
+    ];
+
+    const container = document.getElementById('brands-grid');
+    brands.forEach((brand, idx) => {
+      const card = document.createElement('div');
+      card.className = 'card-dark p-6 rounded-2xl flex flex-col items-center justify-center text-center';
+      card.setAttribute('data-aos', 'fade-up');
+      card.setAttribute('data-aos-delay', (idx % 4) * 50);
+      card.innerHTML = `
+        <h3 class="font-oswald text-lg font-bold uppercase tracking-wide text-white mb-4">${brand}</h3>
+        <button onclick="askPrice('${brand}')" class="w-full bg-neutral-900 border border-neutral-800 hover:border-yellow-500/50 text-xs font-semibold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 transition-all text-neutral-300 active:scale-95">
+          <span class="btn-price-text">Ask for Price</span>
+        </button>
+      `;
+      container.appendChild(card);
+    });
+
+    function askPrice(brandName) {
+      const msg = `Hello, I would like to ask about the price and availability of tires for brand ${brandName}.`;
+      window.open(`https://wa.me/+18048210538?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    // GALLERY DATA
+    const galleryData = [
+      { url: "https://i.ibb.co/k2MQ25vG/tarabajo-1-gallery.jpg", tag: "I-95 Highway", title: "Cambio de llanta comercial" },
+      { url: "https://i.ibb.co/gHTQSxs/SERVICIO-LLANAT-CHICA.png", tag: "downtown Richmond VA", title: "Cambio de llanta automovil" },
+      { url: "https://i.ibb.co/G4rcHjHB/cambio-de-baterias.png", tag: "I-64 Corridor", title: "Diagnóstico y batería móvil" },
+      { url: "https://i.ibb.co/QjMJzNwV/cambio-de-chamber.png", tag: "Henrico VA", title: "cambio de chamber" },
+      { url: "https://i.ibb.co/4wyyN6Q4/freno-instalado.png", tag: "Chester VA", title: "Instalación de frenos" },
+      { url: "https://i.ibb.co/35xQ23H8/cambio-llanta-morado.png", tag: "Richmond VA", title: "cambio completo frenos chamber llantas" },
+      { url: "https://i.ibb.co/PsQTpkZy/cambio-de-plato-5.png", tag: "I-95 South", title: "Cambio de plato de enganche" },
+      { url: "https://i.ibb.co/PKj5td2/remplazo-de-llanta-de-emergencia.png", tag: "Chesterfield VA", title: "Reemplazo de llanta de emergencia" },
+      { url: "https://i.ibb.co/yFSxvQ66/foto-emergencia-noche.png", tag: "Richmond VA", title: "Asistencia vial nocturna" },
+      { url: "https://i.ibb.co/9kT3NrYF/cambio-tanque-de-aceite.png", tag: "Glen Allen VA", title: "Cambio de tanque de acite" },
+      { url: "https://i.ibb.co/Q3YX2NB5/cambio-llanta-cita.png", tag: "I-295 Bypass", title: "Mantenimiento móvil de frenos" },
+      { url: "https://i.ibb.co/yFbKW9KX/cambio-valvula-camion.png", tag: "Mechanicsville VA", title: "Reemplazo de valvula de aire" },
+      { url: "https://i.ibb.co/JFk4rw4V/cambio-llanta-UTOBUS.png", tag: "Richmond VA", title: "cambio de llanta a bus commercial" },
+      { url: "https://i.ibb.co/XxnWCkpW/CAMBIO-DE-COSO.png", tag: "Midlothian VA", title: "cambio de alternador" },
+      { url: "https://i.ibb.co/VcfHx2VW/CAMBIO-DE-COSO-2.png", tag: "Petersburg VA", title: "cambio de torque" }
+    ];
+
+    let itemsShown = 6;
+
+    function renderGallery() {
+      const galleryContainer = document.getElementById('gallery-grid');
+      galleryContainer.innerHTML = '';
+
+      const visiblePhotos = galleryData.slice(0, itemsShown);
+
+      visiblePhotos.forEach((photo) => {
+        const card = document.createElement('div');
+        card.className = 'relative aspect-video rounded-2xl overflow-hidden card-dark group cursor-pointer';
+        card.setAttribute('data-aos', 'zoom-in');
+        card.onclick = () => openModal(photo.url, photo.title, photo.tag);
+        
+        card.innerHTML = `
+          <img src="${photo.url}" alt="${photo.title}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-4">
+            <span class="text-xs font-bold text-[#eab308] uppercase tracking-wider">${photo.tag}</span>
+            <p class="text-sm font-semibold text-white">${photo.title}</p>
+          </div>
+        `;
+        galleryContainer.appendChild(card);
+      });
+
+      const btnContainer = document.getElementById('gallery-btn-container');
+      if (itemsShown >= galleryData.length) {
+        btnContainer.style.display = 'none';
+      } else {
+        btnContainer.style.display = 'block';
+      }
+    }
+
+    function loadMoreGallery() {
+      itemsShown += 3;
+      renderGallery();
+      if (typeof AOS !== 'undefined') AOS.refresh();
+    }
+
+    function openModal(url, title, tag) {
+      document.getElementById('modal-img').src = url;
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-tag').textContent = tag;
+      document.getElementById('image-modal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('image-modal').classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    document.addEventListener('DOMContentLoaded', renderGallery);
+
+    // APPOINTMENT FORM FIX
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('form-name').value;
+      const phone = document.getElementById('form-phone').value;
+      const vehicle = document.getElementById('form-vehicle').value;
+      const service = document.getElementById('form-service').value;
+      const date = document.getElementById('form-date').value;
+      const time = document.getElementById('form-time').value;
+      const notes = document.getElementById('form-notes').value;
+
+      const msg = `APPOINTMENT REQUEST:\n- Name: ${name}\n- Phone: ${phone}\n- Vehicle: ${vehicle}\n- Service: ${service}\n- Date/Time: ${date} at ${time}\n- Notes: ${notes}`;
+      
+      // Abre directamente WhatsApp con la información estructurada
+      window.open(`https://wa.me/+18048210538?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    // TRADUCCIONES EN/ES
+    const dict = {
+      es: {
+        badge: "Servicio de Emergencia 24/7 • Richmond, VA",
+        heroTitle1: "TU SOCIO EN LA CARRETERA.",
+        heroTitle2: "24/7.",
+        heroSub: "Servicio de llantas comerciales y asistencia vial en Richmond VA y áreas cercanas. Camiones, vans, autos y RVs.",
+        btnCall: "Llamar Ahora: (804) 821-0538",
+        secServicesTitle: "NUESTROS SERVICIOS",
+        secServicesSub: "Asistencia experta para todo tipo de vehículos en Richmond, VA.",
+        srv1: "Respuesta rápida para emergencias en carretera e interestatales.",
+        srv2: "Todas las medidas para camiones de carga, flota comercial y autos.",
+        srv3: "Aluminio y acero para vehículos pesados.",
+        srv4: "Diagnóstico en sitio, paso de corriente y reemplazo.",
+        srv5: "Fluidos de enfriamiento y mantenimiento rápido.",
+        srv6: "Llevamos el taller móvil hasta donde estés varado.",
+        secBrandsTitle: "MARCAS DE LLANTAS",
+        secBrandsSub: "Las mejores marcas para tu camión o vehículo.",
+        secGalleryTitle: "NUESTRO TRABAJO",
+        secGallerySub: "Galería de asistencias recientes en carretera.",
+        secGalleryBtn: "CARGAR MÁS FOTOS",
+        emergTitle: "Servicio de Emergencia 24/7",
+        emergSub: "¿Varado en Richmond o alrededores? Llámanos inmediatamente.",
+        locWhatsapp: "Enviar Ubicación por WhatsApp",
+        formTitle: "AGENDAR CITA",
+        lblFullname: "Nombre Completo",
+        lblPhone: "Teléfono",
+        lblVehicle: "Tipo de Vehículo",
+        lblService: "Servicio Requerido",
+        lblDate: "Fecha",
+        lblTime: "Hora",
+        lblNotes: "Notas Adicionales",
+        btnConfirm: "CONFIRMAR CITA",
+        footerTag: "Abierto 24/7 • Cobertura en Richmond, Virginia y alrededores",
+        btnPriceText: "Consultar Precio"
+      },
+      en: {
+        badge: "24/7 Emergency Road Service • Richmond, VA",
+        heroTitle1: "YOUR PARTNER ON THE ROAD.",
+        heroTitle2: "24/7.",
+        heroSub: "Commercial tire service and roadside assistance. Serving Richmond VA and surrounding areas for heavy trucks, pick-ups, vans, RVs, and buses.",
+        btnCall: "Call Now: (804) 821-0538",
+        secServicesTitle: "OUR SERVICES",
+        secServicesSub: "Expert assistance for all vehicle types in Richmond, VA, whenever you need it.",
+        srv1: "Fast response for highway and local emergencies.",
+        srv2: "All sizes for trucks, commercial fleets, cars, and RVs.",
+        srv3: "Aluminum and steel for any heavy-duty or commercial vehicle.",
+        srv4: "On-site diagnosis, jump-starts, and replacements.",
+        srv5: "Coolant fluids and road maintenance.",
+        srv6: "We bring the full tire shop to your location.",
+        secBrandsTitle: "TIRE BRANDS",
+        secBrandsSub: "We stock and service top commercial brands.",
+        secGalleryTitle: "OUR WORK",
+        secGallerySub: "On-site assistance and roadside rescues in action.",
+        secGalleryBtn: "LOAD MORE PHOTOS",
+        emergTitle: "24/7 Emergency Road Service",
+        emergSub: "Stuck on the road in Richmond or surrounding areas? Call us immediately.",
+        locWhatsapp: "Send Location via WhatsApp",
+        formTitle: "BOOK APPOINTMENT",
+        lblFullname: "Full Name",
+        lblPhone: "Phone Number",
+        lblVehicle: "Vehicle Type",
+        lblService: "Requested Service",
+        lblDate: "Date",
+        lblTime: "Time",
+        lblNotes: "Additional Notes",
+        btnConfirm: "CONFIRM APPOINTMENT",
+        footerTag: "Open 24/7 • Richmond, Virginia & Surrounding Areas",
+        btnPriceText: "Ask for Price"
+      }
+    };
+
+    let currentLang = 'en';
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'en' ? 'es' : 'en';
+      document.getElementById('lang-text').textContent = currentLang === 'en' ? 'ES' : 'EN';
+      
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[currentLang][key]) {
+          el.textContent = dict[currentLang][key];
+        }
+      });
+
+      document.querySelectorAll('.btn-price-text').forEach(el => {
+        el.textContent = dict[currentLang].btnPriceText;
+      });
+    }
+  </script>
+</body>
+</html>
