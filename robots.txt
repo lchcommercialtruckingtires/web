@@ -1,0 +1,19 @@
+# robots.txt — LCH Trucking Commercial Tires LLC
+# https://www.lchtruckingcommercialtiresllc.com
+
+User-agent: *
+Allow: /
+
+# No indexar parámetros de idioma como URLs separadas
+Disallow: /*?lang=*
+
+# Permitir crawl de recursos críticos
+Allow: /*.js$
+Allow: /*.css$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.svg$
+Allow: /*.webp$
+
+# Sitemap — apunta al www (dominio primario de Netlify)
+Sitemap: https://www.lchtruckingcommercialtiresllc.com/sitemap.xml

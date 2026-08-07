@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- Página principal EN (x-default) -->
+  <url>
+    <loc>https://www.lchtruckingcommercialtiresllc.com/</loc>
+    <lastmod>2026-08-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+
+    <!-- Hreflang para multilingüe -->
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://www.lchtruckingcommercialtiresllc.com/"/>
+    <xhtml:link rel="alternate" hreflang="es-US" href="https://www.lchtruckingcommercialtiresllc.com/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.lchtruckingcommercialtiresllc.com/"/>
+
+    <!-- Imágenes indexables -->
+    <image:image>
+      <image:loc>https://i.ibb.co/wFdrrYjQ/banner.jpg</image:loc>
+      <image:title>LCH Trucking mobile tire service unit on roadside in Richmond VA</image:title>
+      <image:caption>LCH Trucking Commercial Tires LLC — 24/7 roadside assistance and mobile tire service serving Richmond VA, Henrico, Chesterfield, Chester and Glen Allen</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://i.ibb.co/MxVtznz9/logo.png</image:loc>
+      <image:title>LCH Trucking Commercial Tires LLC logo — Richmond VA</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://i.ibb.co/k2MQ25vG/tarabajo-1-gallery.jpg</image:loc>
+      <image:title>Commercial tire change on I-95 near Richmond VA — LCH Trucking</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://i.ibb.co/G4rcHjHB/cambio-de-baterias.png</image:loc>
+      <image:title>On-site battery diagnostics and mobile battery replacement — LCH Trucking Richmond VA</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://i.ibb.co/yFSxvQ66/foto-emergencia-noche.png</image:loc>
+      <image:title>Nighttime emergency roadside assistance in Richmond VA — LCH Trucking</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://i.ibb.co/PKj5td2/remplazo-de-llanta-de-emergencia.png</image:loc>
+      <image:title>Emergency tire replacement Chesterfield VA — LCH Trucking 24/7</image:title>
+    </image:image>
+  </url>
+
+</urlset>
