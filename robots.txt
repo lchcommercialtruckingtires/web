@@ -4,16 +4,10 @@
 User-agent: *
 Allow: /
 
-# No indexar parámetros de idioma como URLs separadas
-Disallow: /*?lang=*
+# Bloquear parámetros de búsqueda o idioma dinámicos sin afectar la URL principal
+Disallow: /*?*lang=*
+Disallow: /*?*fbclid=*
+Disallow: /*?*gclid=*
 
-# Permitir crawl de recursos críticos
-Allow: /*.js$
-Allow: /*.css$
-Allow: /*.png$
-Allow: /*.jpg$
-Allow: /*.svg$
-Allow: /*.webp$
-
-# Sitemap — apunta al www (dominio primario de Netlify)
+# Sitemap oficial
 Sitemap: https://www.lchtruckingcommercialtiresllc.com/sitemap.xml
