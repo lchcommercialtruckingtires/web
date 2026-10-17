@@ -4,35 +4,42 @@ exports.handler = async (event) => {
   const headers = {
     "content-type": "application/json; charset=utf-8",
     "cache-control": "no-store",
-    "access-control-allow-origin": "*",
-    "access-control-allow-headers": "content-type",
-    "access-control-allow-methods": "POST, OPTIONS"
+    "x-content-type-options": "nosniff"
   };
 
   if (event.httpMethod === "OPTIONS") return { statusCode: 204, headers, body: "" };
-  if (event.httpMethod !== "POST") return { statusCode: 405, headers, body: JSON.stringify({ ok: false, error: "Method not allowed" }) };
+  if (event.httpMethod !== "POST") {
+    return { statusCode: 405, headers, body: JSON.stringify({ ok: false, error: "Method not allowed" }) };
+  }
+
+  if (Buffer.byteLength(event.body || "", "utf8") > 12000) {
+    return { statusCode: 413, headers, body: JSON.stringify({ ok: false, error: "Request too large" }) };
+  }
 
   let input;
   try {
     input = JSON.parse(event.body || "{}");
+    if (!input || typeof input !== "object" || Array.isArray(input)) throw new Error("Invalid payload");
   } catch {
     return { statusCode: 400, headers, body: JSON.stringify({ ok: false, error: "Invalid request" }) };
   }
 
-  // Honeypot field for basic bot filtering.
-  if (input["bot-field"]) return { statusCode: 200, headers, body: JSON.stringify({ ok: true, stored: false }) };
+  if (input["bot-field"]) {
+    return { statusCode: 200, headers, body: JSON.stringify({ ok: true, stored: false }) };
+  }
 
-  const name = String(input.name || "").trim().slice(0, 120);
-  const phone = String(input.phone || "").trim().slice(0, 50);
-  const location = String(input.location || "").trim().slice(0, 300);
-  const vehicle = String(input.vehicle || "").trim().slice(0, 100);
-  const tireSize = String(input.size || "").trim().slice(0, 80);
-  const quantityRaw = String(input.qty || "").trim();
-  const quantity = quantityRaw ? Number.parseInt(quantityRaw, 10) : null;
-  const service = String(input.service || "").trim().slice(0, 120);
-  const pageUrl = String(input.page_url || "").trim().slice(0, 500);
+  const clean = (value, max) => String(value ?? "").trim().slice(0, max);
+  const name = clean(input.name, 120);
+  const phone = clean(input.phone, 50);
+  const location = clean(input.location, 300);
+  const vehicle = clean(input.vehicle, 100);
+  const tireSize = clean(input.size, 80);
+  const quantityRaw = clean(input.qty, 12);
+  const quantity = quantityRaw ? Number(quantityRaw) : null;
+  const service = clean(input.service, 120);
+  const pageUrl = clean(input.page_url, 500);
 
-  if (name.length < 2 || phone.length < 7 || location.length < 2) {
+  if (name.length < 2 || phone.replace(/\D/g, "").length < 7 || location.length < 2) {
     return { statusCode: 400, headers, body: JSON.stringify({ ok: false, error: "Please check name, phone and location." }) };
   }
   if (quantity !== null && (!Number.isInteger(quantity) || quantity < 1 || quantity > 1000)) {
@@ -41,8 +48,7 @@ exports.handler = async (event) => {
 
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!serviceRoleKey) {
-    // The browser still submits to Netlify Forms as a durable fallback until the
-    // owner adds the Supabase secret in Netlify environment variables.
+    // Do not pretend CRM storage succeeded. Netlify Forms is the independent fallback.
     return { statusCode: 200, headers, body: JSON.stringify({ ok: true, stored: false, reason: "supabase_not_configured" }) };
   }
 
@@ -63,6 +69,7 @@ exports.handler = async (event) => {
         quantity,
         service_location: location,
         service_type: service || null,
+        description: null,
         source: "website",
         page_url: pageUrl || null,
         status: "new"
@@ -72,7 +79,7 @@ exports.handler = async (event) => {
     if (!response.ok) {
       const detail = await response.text();
       console.error("Supabase insert failed:", response.status, detail.slice(0, 300));
-      return { statusCode: 502, headers, body: JSON.stringify({ ok: false, error: "Could not save to CRM" }) };
+      return { statusCode: 502, headers, body: JSON.stringify({ ok: false, error: "Could not save to service system" }) };
     }
 
     return { statusCode: 200, headers, body: JSON.stringify({ ok: true, stored: true }) };

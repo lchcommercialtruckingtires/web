@@ -5,18 +5,30 @@ function buildQuoteMessage(formData) {
     "LCH TRUCKING QUOTE REQUEST",
     "Name: " + (formData.get("name") || ""),
     "Phone: " + (formData.get("phone") || ""),
-    "Vehicle: " + (formData.get("vehicle") || ""),
+    "Vehicle: " + (formData.get("vehicle") || "Not provided"),
     "Tire size: " + (formData.get("size") || "Not provided"),
     "Quantity: " + (formData.get("qty") || "Not provided"),
     "Location: " + (formData.get("location") || ""),
-    "Service: " + (formData.get("service") || ""),
+    "Service: " + (formData.get("service") || "Not provided"),
     "Page: " + window.location.href
   ].join("\n");
+}
+
+async function postWithTimeout(url, options, timeoutMs = 10000) {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } finally {
+    window.clearTimeout(timeout);
+  }
 }
 
 async function quote(event) {
   event.preventDefault();
   const form = event.currentTarget;
+  if (!form.reportValidity()) return;
+
   const data = new FormData(form);
   const status = form.querySelector("#quote-status");
   const submit = form.querySelector('button[type="submit"]');
@@ -24,15 +36,17 @@ async function quote(event) {
   const message = buildQuoteMessage(data);
   const values = Object.fromEntries(data.entries());
   values.page_url = window.location.href;
+  values.source = "website";
   values["form-name"] = form.getAttribute("name") || "quote-request";
 
+  // Honeypot: silently ignore automated submissions.
   if (data.get("bot-field")) return;
 
   if (submit) submit.disabled = true;
   if (label) label.textContent = "SENDING REQUEST…";
   if (status) {
     status.classList.remove("is-error");
-    status.textContent = "Sending your request…";
+    status.textContent = "Sending your request securely…";
   }
 
   let netlifySaved = false;
@@ -42,53 +56,58 @@ async function quote(event) {
     const encoded = new URLSearchParams();
     data.forEach((value, key) => encoded.append(key, String(value)));
     encoded.set("form-name", form.getAttribute("name") || "quote-request");
-
-    const netlifyResponse = await fetch(form.getAttribute("action") || "/", {
+    const response = await postWithTimeout(form.getAttribute("action") || "/", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
       body: encoded.toString()
     });
-    if (!netlifyResponse.ok) throw new Error("Netlify form submission failed");
-    netlifySaved = true;
+    netlifySaved = response.ok;
   } catch (error) {
-    if (status) {
-      status.classList.add("is-error");
-      status.textContent = "The online form could not confirm receipt. You can still send the request through WhatsApp or call us.";
-    }
+    console.warn("Netlify Forms could not confirm receipt.", error);
   }
 
   try {
-    const crmResponse = await fetch("/.netlify/functions/quote", {
+    const response = await postWithTimeout("/.netlify/functions/quote", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(values)
     });
-    if (crmResponse.ok) {
-      const crmResult = await crmResponse.json();
-      supabaseSaved = crmResult.stored === true;
+    if (response.ok) {
+      const result = await response.json();
+      supabaseSaved = result.stored === true;
     }
   } catch (error) {
-    // Netlify Forms remains the fallback if the CRM function is not configured.
+    console.warn("Supabase CRM could not confirm receipt.", error);
   }
 
-  if (netlifySaved && status) {
-    status.classList.remove("is-error");
-    status.textContent = supabaseSaved
-      ? "Request received and saved. WhatsApp is opening so you can share the details directly too."
-      : "Request received by the website. WhatsApp is opening so you can share the details directly too.";
+  const received = netlifySaved || supabaseSaved;
+  if (status) {
+    status.classList.toggle("is-error", !received);
+    if (supabaseSaved) {
+      status.textContent = "Request received and saved to the service system. WhatsApp will open so you can share the details directly too.";
+    } else if (netlifySaved) {
+      status.textContent = "Request received by the website. WhatsApp will open so you can share the details directly too.";
+    } else {
+      status.textContent = "The website could not confirm that the request was saved. WhatsApp will open with your details so you can contact LCH directly.";
+    }
   }
 
-  if (netlifySaved && typeof window.dataLayer !== "undefined") {
-    window.dataLayer.push({ event: "quote_form_submit", form_name: "quote-request", supabase_saved: supabaseSaved });
+  if (received && typeof window.dataLayer !== "undefined") {
+    window.dataLayer.push({
+      event: "quote_form_submit",
+      form_name: "quote-request",
+      netlify_form_saved: netlifySaved,
+      supabase_saved: supabaseSaved
+    });
   }
 
   if (submit) submit.disabled = false;
   if (label) label.textContent = "REQUEST QUOTE";
 
-  // The message includes the details even if the CRM secret is not configured yet.
+  // WhatsApp is the direct-contact fallback and opens with the request prefilled.
   window.setTimeout(() => {
     window.location.href = "https://wa.me/" + PHONE + "?text=" + encodeURIComponent(message);
-  }, 700);
+  }, 1100);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -104,7 +123,10 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll('a[href^="tel:"]').forEach((link) => {
     link.addEventListener("click", () => {
       if (typeof window.dataLayer !== "undefined") {
-        window.dataLayer.push({ event: "click_to_call", phone_number: link.getAttribute("href").replace("tel:", "") });
+        window.dataLayer.push({
+          event: "click_to_call",
+          phone_number: link.getAttribute("href").replace("tel:", "")
+        });
       }
     });
   });
