@@ -86,7 +86,7 @@
         var lat = p.coords.latitude.toFixed(5), lng = p.coords.longitude.toFixed(5);
         var link = "https://maps.google.com/?q=" + lat + "," + lng;
         loc.value = "GPS: " + lat + ", " + lng; if (gps) gps.value = link;
-        if (wag) wag.href = "https://wa.me/18048210538?text=" + encodeURIComponent("EMERGENCY - commercial truck tire. My location: " + link);
+        if (wag) wag.href = "https://wa.me/18048210538?text=" + encodeURIComponent("EMERGENCY - tire help. My location: " + link);
         msg.innerHTML = 'Location added (accuracy about ' + Math.round(p.coords.accuracy) + ' m). <a href="' + link + '" target="_blank" rel="noopener">Check it on the map</a>. You can edit the text above.';
       }, function () { msg.textContent = "We could not get your location. Type the highway, direction and mile marker instead."; },
       { timeout: 10000, enableHighAccuracy: true });
@@ -99,13 +99,77 @@
     var D = { es: {
       eta: "Disponible ahora · Llegada promedio 30–45 min",
       h1: "¿Llanta reventada en la I-95? Vamos a ti, 24/7.",
-      lead: "Reparación y reemplazo móvil de llantas comerciales en Richmond, VA. Solo tractocamiones, trailers y maquinaria pesada. Contestamos de día y de noche.",
+      lead: "Reparación y cambio móvil de llantas en Richmond, VA. Tractocamiones, trailers, camiones de caja y maquinaria pesada, y también carros, pickups y SUV. Todas las medidas y marcas. Contestamos de día y de noche.",
+      h1a: "¿Llanta ponchada? ¿Reventón?",
+      h1b: "Vamos a donde estés, 24/7.",
       call: "Llamar ahora 24/7" } };
     var EN = {}; document.querySelectorAll("[data-i]").forEach(function (e) { EN[e.dataset.i] = e.textContent; });
     var es = false;
     btn.addEventListener("click", function () {
       es = !es; document.documentElement.lang = es ? "es" : "en"; btn.textContent = es ? "EN" : "ES";
       document.querySelectorAll("[data-i]").forEach(function (e) { if (D.es[e.dataset.i]) e.textContent = es ? D.es[e.dataset.i] : EN[e.dataset.i]; });
+    });
+  }
+
+  /* ================= FX v2 ================= */
+  var root = document.documentElement, ticking = false;
+  var trip = document.querySelector(".trip"), tRoad = trip && trip.querySelector(".troad"),
+      tHills = trip && trip.querySelector(".hills"), tTrees = trip && trip.querySelector(".trees"),
+      tSteps = trip ? trip.querySelectorAll(".step") : [], tire = document.querySelector(".bigtire"),
+      sky = document.querySelector(".skyline");
+  function frame() {
+    ticking = false;
+    var y = scrollY, max = document.documentElement.scrollHeight - innerHeight;
+    root.style.setProperty("--p", max > 0 ? (y / max).toFixed(4) : 0);
+    if (sky) sky.style.setProperty("--par", (y * 0.18).toFixed(1) + "px");
+    if (tire) { var r0 = tire.getBoundingClientRect(); tire.style.setProperty("--rot", ((innerHeight - r0.top) * 0.35).toFixed(1) + "deg"); }
+    if (trip) {
+      var r = trip.getBoundingClientRect(), total = trip.offsetHeight - innerHeight + 68;
+      var p = Math.min(1, Math.max(0, (68 - r.top) / total));
+      if (r.bottom > 0 && r.top < innerHeight) {
+        tRoad.style.transform = "translateX(" + (-p * 200).toFixed(3) + "vw)";
+        tHills.style.backgroundPositionX = (-p * 700).toFixed(0) + "px";
+        tTrees.style.backgroundPositionX = (-p * 1600).toFixed(0) + "px";
+        var idx = p < 0.27 ? 0 : p < 0.52 ? 1 : p < 0.78 ? 2 : 3;
+        tSteps.forEach(function (s, i) { s.classList.toggle("on", i === idx); });
+      }
+    }
+  }
+  addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }, { passive: true });
+  addEventListener("resize", frame); frame();
+
+  /* Contadores */
+  var cnt = document.querySelectorAll("[data-to]");
+  if ("IntersectionObserver" in window && cnt.length) {
+    var co = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return; co.unobserve(e.target);
+        var el = e.target, to = +el.dataset.to, pre = el.dataset.pre || "", suf = el.dataset.suf || "", t0 = null;
+        if (matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+        function step(t) { if (!t0) t0 = t; var k = Math.min(1, (t - t0) / 1400), v = Math.round(to * (1 - Math.pow(1 - k, 3)));
+          el.textContent = pre + v + suf; if (k < 1) requestAnimationFrame(step); }
+        requestAnimationFrame(step);
+      });
+    }, { threshold: 0.6 });
+    cnt.forEach(function (c) { co.observe(c); });
+  }
+
+  /* Pestañas de medidas */
+  document.querySelectorAll(".tab").forEach(function (b) {
+    b.addEventListener("click", function () {
+      document.querySelectorAll(".tab").forEach(function (x) { x.setAttribute("aria-selected", x === b); });
+      document.querySelectorAll(".tabp").forEach(function (x) { x.classList.toggle("on", x.id === b.getAttribute("aria-controls")); });
+    });
+  });
+
+  /* Inclinacion 3D en tarjetas de vehiculos y logo */
+  if (matchMedia("(hover:hover)").matches && !matchMedia("(prefers-reduced-motion:reduce)").matches) {
+    document.querySelectorAll(".vt").forEach(function (c) {
+      c.addEventListener("pointermove", function (e) {
+        var b = c.getBoundingClientRect(), x = (e.clientX - b.left) / b.width - .5, y = (e.clientY - b.top) / b.height - .5;
+        c.style.transform = "perspective(700px) rotateY(" + (x * 10).toFixed(2) + "deg) rotateX(" + (-y * 10).toFixed(2) + "deg) translateY(-4px)";
+      });
+      c.addEventListener("pointerleave", function () { c.style.transform = ""; });
     });
   }
 })();
