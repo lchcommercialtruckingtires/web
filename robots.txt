@@ -1,13 +1,9 @@
-# robots.txt — LCH Trucking Commercial Tires LLC
-# https://www.lchtruckingcommercialtiresllc.com
-
 User-agent: *
 Allow: /
+Disallow: /thanks.html
 
-# Bloquear parámetros de búsqueda o idioma dinámicos sin afectar la URL principal
-Disallow: /*?*lang=*
-Disallow: /*?*fbclid=*
-Disallow: /*?*gclid=*
+# Bloquea URLs de rastreo/parametros para no duplicar paginas
+Disallow: /*?*gclid=
+Disallow: /*?*fbclid=
 
-# Sitemap oficial
-Sitemap: https://www.lchtruckingcommercialtiresllc.com/sitemap.xml
+Sitemap: https://lchtruckingcommercialtiresllc.com/sitemap.xml

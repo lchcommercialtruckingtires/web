@@ -1,0 +1,28 @@
+# Sitio estatico: no hay build. Netlify publica la carpeta tal cual.
+[build]
+  publish = "."
+
+# Un solo dominio canonico (sin www)
+[[redirects]]
+  from = "https://www.lchtruckingcommercialtiresllc.com/*"
+  to = "https://lchtruckingcommercialtiresllc.com/:splat"
+  status = 301
+  force = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(self), camera=(), microphone=()"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, must-revalidate"

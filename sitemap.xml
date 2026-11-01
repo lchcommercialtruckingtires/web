@@ -1,46 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-
-  <!-- Página principal EN (x-default) -->
-  <url>
-    <loc>https://www.lchtruckingcommercialtiresllc.com/</loc>
-    <lastmod>2026-08-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-
-    <!-- Hreflang para multilingüe -->
-    <xhtml:link rel="alternate" hreflang="en-US" href="https://www.lchtruckingcommercialtiresllc.com/"/>
-    <xhtml:link rel="alternate" hreflang="es-US" href="https://www.lchtruckingcommercialtiresllc.com/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.lchtruckingcommercialtiresllc.com/"/>
-
-    <!-- Imágenes indexables -->
-    <image:image>
-      <image:loc>https://i.ibb.co/wFdrrYjQ/banner.jpg</image:loc>
-      <image:title>LCH Trucking mobile tire service unit on roadside in Richmond VA</image:title>
-      <image:caption>LCH Trucking Commercial Tires LLC — 24/7 roadside assistance and mobile tire service serving Richmond VA, Henrico, Chesterfield, Chester and Glen Allen</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://i.ibb.co/MxVtznz9/logo.png</image:loc>
-      <image:title>LCH Trucking Commercial Tires LLC logo — Richmond VA</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://i.ibb.co/k2MQ25vG/tarabajo-1-gallery.jpg</image:loc>
-      <image:title>Commercial tire change on I-95 near Richmond VA — LCH Trucking</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://i.ibb.co/G4rcHjHB/cambio-de-baterias.png</image:loc>
-      <image:title>On-site battery diagnostics and mobile battery replacement — LCH Trucking Richmond VA</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://i.ibb.co/yFSxvQ66/foto-emergencia-noche.png</image:loc>
-      <image:title>Nighttime emergency roadside assistance in Richmond VA — LCH Trucking</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://i.ibb.co/PKj5td2/remplazo-de-llanta-de-emergencia.png</image:loc>
-      <image:title>Emergency tire replacement Chesterfield VA — LCH Trucking 24/7</image:title>
-    </image:image>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url><loc>https://lchtruckingcommercialtiresllc.com/</loc><lastmod>2026-10-31</lastmod><changefreq>weekly</changefreq><priority>1.0</priority>
+    <image:image><image:loc>https://lchtruckingcommercialtiresllc.com/images/banner.jpg</image:loc><image:title>LCH Trucking mobile commercial tire service truck in Richmond VA</image:title></image:image>
+    <image:image><image:loc>https://lchtruckingcommercialtiresllc.com/images/logo.png</image:loc><image:title>LCH Trucking Commercial Tires LLC logo</image:title></image:image>
+    <image:image><image:loc>https://lchtruckingcommercialtiresllc.com/images/i95-commercial-tire-change.jpg</image:loc><image:title>Commercial truck tire change on I-95 near Richmond VA</image:title></image:image>
+    <image:image><image:loc>https://lchtruckingcommercialtiresllc.com/images/emergency-tire-replacement-chesterfield.jpg</image:loc><image:title>Emergency semi truck tire replacement in Chesterfield VA</image:title></image:image>
+    <image:image><image:loc>https://lchtruckingcommercialtiresllc.com/images/night-roadside-richmond.jpg</image:loc><image:title>Night roadside truck tire assistance in Richmond VA</image:title></image:image>
+    <image:image><image:loc>https://lchtruckingcommercialtiresllc.com/images/full-tire-change-richmond.jpg</image:loc><image:title>Full tire change on a commercial truck in Richmond VA</image:title></image:image>
   </url>
-
+  <url><loc>https://lchtruckingcommercialtiresllc.com/emergency-semi-truck-tire-replacement-i-95-virginia/</loc><lastmod>2026-10-31</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://lchtruckingcommercialtiresllc.com/truck-tire-repair-i-64-richmond-va/</loc><lastmod>2026-10-31</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://lchtruckingcommercialtiresllc.com/truck-tire-repair-i-85-petersburg-va/</loc><lastmod>2026-10-31</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://lchtruckingcommercialtiresllc.com/truck-tire-repair-route-288-chesterfield-va/</loc><lastmod>2026-10-31</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://lchtruckingcommercialtiresllc.com/mobile-truck-tire-repair-richmond-va/</loc><lastmod>2026-10-31</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://lchtruckingcommercialtiresllc.com/commercial-tire-shop-richmond-va/</loc><lastmod>2026-10-31</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://lchtruckingcommercialtiresllc.com/fleet-tire-service-richmond-va/</loc><lastmod>2026-10-31</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://lchtruckingcommercialtiresllc.com/semi-truck-tire-repair-henrico-va/</loc><lastmod>2026-10-31</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lchtruckingcommercialtiresllc.com/semi-truck-tire-repair-chesterfield-va/</loc><lastmod>2026-10-31</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lchtruckingcommercialtiresllc.com/semi-truck-tire-repair-petersburg-va/</loc><lastmod>2026-10-31</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lchtruckingcommercialtiresllc.com/semi-truck-tire-repair-hopewell-va/</loc><lastmod>2026-10-31</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lchtruckingcommercialtiresllc.com/semi-truck-tire-repair-ashland-va/</loc><lastmod>2026-10-31</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lchtruckingcommercialtiresllc.com/semi-truck-tire-repair-glen-allen-va/</loc><lastmod>2026-10-31</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lchtruckingcommercialtiresllc.com/semi-truck-tire-repair-chester-va/</loc><lastmod>2026-10-31</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lchtruckingcommercialtiresllc.com/semi-truck-tire-repair-midlothian-va/</loc><lastmod>2026-10-31</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lchtruckingcommercialtiresllc.com/semi-truck-tire-repair-mechanicsville-va/</loc><lastmod>2026-10-31</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>
