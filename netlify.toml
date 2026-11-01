@@ -25,4 +25,5 @@
 [[headers]]
   for = "/assets/*"
   [headers.values]
-    Cache-Control = "public, max-age=86400, must-revalidate"
+    # max-age=0: el navegador siempre pregunta si hay CSS/JS nuevo (evita la web "rota" despues de subir cambios)
+    Cache-Control = "public, max-age=0, must-revalidate"

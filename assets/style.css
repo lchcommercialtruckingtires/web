@@ -177,7 +177,7 @@ footer{padding:36px 0;border-top:1px solid var(--line);color:var(--mute)}
 .msign small{display:block;color:var(--amber);font-size:.85rem}
 .brk{position:absolute;bottom:14px;left:calc(200vw + var(--tl) + var(--tw) + 30px);width:230px;transform:rotate(-1.5deg)}
 .haz{position:absolute;width:12px;height:12px;border-radius:50%;background:#ffb81c;box-shadow:0 0 18px 6px rgba(255,184,28,.8);animation:blink .9s steps(1) infinite}
-.ttruck{position:absolute;left:var(--tl);bottom:12px;width:var(--tw);z-index:3;filter:drop-shadow(0 8px 5px rgba(0,0,0,.6))}
+.ttruck{position:absolute;left:var(--tl);bottom:12px;width:var(--tw);height:auto;z-index:3;filter:drop-shadow(0 8px 5px rgba(0,0,0,.6))}
 .beam{position:absolute;left:calc(var(--tl) + var(--tw) - 5px);bottom:30px;width:180px;height:60px;background:linear-gradient(90deg,rgba(255,246,194,.35),transparent);clip-path:polygon(0 40%,100% 0,100% 100%,0 60%);z-index:2;pointer-events:none}
 @media(max-width:640px){.scene{--tl:4vw;--tw:118px}.beam{width:90px}.msign{width:112px;font-size:.82rem;bottom:120px}.msign::after{height:34px}.brk{width:150px}.trip-pin{padding-top:20px}.trip h2{font-size:1.75rem}}
 
